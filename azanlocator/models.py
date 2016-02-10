@@ -23,7 +23,11 @@ class DailyTimes(models.Model):
 class MonthlyTimes(models.Model):
     todayTimes = models.ForeignKey(DailyTimes,
                              on_delete=models.CASCADE,)
+
     def __str__(self):
+        pass
+
+    def parseTable(self):
         pass
 
 
