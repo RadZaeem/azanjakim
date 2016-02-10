@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="60b91bb4-9b58-4429-9d4b-a81408f3914b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="azanbyip.iws" />
@@ -414,7 +413,13 @@
       <option name="project" value="LOCAL" />
       <updated>1455069465450</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="migrated">
+      <created>1455069628902</created>
+      <option name="number" value="00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1455069628902</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -455,7 +460,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="another try" />
     <MESSAGE value="added STATIC_ROOT" />
-    <option name="LAST_COMMIT_MESSAGE" value="added STATIC_ROOT" />
+    <MESSAGE value="migrated" />
+    <option name="LAST_COMMIT_MESSAGE" value="migrated" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
