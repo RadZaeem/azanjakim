@@ -1,6 +1,5 @@
 from django.db import models
-
-
+import requests
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
@@ -12,29 +11,26 @@ class Choice(models.Model):
     votes = models.IntegerField(default=0)
 
 class DailyTimes(models.Model):
-    subuh   = models.DateTimeField()
-    zuhur   = models.DateTimeField()
-    asar    = models.DateTimeField()
-    maghrib = models.DateTimeField()
-    isha    = models.DateTimeField()
+    stateName  = models.CharField(max_length=20)
+    zoneName   = models.CharField(max_length=20)
+
+    subuh   = models.TimeField()
+    zuhur   = models.TimeField()
+    asar    = models.TimeField()
+    maghrib = models.TimeField()
+    isha    = models.TimeField()
 
     currentDate = models.DateField()
 
-class MonthlyTimes(models.Model):
-    todayTimes = models.ForeignKey(DailyTimes,
-                             on_delete=models.CASCADE,)
-    def __str__(self):
-        pass
+    FREEGEOPIP_URL = 'http://freegeoip.net/json/'
 
-    def parseTable(self):
-        pass
-
+    def get_geolocation_for_ip(ip):
+        url = '{}/{}'.format(FREEGEOPIP_URL, ip)
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.json()
 
 
-class Zone(models.Model):
-    zoneName   = models.CharField(max_length=20)
-    stateName  = models.CharField(max_length=20)
-    ipAddress  = models.CharField(max_length=20)
 
-    monthlyTimes =  models.ForeignKey(MonthlyTimes,
-                             on_delete=models.CASCADE,)
+
+
