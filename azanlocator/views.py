@@ -1,16 +1,23 @@
-from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
+from django.views import generic
 from django.template import loader
 
+from .models import *
+
+class IndexView(generic.ListView):
+    template_name = 'azanlocator/index.html'
+    model = DailyTimes
 
 
-def index(request):
-    #latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    template = loader.get_template('azanlocator/index.html')
-    #context = {
-    #    'latest_question_list': latest_question_list,
-    #}
-    return HttpResponse(template.render())
+    def __init__(self):
+        super(IndexView, self).__init__()
+        d = DailyTimes()
+        d.updateLatest()
 
+    def get_queryset(self):
+        return DailyTimes.objects
 
 
 def detail(request, question_id):
