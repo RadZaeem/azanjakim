@@ -11,7 +11,7 @@ class Choice(models.Model):
     choice_text = models.CharField(max_length=200)
     votes = models.IntegerField(default=0)
 
-class DailyTimes(models.Model):
+class DailyTime(models.Model):
     subuh   = models.DateTimeField()
     zuhur   = models.DateTimeField()
     asar    = models.DateTimeField()
@@ -20,8 +20,8 @@ class DailyTimes(models.Model):
 
     currentDate = models.DateField()
 
-class MonthlyTimes(models.Model):
-    todayTimes = models.ForeignKey(DailyTimes,
+class MonthlyTime(models.Model):
+    todayTimes = models.ForeignKey(DailyTime,
                              on_delete=models.CASCADE,)
 
     def __str__(self):
@@ -37,5 +37,5 @@ class Zone(models.Model):
     stateName  = models.CharField(max_length=20)
     ipAddress  = models.CharField(max_length=20)
 
-    monthlyTimes =  models.ForeignKey(MonthlyTimes,
+    monthlyTimes =  models.ForeignKey(MonthlyTime,
                              on_delete=models.CASCADE,)
