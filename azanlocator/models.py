@@ -1,6 +1,10 @@
 from django.db import models
+import datetime
 import requests
 import json
+from django.utils import timezone
+from datetime import time
+from geoindex import GeoGridIndex, GeoPoint
 
 SAMPLE_RESPONSE = {
     "ip":"108.46.131.77",
@@ -17,7 +21,7 @@ SAMPLE_RESPONSE = {
 }
 
 class Question(models.Model):
-    question_text = models.CharField(max_length=200)
+    question_text = models.CharField(max_length=400)
     pub_date = models.DateTimeField('date published')
 
 
@@ -30,28 +34,28 @@ class DailyTimes(models.Model):
     stateName  = models.CharField(max_length=20, default="KUALA LUMPUR")
     zoneName   = models.CharField(max_length=20, default="Kuala Lumpur")
     ip_address = models.CharField(max_length=20, default="202.75.5.204")
-    ip_parse_str = models.CharField(max_length=200, default=json.dumps(SAMPLE_RESPONSE))
-    raw_solat_parse =  models.CharField(max_length=200, default="")
+    ip_parse_str = models.CharField(max_length=400, default=json.dumps(SAMPLE_RESPONSE))
+    lat = models.FloatField(default=0.0)
+    lng = models.FloatField(default=0.0)
 
-    subuh   = models.TimeField()
-    zuhur   = models.TimeField()
-    asar    = models.TimeField()
-    maghrib = models.TimeField()
-    isha    = models.TimeField()
 
-    currentDate = models.DateField()
+    raw_solat_parse =  models.CharField(max_length=400, default="")
 
+    ip_parse_dict = {}
+    subuh   = models.TimeField(default=datetime.time(6, 0))
+    zuhur   = models.TimeField(default=datetime.time(6, 0))
+    asar    = models.TimeField(default=datetime.time(6, 0))
+    maghrib = models.TimeField(default=datetime.time(6, 0))
+    isha    = models.TimeField(default=datetime.time(6, 0))
+
+    currentDate = models.DateField(default=timezone.now)
     FREEGEOPIP_URL = 'http://freegeoip.net/json/'
 
-    def __init__(self):
-        super(DailyTimes, self).__init__()
-        self.ip_parse_str = json.dumps(SAMPLE_RESPONSE)
-        self.ip_parse_dict = SAMPLE_RESPONSE #default values
 
 
     def updateLatest(self):
         self.ip_parse_dict = self.get_geolocation_for_ip("")
-        self.ip_parse_str=json.dumps(self.ip_parse)
+        self.ip_parse_str=json.dumps(self.ip_parse_dict)
 
         self.ip_address = self.ip_parse_dict["ip"]
 
@@ -64,3 +68,16 @@ class DailyTimes(models.Model):
         return response.json()
 
 
+"""
+from django.db import models
+from django.db.models.signals import post_init
+
+class MyModel(models.Model):
+  # normal model definition...
+
+def extraInitForMyModel(**kwargs):
+   instance = kwargs.get('instance')
+   do_whatever_you_need_with(instance)
+
+post_init.connect(extraInitForMyModel, MyModel)
+"""
