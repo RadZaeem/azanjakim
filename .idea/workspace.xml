@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="60b91bb4-9b58-4429-9d4b-a81408f3914b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/azanlocator/admin.py" afterPath="$PROJECT_DIR$/azanlocator/admin.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/azanlocator/models.py" afterPath="$PROJECT_DIR$/azanlocator/models.py" />
     </list>
     <ignored path="azanbyip.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -448,7 +445,13 @@
       <option name="project" value="LOCAL" />
       <updated>1455179866354</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="cleared models, use only one (DailyTimes)">
+      <created>1455181625652</created>
+      <option name="number" value="00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1455181625652</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -493,7 +496,8 @@
     <MESSAGE value="added css" />
     <MESSAGE value="change names" />
     <MESSAGE value="change names back" />
-    <option name="LAST_COMMIT_MESSAGE" value="change names back" />
+    <MESSAGE value="cleared models, use only one (DailyTimes)" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleared models, use only one (DailyTimes)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
