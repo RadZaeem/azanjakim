@@ -5,9 +5,9 @@ import re
 import json
 
 import django
-from .models import *
-
+from django.conf import settings
 import csv
+from .models import *
 
 states=  ['JOHOR' ,'KEDAH', 'KELANTAN',
 'KUALA LUMPUR', 'LABUAN', 'MELAKA', 'NEGERI_SEMBILAN', 'PAHANG',
@@ -128,21 +128,21 @@ def return_csv():
     f.write(all)
     f.close()
 
-def generate_models():
-    django.setup()
-    path = "kodzon.csv"
+def generate_models(path="azanlocator/kodzon.csv"):
+    #settings.configure()#default_settings=azanlocator_defaults, DEBUG=True)
+    #django.setup()
     with open(path) as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            zone = ZoneCode()
-            zone.stateName = row['state']
-            code = row['code']
-            zone = row['zone']
-            lat = row['lat']
-            lng  = row['lng']
+            zone = EsolatZone(
+            state_name = row['state'],
+            code_name = row['code'],
+            zone_name = row['zone'],
+            lat = row['lat'],
+            lng  = row['lng'],
+            )
             zone.save()
 
 
-
 if __name__ == "__main__":
-    return_csv()
+    generate_models()
