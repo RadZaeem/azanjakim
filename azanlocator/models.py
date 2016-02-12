@@ -30,18 +30,58 @@ class Choice(models.Model):
     choice_text = models.CharField(max_length=200)
     votes = models.IntegerField(default=0)
 
-class DailyTimes(models.Model):
-    stateName  = models.CharField(max_length=20, default="KUALA LUMPUR")
-    zoneName   = models.CharField(max_length=20, default="Kuala Lumpur")
+class EsolatZone(models.Model):
+    state_name  = models.CharField(max_length=30, default="KUALA LUMPUR")
+    zone_name   = models.CharField(max_length=30, default="Kuala Lumpur")
+    code_name = models.CharField(max_length=20, default="SGR03")
+    lat = models.FloatField(default=0.0)
+    lng = models.FloatField(default=0.0)
+    def get_closest_zone(self):
+        pass
+
+    def __str__(self):
+        return self.zone_name
+
+class ParsedZone(models.Model):
+    state_name  = models.CharField(max_length=30, default="KUALA LUMPUR")
+    zone_name   = models.CharField(max_length=30, default="Kuala Lumpur")
+    code_name = models.CharField(max_length=20, default="SGR03")
+
     ip_address = models.CharField(max_length=20, default="202.75.5.204")
     ip_parse_str = models.CharField(max_length=400, default=json.dumps(SAMPLE_RESPONSE))
+    ip_parse_dict = {}
     lat = models.FloatField(default=0.0)
     lng = models.FloatField(default=0.0)
 
+    raw_solat_parse =  models.CharField(max_length=400, default="nothing")
 
-    raw_solat_parse =  models.CharField(max_length=400, default="")
+    FREEGEOPIP_URL = 'http://freegeoip.net/json/'
 
-    ip_parse_dict = {}
+    def update_latest(self):
+        self.ip_parse_dict = self.get_geolocation_for_ip("")
+        self.ip_parse_str=json.dumps(self.ip_parse_dict)
+        self.ip_address = self.ip_parse_dict["ip"]
+        self.lat = self.ip_parse_dict["latitude"]
+        self.lng = self.ip_parse_dict["longitude"]
+
+    def get_geolocation_for_ip(self,ip):
+        url = '{}/{}'.format(self.FREEGEOPIP_URL, ip)
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.json()
+
+    def get_closest_zone(self):
+        pass
+
+    def __str__(self):
+        return self.zone_name
+
+def init_zonecode():
+    return ParsedZone.objects.get_or_create(id=1)
+
+class DailyTimes(models.Model):
+
+    zone = models.ForeignKey(ParsedZone, default=init_zonecode)#, on_delete=models.CASCADE)
     subuh   = models.TimeField(default=datetime.time(6, 0))
     zuhur   = models.TimeField(default=datetime.time(6, 0))
     asar    = models.TimeField(default=datetime.time(6, 0))
@@ -49,23 +89,15 @@ class DailyTimes(models.Model):
     isha    = models.TimeField(default=datetime.time(6, 0))
 
     currentDate = models.DateField(default=timezone.now)
-    FREEGEOPIP_URL = 'http://freegeoip.net/json/'
+
+    def update_times(self):
+        pass
+
+    def __str__(self):
+        return  self.currentDate.strftime(" %d %B %Y (%A)") + " @ "+ self.zone.zone_name
+        #("%A, %d. %B %Y %I:%M%p")
 
 
-
-    def updateLatest(self):
-        self.ip_parse_dict = self.get_geolocation_for_ip("")
-        self.ip_parse_str=json.dumps(self.ip_parse_dict)
-
-        self.ip_address = self.ip_parse_dict["ip"]
-
-
-
-    def get_geolocation_for_ip(self,ip):
-        url = '{}/{}'.format(self.FREEGEOPIP_URL, ip)
-        response = requests.get(url)
-        response.raise_for_status()
-        return response.json()
 
 
 """

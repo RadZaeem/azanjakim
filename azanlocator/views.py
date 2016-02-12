@@ -11,11 +11,10 @@ class IndexView(generic.ListView):
     template_name = 'azanlocator/index.html'
     model = DailyTimes
 
-
     def __init__(self):
         super(IndexView, self).__init__()
         d = DailyTimes()
-        d.updateLatest()
+        d.update_times()
 
     def get_queryset(self):
         return DailyTimes.objects

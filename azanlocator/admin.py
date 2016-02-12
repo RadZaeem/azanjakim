@@ -7,3 +7,5 @@ from django.contrib import admin
 #admin.site.register(Zone)
 #admin.site.register(MonthlyTimes)
 admin.site.register(DailyTimes)
+admin.site.register(ParsedZone)
+admin.site.register(EsolatZone)
