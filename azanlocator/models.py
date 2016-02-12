@@ -10,6 +10,7 @@ from geopy.distance import vincenty
 
 import lxml.html as LH
 import requests
+import xml.etree.ElementTree as ET
 
 def text(elt):
     return elt.text_content().replace(u'\xa0', u' ')
@@ -123,6 +124,7 @@ class ParsedZone(models.Model):
         self.esolat_zone = nearest_point
 
 
+
     def __str__(self):
         return self.zone_name +", " + self.state_name
 
@@ -140,16 +142,44 @@ class ParsedTimes(models.Model):
 
     date_time_parsed = models.DateTimeField(default=timezone.now)
 
-    def update_times(self):
-        self.zone.update_latest()
+    def update_times(self,ip=""):
+        self.zone.update_latest(ip)
 
         kod=self.zone.esolat_zone.code_name
-        url = 'http://www.e-solat.gov.my/web/muatturun.php?zone={}&state=&jenis=week&lang=my&year=2016&bulan='.format(kod)
-
+        url="http://www2.e-solat.gov.my/xml/today/?zon={}".format(kod)
         r = requests.get(url)
+        root = ET.fromstring(r.content)
+
+        items = {}
+        for item in root.iter('item'):
+            name = ""
+            t = ""
+            for child in item:
+                if child.tag=="title":
+                    name=child.text
+                elif child.tag=="description":
+                    t=time.strptime(child.text,"%H:%M")
+            items[name]=t
+
+        self.subuh    = datetime.time(items["Subuh"].tm_hour,items["Subuh"].tm_min)
+        self.syuruk   = datetime.time(items["Syuruk"].tm_hour,items["Syuruk"].tm_min)
+        self.zuhur    = datetime.time(items["Zohor"].tm_hour+12,items["Zohor"].tm_min)
+        self.asar     = datetime.time(items["Asar"].tm_hour+12,items["Asar"].tm_min)
+        self.maghrib  = datetime.time(items["Maghrib"].tm_hour+12,items["Maghrib"].tm_min)
+        self.isha     = datetime.time(items["Isyak"].tm_hour+12,items["Isyak"].tm_min)
+
+        '''
+#test at shell
+from azanlocator.models import *
+pt = ParsedTimes()
+pt.update_times()
+        '''
+
+
+        '''
+        #old way by table parse
+
         root = LH.fromstring(r.content)
-
-
         for table in root.xpath('//table'):
             #header = [text(th) for th in table.xpath('//th')]        # 1
             data = [[text(td) for td in tr.xpath('td')]  for tr in table.xpath('//tr')]
@@ -170,6 +200,7 @@ class ParsedTimes(models.Model):
                                         time.strptime(data[2][7],"%I:%M").tm_min)
         self.isha     = datetime.time(time.strptime(data[2][8],"%I:%M").tm_hour,
                                         time.strptime(data[2][8],"%I:%M").tm_min)
+        '''
 
     def __str__(self):
         return  self.date_time_parsed.strftime(" %d %B %Y (%A)") + " @ "+ self.zone.zone_name

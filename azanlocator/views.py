@@ -9,15 +9,15 @@ from .models import *
 
 class IndexView(generic.ListView):
     template_name = 'azanlocator/index.html'
-    model = DailyTimes
-
+    context_object_name = 'new_parse'
     def __init__(self):
         super(IndexView, self).__init__()
-        d = DailyTimes()
-        d.update_times()
+        self.new_parse = ParsedTimes()
+        self.new_parse.save()
+        self.new_parse.update_times()
 
     def get_queryset(self):
-        return DailyTimes.objects
+        return self.new_parse
 
 
 def detail(request, question_id):

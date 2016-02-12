@@ -1,20 +1,23 @@
-import django
-from django.conf import settings
-
 import sqlite3 as lite
 import sys
+
+cars = (
+    (1, 'Audi', 52642),
+    (2, 'Mercedes', 57127),
+    (3, 'Skoda', 9000),
+    (4, 'Volvo', 29000),
+    (5, 'Bentley', 350000),
+    (6, 'Hummer', 41400),
+    (7, 'Volkswagen', 21600)
+)
+
 
 con = lite.connect('test.db')
 
 with con:
 
     cur = con.cursor()
+
+    cur.execute("DROP TABLE IF EXISTS Cars")
     cur.execute("CREATE TABLE Cars(Id INT, Name TEXT, Price INT)")
-    cur.execute("INSERT INTO Cars VALUES(1,'Audi',52642)")
-    cur.execute("INSERT INTO Cars VALUES(2,'Mercedes',57127)")
-    cur.execute("INSERT INTO Cars VALUES(3,'Skoda',9000)")
-    cur.execute("INSERT INTO Cars VALUES(4,'Volvo',29000)")
-    cur.execute("INSERT INTO Cars VALUES(5,'Bentley',350000)")
-    cur.execute("INSERT INTO Cars VALUES(6,'Citroen',21000)")
-    cur.execute("INSERT INTO Cars VALUES(7,'Hummer',41400)")
-    cur.execute("INSERT INTO Cars VALUES(8,'Volkswagen',21600)")
+    cur.executemany("INSERT INTO Cars VALUES(?, ?, ?)", cars)

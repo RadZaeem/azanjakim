@@ -2,16 +2,30 @@
 
 {% block content %}
 
+{% if new_parse %}
+    <h1>Anda berada di: {{new_parse.zone.zone_name }} </h1>
+    <h2>Zon waktu solat: {{new_parse.zone.esolat_zone.zone_name}}</h2>
 
-<!--{% for post in posts %}
-        <div class="post">
-            <div class="date">
+    <table border="1">
+        
+        
 
-            </div>
-            <h1><a href="">{{ post.title }}</a></h1>
-            <p>{{ post.text|linebreaks }}</p>
-        </div>
-    {% endfor %}
 
--->
+      <tr> <td>Subuh   </td> <td>{{ new_parse.subuh    }} </td> </tr>
+      <tr> <td>Syuruk  </td> <td>{{ new_parse.syuruk   }} </td> </tr>
+      <tr> <td>Zohor   </td> <td>{{ new_parse.zuhur    }} </td> </tr>
+      <tr> <td>Asar    </td> <td>{{ new_parse.asar     }} </td> </tr>
+      <tr> <td>Maghrib </td> <td>{{ new_parse.maghrib  }} </td> </tr>
+      <tr> <td>Isyak   </td> <td>{{ new_parse.isha     }} </td> </tr>
+
+    </table>
+    <br>
+    <p>© Raden Muaz</p>
+{% else %}
+
+    <p>Somewhat failed.</p>
+{% endif %}
+
+
+
 {% endblock %}
