@@ -14,7 +14,7 @@ class IndexView(generic.ListView):
         super(IndexView, self).__init__()
         self.new_parse = ParsedTimes()
         self.new_parse.save()
-        self.new_parse.update_times()
+        self.new_parse.update_times_by_db()
 
     def get_queryset(self):
         return self.new_parse

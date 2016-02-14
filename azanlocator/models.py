@@ -4,6 +4,9 @@ import time
 import requests
 import json
 from django.utils import timezone
+
+import os
+
 #from datetime import time
 from geoindex import GeoGridIndex, GeoPoint
 from geopy.distance import vincenty
@@ -11,6 +14,13 @@ from geopy.distance import vincenty
 import lxml.html as LH
 import requests
 import xml.etree.ElementTree as ET
+from django.conf import settings
+
+
+import sqlite3
+
+#pip install requests json django geoindex geopy lxml
+
 
 def text(elt):
     return elt.text_content().replace(u'\xa0', u' ')
@@ -68,7 +78,9 @@ class ParsedZone(models.Model):
 
     esolat_zone = models.ForeignKey(EsolatZone,default=1)
 
+
     FREEGEOPIP_URL = 'http://freegeoip.net/json/'
+
 
     def update_latest(self,ip=""):
         self.ip_parse_dict = self.get_geolocation_for_ip(ip)
@@ -90,9 +102,6 @@ class ParsedZone(models.Model):
 
         except Exception,e:
             print(str(e))
-
-
-
 
     def get_geolocation_for_ip(self,ip):
         url = '{}/{}'.format(self.FREEGEOPIP_URL, ip)
@@ -142,9 +151,32 @@ class ParsedTimes(models.Model):
 
     date_time_parsed = models.DateTimeField(default=timezone.now)
 
-    def update_times(self,ip=""):
+    con = None
+    cur = None
+
+    db_path = os.path.join(settings.BASE_DIR,'azanlocator','esolat.db')
+    def update_times_by_db(self,ip=""):
         self.zone.update_latest(ip)
 
+        self.con = sqlite3.connect(self.db_path, detect_types=sqlite3.PARSE_DECLTYPES)
+        self.cur = self.con.cursor()
+        date_str = str(self.date_time_parsed.date())
+        time_str =  "select {} from {} where Tarikh = '{}'"
+        code_str = self.zone.esolat_zone.code_name
+
+        self.subuh = self.cur.execute(time_str.format("Subuh", code_str, date_str)).fetchall()[0][0].time()
+        self.syuruk = self.cur.execute(time_str.format("Syuruk", code_str, date_str)).fetchall()[0][0].time()
+        self.zuhur = self.cur.execute(time_str.format("Zohor", code_str,date_str)).fetchall()[0][0].time()
+        self.asar = self.cur.execute(time_str.format("Asar", code_str, date_str)).fetchall()[0][0].time()
+        self.maghrib = self.cur.execute(time_str.format("Maghrib", code_str, date_str)).fetchall()[0][0].time()
+        self.isha = self.cur.execute(time_str.format("Isyak", code_str, date_str)).fetchall()[0][0].time()
+
+
+
+
+
+    def update_times_by_xml(self,ip=""):
+        self.zone.update_latest(ip)
         kod=self.zone.esolat_zone.code_name
         url="http://www2.e-solat.gov.my/xml/today/?zon={}".format(kod)
         r = requests.get(url)
@@ -254,10 +286,17 @@ a.update_latest("103.56.124.65")
 a.get_closest_zone()
 
 from azanlocator.models import *
-
 d=ParsedTimes()
 d.save()
-d.update_times()
+d.update_times_by_db()
 d.maghrib
+
+from azanlocator.models import *
+d=ParsedTimes.objects.get_all()[0]
+d.update_times_by_db()
+d.maghrib
+
+
+
 
 '''

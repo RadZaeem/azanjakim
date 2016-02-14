@@ -5,18 +5,18 @@
 {% if new_parse %}
     <h1>Anda berada di: {{new_parse.zone.zone_name }} </h1>
     <h2>Zon waktu solat: {{new_parse.zone.esolat_zone.zone_name}}</h2>
-
+    <h3>Alamt IP anda : {{new_parse.zone.ip_address}}</h3>
     <table border="1">
         
         
 
 
-      <tr> <td>Subuh   </td> <td>{{ new_parse.subuh    }} </td> </tr>
+      <tr> <td>Subuh   </td> <td>{{ new_parse.subuh  }} </td> </tr>
       <tr> <td>Syuruk  </td> <td>{{ new_parse.syuruk   }} </td> </tr>
-      <tr> <td>Zohor   </td> <td>{{ new_parse.zuhur    }} </td> </tr>
-      <tr> <td>Asar    </td> <td>{{ new_parse.asar     }} </td> </tr>
+      <tr> <td>Zohor   </td> <td>{{ new_parse.zuhur   }} </td> </tr>
+      <tr> <td>Asar    </td> <td>{{ new_parse.asar    }} </td> </tr>
       <tr> <td>Maghrib </td> <td>{{ new_parse.maghrib  }} </td> </tr>
-      <tr> <td>Isyak   </td> <td>{{ new_parse.isha     }} </td> </tr>
+      <tr> <td>Isyak   </td> <td>{{ new_parse.isha    }} </td> </tr>
 
     </table>
     <br>
