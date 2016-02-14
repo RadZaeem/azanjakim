@@ -4,9 +4,17 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 
 from django.template import loader
-from django.shortcuts import render
+from django.shortcuts import *
 from .models import *
 from ipware.ip import get_ip
+
+from django.contrib.gis.geos import Point
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+
+
+
+
 '''
 class IndexView(generic.TemplateView):
     template_name = 'azanlocator/index.html'
@@ -28,10 +36,20 @@ def index(request):
     template_name = 'azanlocator/index.html'
     new_parse = ParsedTimes()
     new_parse.save()
-    ip = get_ip(request)
-    if ip == "127.0.0.1" or ip is None: ip = ""
-    print ip
-    new_parse.update_times_by_db(ip)
+    #ip = get_ip(request)
+    #if ip == "127.0.0.1" or ip is None: ip = ""
+    #print ip
+    if request.GET.get('lat') and request.GET.get('lon'):
+        #origin = Point(float(request.GET.get('lon')), float(request.GET.get('lat')))
+        lat = float(request.GET.get('lat'))
+        lng = float(request.GET.get('lon'))
+        print (lat,lng)
+        new_parse.update_times_by_db(lat,lng)
+        #camps = Campground.objects.all().distance(origin).order_by('distance')
+    else:
+        pass
+        #camps = Campground.objects.all().order_by('name')
+
     return render(request, template_name, {'new_parse':new_parse})
         #print self.new_parse.zone.ip_address
 

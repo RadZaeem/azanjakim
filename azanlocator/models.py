@@ -103,19 +103,31 @@ class ParsedZone(models.Model):
         except Exception,e:
             print(str(e))
 
+    def update_latest2(self,lat=0.0,lng=0.0):
+        self.lat = lat
+        self.lng = lng
+        try:
+            self.get_closest_zone() #update here
+
+        except Exception,e:
+            print(str(e))
+
     def get_geolocation_for_ip(self,ip):
         url = '{}/{}'.format(self.FREEGEOPIP_URL, ip)
         response = requests.get(url)
         response.raise_for_status()
         return response.json()
 
-    def get_closest_zone(self):
-        if self.state_name not in STATES:
-            print "State unknown from IP, default to Kuala Lumpur"
-            self.esolat_zone = EsolatZone.objects.filter(state_name="KUALA_LUMPUR")[0]
-            return
+    def get_geolocation_html5(self,lat=0.0,lng=0.0):
+        pass
 
-        zones_in_state = EsolatZone.objects.filter(state_name=self.state_name)
+    def get_closest_zone(self):
+        #if self.state_name not in STATES:
+        #    print "State unknown from IP, default to Kuala Lumpur"
+        #    self.esolat_zone = EsolatZone.objects.filter(state_name="KUALA_LUMPUR")[0]
+        #    return
+
+        zones_in_state = EsolatZone.objects.all()#.filter(state_name=self.state_name)
         print "\nZones:", zones_in_state
         zone_points = {}
         for z in  zones_in_state:
@@ -155,8 +167,9 @@ class ParsedTimes(models.Model):
     cur = None
 
     db_path = os.path.join(settings.BASE_DIR,'azanlocator','esolat.db')
-    def update_times_by_db(self,ip=""):
-        self.zone.update_latest(ip)
+    def update_times_by_db(self,lat=0.0,lng=0.0): #ip=""):
+        #self.zone.update_latest(ip)
+        self.zone.update_latest2(lat,lng)
 
         self.con = sqlite3.connect(self.db_path, detect_types=sqlite3.PARSE_DECLTYPES)
         self.cur = self.con.cursor()
@@ -167,16 +180,16 @@ class ParsedTimes(models.Model):
         self.subuh = self.cur.execute(time_str.format("Subuh", code_str, date_str)).fetchall()[0][0].time()
         self.syuruk = self.cur.execute(time_str.format("Syuruk", code_str, date_str)).fetchall()[0][0].time()
         self.zuhur = self.cur.execute(time_str.format("Zohor", code_str,date_str)).fetchall()[0][0].time()
-        self.zuhur = self.zuhur.replace(hour=self.zuhur.hour+12)
+        self.zuhur = self.zuhur.replace(hour=self.zuhur.hour) #+12
 
         self.asar = self.cur.execute(time_str.format("Asar", code_str, date_str)).fetchall()[0][0].time()
-        self.asar = self.asar.replace(hour=self.asar.hour+12)
+        self.asar = self.asar.replace(hour=self.asar.hour)
 
         self.maghrib = self.cur.execute(time_str.format("Maghrib", code_str, date_str)).fetchall()[0][0].time()
-        self.maghrib = self.maghrib.replace(hour=self.maghrib.hour+12)
+        self.maghrib = self.maghrib.replace(hour=self.maghrib.hour)
 
         self.isha = self.cur.execute(time_str.format("Isyak", code_str, date_str)).fetchall()[0][0].time()
-        self.isha = self.isha.replace(hour=self.isha.hour+12)
+        self.isha = self.isha.replace(hour=self.isha.hour)
 
 
 

@@ -1,10 +1,8 @@
- {% extends 'azanlocator/base.html' %}
-
-
-<html xmlns="http://www.w3.org/1999/html">
+<html>
 <head>
-<script src='http://media.adamfast.com/QueryData.compressed.js'></script>
-<script>
+  <script src='http://media.adamfast.com/QueryData.compressed.js'></script>
+  <script language='JavaScript'>
+
     function checkLocation() {
       var getData = new QueryData();
       if ('lat' in getData) { }
@@ -42,39 +40,11 @@
         }
       }
     }
-
-
-</script></head>
+  </script>
+</head>
 <body{% block body_override %} onLoad="javascript:checkLocation();"{% endblock body_override %}>
-
-{% if new_parse %}
 {% block content %}
 
-    <h2>Zon waktu solat: {{new_parse.zone.esolat_zone.zone_name}}</h2>
-    <h3> {{new_parse.date_time_parsed }}</h3>
-    <h3> Waktu solat diambil daripada <a href="e-solat.gov.my"> e-Solat JAKIM </a> </h3>a
-    <table border="1">
-        
-        
-
-
-      <tr> <td>Subuh   </td> <td>{{ new_parse.subuh  }} </td> </tr>
-      <tr> <td>Syuruk  </td> <td>{{ new_parse.syuruk   }} </td> </tr>
-      <tr> <td>Zohor   </td> <td>{{ new_parse.zuhur   }} </td> </tr>
-      <tr> <td>Asar    </td> <td>{{ new_parse.asar    }} </td> </tr>
-      <tr> <td>Maghrib </td> <td>{{ new_parse.maghrib  }} </td> </tr>
-      <tr> <td>Isyak   </td> <td>{{ new_parse.isha    }} </td> </tr>
-
-    </table>
-    <br>
-
-    <p>© Raden Muaz</p>
-{% else %}
-
-    <p>Somewhat failed.</p>
-{ %endblock %}
-
-{% endif %}
-
-
-</body></html>
+{% endblock content %}
+</body>
+</html>
