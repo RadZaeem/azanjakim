@@ -1,7 +1,12 @@
-
-
+{% load staticfiles %}
 <html xmlns="http://www.w3.org/1999/html">
 <head>
+        <title>Azan by IP locator</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'css/azanlocator.css' %}">
+
 <script src='http://media.adamfast.com/QueryData.compressed.js'></script>
 <script>
     function checkLocation() {
@@ -45,10 +50,16 @@
 
 </script></head>
 <body{% block body_override %} onLoad="javascript:checkLocation();"{% endblock body_override %}>
-
-{% if new_parse %}
 {% block content %}
 
+<div class="page-header">
+        <h1><a href="/">17rakaat.my -- Auto locate azan</a></h1>
+    </div>
+<div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+
+                {% if new_parse %}
     <h2>Zon waktu solat: {{new_parse.zone.esolat_zone.zone_name}} ({{new_parse.zone.esolat_zone.code_name}})</h2>
     <h2>Koordinat anda : ({{new_parse.zone.lat}}, {{new_parse.zone.lng}})</h2>
     <h3> {{new_parse.date_time_parsed }}</h3>
@@ -68,13 +79,15 @@
     <p> Waktu solat diambil daripada <a href="e-solat.gov.my"> e-Solat JAKIM </a> </p>
     <p>© Raden Muaz</p>
 
-{% endblock %}
+
 {% else %}
 
-    <p>Zon Waktu Solat...</p>
+    <h1>Parsing new zone...</h1>
 
 
 {% endif %}
-
-
+{% endblock %}
+            </div>
+        </div>
+    </div>
 </body></html>

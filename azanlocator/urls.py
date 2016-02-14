@@ -19,7 +19,6 @@ urlpatterns = [
 '''
  {% extends 'azanlocator/base.html' %}
 
-{% block content %}
 
   {% block content %}
 {% endblock %}
