@@ -1,4 +1,3 @@
- {% extends 'azanlocator/base.html' %}
 
 
 <html xmlns="http://www.w3.org/1999/html">
@@ -50,13 +49,11 @@
 {% if new_parse %}
 {% block content %}
 
-    <h2>Zon waktu solat: {{new_parse.zone.esolat_zone.zone_name}}</h2>
+    <h2>Zon waktu solat: {{new_parse.zone.esolat_zone.zone_name}} ({{new_parse.zone.esolat_zone.code_name}})</h2>
+    <h2>Koordinat anda : ({{new_parse.zone.lat}}, {{new_parse.zone.lng}})</h2>
     <h3> {{new_parse.date_time_parsed }}</h3>
-    <h3> Waktu solat diambil daripada <a href="e-solat.gov.my"> e-Solat JAKIM </a> </h3>a
-    <table border="1">
-        
-        
 
+    <table border="1">
 
       <tr> <td>Subuh   </td> <td>{{ new_parse.subuh  }} </td> </tr>
       <tr> <td>Syuruk  </td> <td>{{ new_parse.syuruk   }} </td> </tr>
@@ -68,11 +65,14 @@
     </table>
     <br>
 
+    <p> Waktu solat diambil daripada <a href="e-solat.gov.my"> e-Solat JAKIM </a> </p>
     <p>© Raden Muaz</p>
+
+{% endblock %}
 {% else %}
 
-    <p>Somewhat failed.</p>
-{ %endblock %}
+    <p>Zon Waktu Solat...</p>
+
 
 {% endif %}
 
