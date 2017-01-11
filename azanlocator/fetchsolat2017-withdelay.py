@@ -18,7 +18,7 @@ import time
 #import pandas as pd
 '''
 kod="SGR04"
-url = 'http://www.e-solat.gov.my/web/muatturun.php?zone={}&state=&jenis=week&lang=my&year=2016&bulan='.format(kod)
+url = 'http://www.e-solat.gov.my/web/muatturun.php?zone={}&state=&jenis=week&lang=my&year=2017&bulan='.format(kod)
 
 date = '2014-09-27'
 
@@ -44,7 +44,7 @@ def text(elt):
 
 class WaktuFetch(object):
     column_keys = {}
-    year = 2016
+    year = 2017
 
     codes=('JHR01', 'JHR02', 'JHR03', 'JHR04',
     'KDH01', 'KDH02', 'KDH03', 'KDH04', 'KDH05', 'KDH06', 'KDH07',
@@ -80,7 +80,7 @@ class WaktuFetch(object):
         self.cur = self.con.cursor()
         self.kod = kod
         self.bulan = bulan
-        self.url = 'http://www.e-solat.gov.my/web/muatturun.php?zone={}&jenis=year&lang=my&year=2016&bulan={}'.format(kod,bulan)
+        self.url = 'http://www.e-solat.gov.my/web/muatturun.php?zone={}&jenis=year&lang=my&year=2017&bulan={}'.format(kod,bulan)
         #self.table_arr = self.fetch_table(self.kod,self.bulan)
         self.current_table = None
         self.table_arr = []
@@ -92,7 +92,7 @@ class WaktuFetch(object):
         self.table_arr = self.fetch_table(self.kod,self.bulan)
 
     def fetch_table(self,kod=codes[0],bulan=2):
-        self.url = 'http://www.e-solat.gov.my/web/muatturun.php?zone={}&jenis=year&lang=my&year=2016&bulan={}'.format(kod,bulan)
+        self.url = 'http://www.e-solat.gov.my/web/muatturun.php?zone={}&jenis=year&lang=my&year=2017&bulan={}'.format(kod,bulan)
         self.logger.info('fetching table zon ' + kod + 'for month' + repr(bulan))
         r = requests.get(self.url)
         root = LH.fromstring(r.content)
@@ -104,6 +104,7 @@ class WaktuFetch(object):
                     new_s = ''.join(s.split())
                     data[data.index(r)][r.index(s)]=new_s
         self.logger.info('fetching success')
+        time.sleep(3) # unproven hack to not pressure the server we scraping
         return data
 
     def create_zone_db(self,kod=codes[0],bulan=2):
@@ -132,9 +133,14 @@ class WaktuFetch(object):
                         b = self.bulan_bm[val[2:]]
                         newval=datetime.date(self.year, b, hb)
                     elif(row.index(val)>=2): #times
-                        y = repr(self.year)[2:] #str('2016')[2:]
+                        y = repr(self.year)[2:] #str('2017')[2:]
                         val = val.replace('.',':')
                         val = val.replace(';',':')
+                        #if val=="537": val="5:37" # HACK FOR KDH07 20/09/2017
+                        #HACK if like case above
+                        if not (':' in val):
+                            print("WRONG FORMATTING at {}/{},{}".format(hb,b,val))
+                            val=val[:len(val)-2]+':'+val[len(val)-2:]
                         date_str = "{}/{}/{} ".format(hb,b,y)+val
                         #newval = parser.parse(date_str)
                         newval=datetime.datetime.strptime(date_str,"%d/%m/%y %H:%M")
@@ -178,7 +184,7 @@ if __name__ == "__main__":
                     format='%(asctime)s %(message)s') # include timestamp
     #w.create_zone_db_yearly('PHG03')
     w.create_all_zones_db_yearly()
-    #w.logger.info("--- %s seconds ---" % (time.time() - start_time))
+    w.logger.info("--- %s seconds ---" % (time.time() - start_time))
 
 #w.update_table_arr(kod=w.codes[0],bulan=2)
 

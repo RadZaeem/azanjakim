@@ -7,15 +7,12 @@ import re
 import json
 
 import django
-from django.apps import apps
+#from django.apps import apps
 from django.conf import settings
 
 import csv
 
-settings.configure()#default_settings=azanlocator_defaults, DEBUG=True)
-django.setup()
-
-from models import *
+from .models import *
 
 states=  ['JOHOR' ,'KEDAH', 'KELANTAN',
 'KUALA LUMPUR', 'LABUAN', 'MELAKA', 'NEGERI_SEMBILAN', 'PAHANG',

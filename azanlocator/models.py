@@ -9,7 +9,8 @@ import os
 
 #from datetime import time
 from geoindex import GeoGridIndex, GeoPoint
-from geopy.distance import vincenty
+#from geopy.distance import vincenty
+from vincenty import vincenty
 
 import lxml.html as LH
 import requests
@@ -100,7 +101,7 @@ class ParsedZone(models.Model):
         try:
             self.get_closest_zone() #update here
 
-        except Exception,e:
+        except Exception as e:
             print(str(e))
 
     def update_latest2(self,lat=0.0,lng=0.0):
@@ -109,7 +110,7 @@ class ParsedZone(models.Model):
         try:
             self.get_closest_zone() #update here
 
-        except Exception,e:
+        except Exception as e:
             print(str(e))
 
     def get_geolocation_for_ip(self,ip):
@@ -128,19 +129,21 @@ class ParsedZone(models.Model):
         #    return
 
         zones_in_state = EsolatZone.objects.all()#.filter(state_name=self.state_name)
-        print "\nZones:", zones_in_state
+        print ("\nZones:", zones_in_state)
         zone_points = {}
         for z in  zones_in_state:
             zone_points[z] = (z.lat, z.lng)
-        print "\nZones -- Points:", zone_points
+        #print ("\nZones -- Points:", zone_points)
 
         now_point = (self.lat, self.lng)
         zone_dists = {}
         for z in zone_points:
             zone_dists[z] = vincenty(now_point, zone_points[z])
 
+       # print ("\nZones -- Vincenty:", zone_dists)
+
         nearest_point = min(zone_dists, key=zone_dists.get)
-        print "Nearest is ", nearest_point
+        print ("Nearest is ", nearest_point)
         #print nearest_point
         self.esolat_zone = nearest_point
 
@@ -176,6 +179,8 @@ class ParsedTimes(models.Model):
         date_str = str(self.date_time_parsed.date())
         time_str =  "select {} from {} where Tarikh = '{}'"
         code_str = self.zone.esolat_zone.code_name
+
+        print (date_str, time_str, code_str)
 
         self.subuh = self.cur.execute(time_str.format("Subuh", code_str, date_str)).fetchall()[0][0].time()
         self.syuruk = self.cur.execute(time_str.format("Syuruk", code_str, date_str)).fetchall()[0][0].time()

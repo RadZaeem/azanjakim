@@ -6,7 +6,7 @@ from django.views import generic
 from django.template import loader
 from django.shortcuts import *
 from .models import *
-from ipware.ip import get_ip
+#from ipware.ip import get_ip
 
 from django.contrib.gis.geos import Point
 from django.shortcuts import render_to_response
