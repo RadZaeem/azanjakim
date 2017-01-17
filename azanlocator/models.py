@@ -9,7 +9,7 @@ import os
 
 #from datetime import time
 from geoindex import GeoGridIndex, GeoPoint
-#from geopy.distance import vincenty
+#from geopy.distance import vincenty #Python3 has bug cannot sort dict with this
 from vincenty import vincenty
 
 import lxml.html as LH
@@ -44,16 +44,6 @@ STATES =  ['JOHOR' ,'KEDAH', 'KELANTAN',
 'KUALA_LUMPUR', 'LABUAN', 'MELAKA', 'NEGERI_SEMBILAN', 'PAHANG',
 'PERAK', 'PERLIS', 'PULAU_PINANG', 'PUTRAJAYA', 'SABAH','SARAWAK',
 'SELANGOR', 'TERENGGANU']
-
-class Question(models.Model):
-    question_text = models.CharField(max_length=400)
-    pub_date = models.DateTimeField('date published')
-
-
-class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
 
 class EsolatZone(models.Model):
     state_name  = models.CharField(max_length=30, default="KUALA LUMPUR")
