@@ -27,8 +27,20 @@ pip install django requests geoindex geopy lxml vincenty LatLon
 * To run fetchsolat2017.py
 
 ----
-pip install lxml tabulate dateutil  
+pip install lxml tabulateentation explains the source code of 17rakaat
+17rakaat is a Django web app that auto-detects user location and determines the prayer times based on database from JAKIM E-solat (http://e-solat.gov.my)
+
+== Prerequisites
+
+* Python 3.5 dateutil  
 ----
 
-== The Models
+== How it works
 
+Start from views.py
+
+here we parse a new ParsedTimes
+
+We update_times_by_db
+
+I forgot when I built the database for EsolatZone (TODO)

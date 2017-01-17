@@ -40,6 +40,7 @@ this[_6]=_7;
       if ('lat' in getData) { }
       else {
         if (navigator.geolocation) {
+          
           navigator.geolocation.getCurrentPosition(
             function (ppos) {
               window.location.href = window.location.href + '?lat=' + ppos.coords.latitude + '&lon=' + ppos.coords.longitude;

@@ -40,7 +40,7 @@ def index(request):
     if request.GET.get('lat') and request.GET.get('lon'):
 
         new_parse = ParsedTimes()
-        new_parse.save()
+        
         #origin = Point(float(request.GET.get('lon')), float(request.GET.get('lat')))
         lat = float(request.GET.get('lat'))
         lng = float(request.GET.get('lon'))
@@ -48,6 +48,7 @@ def index(request):
         print("GET is: " + repr(request.GET))
         print ("LatLong is:", lat,lng)
         new_parse.update_times_by_db(lat,lng)
+        new_parse.save()
         #new_parse.update_times_by_xml(lat,lng) #deprecated
         return render(request, template_name, {'new_parse':new_parse})
     else:

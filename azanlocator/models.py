@@ -84,15 +84,7 @@ class ParsedZone(models.Model):
         except Exception as e:
             print(str(e))
 
-    def get_geolocation_for_ip(self,ip):
-        url = '{}/{}'.format(self.FREEGEOPIP_URL, ip)
-        response = requests.get(url)
-        response.raise_for_status()
-        return response.json()
-
-    def get_geolocation_html5(self,lat=0.0,lng=0.0):
-        pass
-
+    
     def get_closest_zone(self):
         #if self.state_name not in STATES:
         #    print "State unknown from IP, default to Kuala Lumpur"
@@ -117,6 +109,16 @@ class ParsedZone(models.Model):
         print ("Nearest is ", nearest_point)
         #print nearest_point
         self.esolat_zone = nearest_point
+
+    def get_geolocation_for_ip(self,ip):
+        url = '{}/{}'.format(self.FREEGEOPIP_URL, ip)
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.json()
+
+    def get_geolocation_html5(self,lat=0.0,lng=0.0):
+        pass
+
 
 
 

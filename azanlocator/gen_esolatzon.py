@@ -12,10 +12,26 @@ from django.conf import settings
 
 import csv
 
-settings.configure()#default_settings=azanlocator_defaults, DEBUG=True)
-django.setup()
+from django.apps import AppConfig
 
-from models import *
+#settings.configure()#default_settings=azanlocator_defaults, DEBUG=True)
+#django.setup()
+
+from azanlocator.models import *
+
+'''
+# CARA NAK GUNA SCRIPT NI
+$ python mange.py shell
+from azanlocator.gen_esolatzon import *
+#kalau takde lagi kodzon.csv
+return_csv()
+#kalau dah ada kodzon.csv
+from azanlocator.models import *
+generate_models()
+
+SEKIANgen
+
+'''
 
 states=  ['JOHOR' ,'KEDAH', 'KELANTAN',
 'KUALA LUMPUR', 'LABUAN', 'MELAKA', 'NEGERI_SEMBILAN', 'PAHANG',
@@ -88,12 +104,12 @@ class MyHTMLParser(HTMLParser):
 
     def writeRow(self,negeri,zon,kod):
         gmaps = "https://maps.googleapis.com/maps/api/geocode/json?address={}".format(zon+"+"+negeri)
-        jsonDict = json.loads(requests.get(gmaps).content)
+        jsonDict = json.loads(requests.get(gmaps).content.decode('utf-8'))
         print ("\n\n\n")
         print (jsonDict)
         while jsonDict['status'] == 'OVER_QUERY_LIMIT':
             print ("Over limit")
-            jsonDict = json.loads(requests.get(gmaps).content)
+            jsonDict = json.loads(requests.get(gmaps).content.decode('utf-8'))
 
         if jsonDict['status'] ==  'ZERO_RESULTS':
             lat = 0.0
@@ -109,10 +125,6 @@ class MyHTMLParser(HTMLParser):
         self.idcount+=1
 
 
-states=  ['JOHOR' ,'KEDAH', 'KELANTAN',
-'KUALA_LUMPUR', 'LABUAN', 'MELAKA', 'NEGERI_SEMBILAN', 'PAHANG',
-'PERAK', 'PERLIS', 'PULAU_PINANG', 'PUTRAJAYA', 'SABAH','SARAWAK',
-'SELANGOR', 'TERENGGANU']
 
 
 def return_str():
@@ -132,26 +144,38 @@ negeri={}&zone=00&state={}&submit=Cari".format(s,s)
     return all
 
 def return_csv():
-    all = returnStr()
+    all = return_str()
     f=open("kodzon.csv", 'w+')
     f.write(all)
     f.close()
 
 def generate_models(path="kodzon.csv"):
-    settings.configure()#default_settings=azanlocator_defaults, DEBUG=True)
-    django.setup()
     with open(path) as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
+            #AppConfig.get_model
+            print(row)
             zone = EsolatZone(
-            state_name = row['state'],
-            code_name = row['code'],
-            zone_name = row['zone'],
-            lat = row['lat'],
-            lng  = row['lng'],
+            state_name = row['State'],
+            code_name = row['Code'],
+            zone_name = row['Zone'],
+            lat = row['Latitude'],
+            lng  = row['Longitude'],
             )
             zone.save()
 
 
-if __name__ == "__main__":
-    generate_models()
+#if __name__ == "__main__":
+#    generate_models()
+
+'''
+
+#copy paste di manage.py shell
+from azanlocator.gen_esolatzon import *
+
+
+generate_models()
+
+return_csv()
+
+'''
