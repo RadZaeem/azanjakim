@@ -1,0 +1,2293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.5.dev">
+<meta name="author" content="Raden Munim">
+<title>MeasureCam v 1.0</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
+/* Remove comment around @import statement below when using as a custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
+audio,canvas,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+[hidden],template{display:none}
+script{display:none!important}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+body{margin:0}
+a{background:transparent}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}
+input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+body{-webkit-font-smoothing:antialiased}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.spread{width:100%}
+p.lead,.paragraph.lead>p,#preamble>.sectionbody>.paragraph:first-of-type p{font-size:1.21875em;line-height:1.6}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:none}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #ddddd8;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol,ul.no-bullet,ol.no-bullet{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ul.no-bullet{list-style:none}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite:before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media only screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table thead,table tfoot{background:#f7f8f7;font-weight:bold}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+body{tab-size:4}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
+.clearfix:after,.float-group:after{clear:both}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menu{color:rgba(0,0,0,.8)}
+b.button:before,b.button:after{position:relative;top:-1px;font-weight:400}
+b.button:before{content:"[";padding:0 3px 0 2px}
+b.button:after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header:before,#header:after,#content:before,#content:after,#footnotes:before,#footnotes:after,#footer:before,#footer:after{content:" ";display:table}
+#header:after,#content:after,#footnotes:after,#footer:after{clear:both}
+#content{margin-top:1.25em}
+#content:before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #ddddd8}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #ddddd8;padding-bottom:8px}
+#header .details{border-bottom:1px solid #ddddd8;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span:before{content:"\00a0\2013\00a0"}
+#header .details br+span.author:before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark:before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber:after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #ddddd8;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #efefed;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media only screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background-color:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #efefed;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #efefed;left:auto;right:0}}
+@media only screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:100%;background-color:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+.sect1{padding-bottom:.625em}
+@media only screen and (min-width:768px){.sect1{padding-bottom:1.25em}}
+.sect1+.sect1{border-top:1px solid #efefed}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor:before,h2>a.anchor:before,h3>a.anchor:before,#toctitle>a.anchor:before,.sidebarblock>.content>.title>a.anchor:before,h4>a.anchor:before,h5>a.anchor:before,h6>a.anchor:before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock>caption.title{white-space:nowrap;overflow:visible;max-width:0}
+.paragraph.lead>p,#preamble>.sectionbody>.paragraph:first-of-type p{color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>.paragraph:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #ddddd8;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock pre:not(.highlight),.listingblock pre[class="highlight"],.listingblock pre[class^="highlight "],.listingblock pre.CodeRay,.listingblock pre.prettyprint{background:#f7f7f8}
+.sidebarblock .literalblock pre,.sidebarblock .listingblock pre:not(.highlight),.sidebarblock .listingblock pre[class="highlight"],.sidebarblock .listingblock pre[class^="highlight "],.sidebarblock .listingblock pre.CodeRay,.sidebarblock .listingblock pre.prettyprint{background:#f2f1f1}
+.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;padding:1em;font-size:.8125em}
+.literalblock pre.nowrap,.literalblock pre[class].nowrap,.listingblock pre.nowrap,.listingblock pre[class].nowrap{overflow-x:auto;white-space:pre;word-wrap:normal}
+@media only screen and (min-width:768px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:.90625em}}
+@media only screen and (min-width:1280px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:1em}}
+.literalblock.output pre{color:#f7f7f8;background-color:rgba(0,0,0,.9)}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]:before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:#999}
+.listingblock:hover code[data-lang]:before{display:block}
+.listingblock.terminal pre .command:before{content:attr(data-prompt);padding-right:.5em;color:#999}
+.listingblock.terminal pre .command:not([data-prompt]):before{content:"$"}
+table.pyhltable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.pyhltable td{vertical-align:top;padding-top:0;padding-bottom:0;line-height:1.45}
+table.pyhltable td.code{padding-left:.75em;padding-right:0}
+pre.pygments .lineno,table.pyhltable td:not(.code){color:#999;padding-left:0;padding-right:.5em;border-right:1px solid #ddddd8}
+pre.pygments .lineno{display:inline-block;margin-right:.25em}
+table.pyhltable .linenodiv{background:none!important;padding-right:0!important}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock blockquote p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote:before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.5em;margin-right:.5ex;text-align:right}
+.quoteblock .quoteblock{margin-left:0;margin-right:0;padding:.5em 0;border-left:3px solid rgba(0,0,0,.6)}
+.quoteblock .quoteblock blockquote{padding:0 0 0 .75em}
+.quoteblock .quoteblock blockquote:before{display:none}
+.verseblock{margin:0 1em 1.25em 1em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract{margin:0 0 1.25em 0;display:block}
+.quoteblock.abstract blockquote,.quoteblock.abstract blockquote p{text-align:left;word-spacing:0}
+.quoteblock.abstract blockquote:before,.quoteblock.abstract blockquote p:first-of-type:before{display:none}
+table.tableblock{max-width:100%;border-collapse:separate}
+table.tableblock td>.paragraph:last-child p>p:last-child,table.tableblock th>p:last-child,table.tableblock td>p:last-child{margin-bottom:0}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all th.tableblock,table.grid-all td.tableblock{border-width:0 1px 1px 0}
+table.grid-all tfoot>tr>th.tableblock,table.grid-all tfoot>tr>td.tableblock{border-width:1px 1px 0 0}
+table.grid-cols th.tableblock,table.grid-cols td.tableblock{border-width:0 1px 0 0}
+table.grid-all *>tr>.tableblock:last-child,table.grid-cols *>tr>.tableblock:last-child{border-right-width:0}
+table.grid-rows th.tableblock,table.grid-rows td.tableblock{border-width:0 0 1px 0}
+table.grid-all tbody>tr:last-child>th.tableblock,table.grid-all tbody>tr:last-child>td.tableblock,table.grid-all thead:last-child>tr>th.tableblock,table.grid-rows tbody>tr:last-child>th.tableblock,table.grid-rows tbody>tr:last-child>td.tableblock,table.grid-rows thead:last-child>tr>th.tableblock{border-bottom-width:0}
+table.grid-rows tfoot>tr>th.tableblock,table.grid-rows tfoot>tr>td.tableblock{border-width:1px 0 0 0}
+table.frame-all{border-width:1px}
+table.frame-sides{border-width:0 1px}
+table.frame-topbot{border-width:1px 0}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+td>div.verse{white-space:pre}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.unstyled,ol.unnumbered,ul.checklist,ul.none{list-style-type:none}
+ul.unstyled,ol.unnumbered,ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1em;font-size:.85em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{width:1em;position:relative;top:1px}
+ul.inline{margin:0 auto .625em auto;margin-left:-1.375em;margin-right:0;padding:0;list-style:none;overflow:hidden}
+ul.inline>li{list-style:none;float:left;margin-left:1.375em;display:block}
+ul.inline>li>*{display:block}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist>table tr>td:first-of-type{padding:0 .75em;line-height:1}
+.colist>table tr>td:last-of-type{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left,.imageblock[style*="float: left"]{margin:.25em .625em 1.25em 0}
+.imageblock.right,.imageblock[style*="float: right"]{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em 0;border-width:1px 0 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;text-indent:-1.05em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background-color:#00fafa}
+.black{color:#000}
+.black-background{background-color:#000}
+.blue{color:#0000bf}
+.blue-background{background-color:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background-color:#fa00fa}
+.gray{color:#606060}
+.gray-background{background-color:#7d7d7d}
+.green{color:#006000}
+.green-background{background-color:#007d00}
+.lime{color:#00bf00}
+.lime-background{background-color:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background-color:#7d0000}
+.navy{color:#000060}
+.navy-background{background-color:#00007d}
+.olive{color:#606000}
+.olive-background{background-color:#7d7d00}
+.purple{color:#600060}
+.purple-background{background-color:#7d007d}
+.red{color:#bf0000}
+.red-background{background-color:#fa0000}
+.silver{color:#909090}
+.silver-background{background-color:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background-color:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background-color:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background-color:#fafa00}
+span.icon>.fa{cursor:default}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background-color:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]:after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background-color:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@media print{@page{margin:1.25cm .75cm}
+*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare):after,a[href^="https:"]:not(.bare):after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]:after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #ddddd8!important;padding-bottom:0!important}
+.sect1{padding-bottom:0!important}
+.sect1+.sect1{border:0!important}
+#header>h1:first-child{margin-top:1.25rem}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em 0}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span:before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]:before{display:block}
+#footer{background:none!important;padding:0 .9375em}
+#footer-text{color:rgba(0,0,0,.6)!important;font-size:.9em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>MeasureCam v 1.0</h1>
+<div class="details">
+<span id="author" class="author">Raden Munim</span><br>
+<span id="email" class="email"><a href="mailto:raden.m.muaz@gmail.com">raden.m.muaz@gmail.com</a></span><br>
+<span id="revdate">2016-11-21</span>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#trueintroduction">1. Introduction</a></li>
+<li><a href="#truethe-files">2. The files</a>
+<ul class="sectlevel2">
+<li><a href="#truebrief-overview-of-signals-and-slots-connections">2.1. Brief Overview of Signals and Slots Connections</a></li>
+</ul>
+</li>
+<li><a href="#trueclasses">3. Classes</a>
+<ul class="sectlevel2">
+<li><a href="#truethe-main-function-em-main-cpp-em">3.1. The main function (<em>main.cpp</em>)</a></li>
+<li><a href="#truemainwindow-em-mainwindow-cpp-mainwindow-h-mainwindow-ui-em">3.2. MainWindow (<em>mainwindow.cpp, mainwindow.h, mainwindow.ui</em> )</a></li>
+<li><a href="#truemeasurethread-em-measurethread-cpp-measurethread-h-em">3.3. MeasureThread (<em>measurethread.cpp, measurethread.h</em> )</a></li>
+<li><a href="#truecqtopencvviewergl-em-cqtopencvviewergl-cpp-cqtopencvviewergl-h-em">3.4. CQtOpenCVViewerGl (<em>cqtopencvviewergl.cpp, cqtopencvviewergl.h,</em> )</a></li>
+<li><a href="#trueglwidget-em-glwdiget-cpp-glwidget-h-em">3.5. GLWidget (<em>glwdiget.cpp, glwidget.h,</em> )</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="trueintroduction"><a class="anchor" href="#trueintroduction"></a>1. Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This documentation explains the source code of MeasureCam.
+Written using <a href="http://asciidocfx.com">AsciidocFX</a>.</p>
+</div>
+<div class="paragraph">
+<p>MeasureCam is a program which uses two digital cameras with microscope lens to measure dimensions (width*length*height) of a small object with computer vision using OpenCV. In this particular case, it was specifically written to measure inductor coils in square casing. It uses top camera&#8217;s image to measure width and length and side camera&#8217;s image to measure length and height.</p>
+</div>
+<div class="paragraph">
+<p>The program is made with Qt5.6, QtCreator and OpenCV 3</p>
+</div>
+<div class="paragraph">
+<p>It is recommended to read Qt5 Signals and Slots first at
+<a href="http://doc.qt.io/qt-5/SignalsandSlots.html" class="bare">http://doc.qt.io/qt-5/SignalsandSlots.html</a></p>
+</div>
+<div class="paragraph">
+<p>Download latest source code here: <a href="https://gitlab.com/RadZaeem/MeasureCam" class="bare">https://gitlab.com/RadZaeem/MeasureCam</a></p>
+</div>
+<div class="paragraph">
+<p>Prerequisites:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Install QtCreator with MinGW</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://download.qt.io/archive/qt/5.6/5.6.2/qt-opensource-windows-x86-mingw492-5.6.2.exe" class="bare">https://download.qt.io/archive/qt/5.6/5.6.2/qt-opensource-windows-x86-mingw492-5.6.2.exe</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Install CMAKE</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://cmake.org/download/" class="bare">https://cmake.org/download/</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Configure PATH environment variable to include this</p>
+<div class="ulist">
+<ul>
+<li>
+<p>C:\Qt\Qt5.6.2\5.6\mingw49_32\bin</p>
+</li>
+<li>
+<p>C:\Qt\Qt5.6.2\Tools\mingw492_32\bin</p>
+</li>
+<li>
+<p>C:\Program Files\CMake\bin</p>
+</li>
+<li>
+<p>C:\opencv-mingw\install\x86\mingw\bin</p>
+<div class="ulist">
+<ul>
+<li>
+<p>this path is for next step.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Compile and Install OpenCV 3</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://zahidhasan.wordpress.com/2014/08/19/qt-5-3-1-64-bit-mingw-windows/" class="bare">http://zahidhasan.wordpress.com/2014/08/19/qt-5-3-1-64-bit-mingw-windows/</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="truethe-files"><a class="anchor" href="#truethe-files"></a>2. The files</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Inside the source code archive</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 28.5714%;">
+<col style="width: 71.4286%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cqtopencvviewergl.cpp
+</p><p class="tableblock">cqtopencvviewergl.h</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>class CQtOpenCVViewerGl : public QOpenGLWidget, protected QOpenGLFunctions_2_0</strong>
+</p><p class="tableblock">The OpenGL widget that supports rendering cv::Mat</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">glwidget.cpp
+</p><p class="tableblock">glwidget.h</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions</strong>
+</p><p class="tableblock">OpenGL widget to render the 3d cuboid with textures for front and side view taken from images of measured object.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mainwindow.cpp
+</p><p class="tableblock">mainwindow.h</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>class MainWindow : public QMainWindow</strong>
+</p><p class="tableblock">The main window widget of the program. Contains the callbacks for UI elements (buttons, sliders, etc). Contains four instances of CQtOpenCVviewer widgets and other UI elements.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">measurethread.cpp
+</p><p class="tableblock">measurethread.h</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>class MeasureThread : public QThread</strong>
+</p><p class="tableblock">The QThread-based class for runnning measurement algorithm using OpenCV. Also used for calibration.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mainwindow.ui</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The UI layout for mainwindow, made with QtCreator</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">qdarkstyle (folder)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Folder containing stylesheets dark theme for the program.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MeasureCam.pro</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The project file containing configurations to work with QtCreator, such as OpenCV path, etc.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Other files in the archive such as utils.h, stats.h, tracker.h, logbrowser.h, are used for debug/experiments, not in the scope of this documentation.</p>
+</div>
+<div class="sect2">
+<h3 id="truebrief-overview-of-signals-and-slots-connections"><a class="anchor" href="#truebrief-overview-of-signals-and-slots-connections"></a>2.1. Brief Overview of Signals and Slots Connections</h3>
+<div class="paragraph">
+<p>The <em>int main</em>function is inside <em>main.cpp</em>. It instantiates a <strong>MainWindow</strong> instance named <strong>w</strong>, load the dark theme and run the program.</p>
+</div>
+<div class="paragraph">
+<p>The MainWindow instance acts like a singleton. It has two  instances: <strong>topMeasureThread_</strong> and <strong>sideMeasureThread_</strong>. The MainWindow communicates with its MeasureThread(s) using Qt5 Signal and Slots.</p>
+</div>
+<div class="paragraph">
+<p>The MeasureThread(s) runs the thread for measurements and calibration. The MainWindow has cv::VideoCapture instances for each threads. It passes the camera images in form of cv::Mat to the threads for them to execute measurement algorithm. <strong>topMeasureThread_</strong> handles top camera images, and <strong>sideMeasureThread_</strong> handles side camera images.</p>
+</div>
+<div class="paragraph">
+<p>There are two types of buttons, one to run calibration and and another to run measurement algorithm, for each threads. Hence, there are four buttons: topCalibButton, calcTopButton, sideCalibButton, calcSideButton. Each button has a Slot that is triggered when user clicks it. Refer to the Figure below; the Slots are named such as "void on_topButton_clicked()".</p>
+</div>
+<div class="paragraph">
+<p>The <strong>Slots</strong> are basically callback functions. In the function, it emit <strong>Signals</strong>, which trigger the Slots it was connected to. The connections are configured in the initializer function of the MainWindow ( MainWindow::MainWindow() ). Figure below shows the connections, starting from MainWindow&#8217;s button-click Slots.</p>
+</div>
+<div class="paragraph">
+<p>When Slots in the MeasureThread are triggered by Signals from MainWindow, it runs the measurement or calibration algorithm. After it finishes, it emits the results (containing cv::Mat, length, width, etc.) together in a Signal connected to Slots in the MainWindow. The MainWindow then updates and displays the results in the GUI.</p>
+</div>
+<div class="paragraph">
+<p>Detailed explanation is discussed later in this documentation.</p>
+</div>
+<div class="paragraph">
+<p>Note that not all Signals and Slots are explained in this diagram. Other Slots such as GLWidget, etc are explained in their respective sections.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="http://localhost:55714/afx/cache/9b6d1dfe019b9dfdd6aeb336349ec029.png" alt="9b6d1dfe019b9dfdd6aeb336349ec029.png">
+</div>
+<div class="title">Figure 1. Signals and Slots</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="trueclasses"><a class="anchor" href="#trueclasses"></a>3. Classes</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="truethe-main-function-em-main-cpp-em"><a class="anchor" href="#truethe-main-function-em-main-cpp-em"></a>3.1. The main function (<em>main.cpp</em>)</h3>
+<div class="paragraph">
+<p>This file contains the <code><strong>int main</strong></code> function.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>It initialize QApplication instance,</p>
+</li>
+<li>
+<p>load MainWindow widget,</p>
+</li>
+<li>
+<p>register cv::Mat meta type as workaround for the project to compile,</p>
+</li>
+<li>
+<p>load dark theme</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">main.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-c++" data-lang="c++">#include "mainwindow.h"
+#include &lt;QApplication&gt;
+#include &lt;QTime&gt;
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv); // 1.
+
+    qRegisterMetaType&lt; cv::Mat &gt;("cv::Mat"); // 2.
+    MainWindow w; // 3.
+    w.show();
+    QFile f(":qdarkstyle/style.qss"); // 4.
+    if (!f.exists())
+    {
+        printf("Unable to set stylesheet, file not found\n");
+    }
+    else
+    {
+        f.open(QFile::ReadOnly | QFile::Text);
+        QTextStream ts(&amp;f);
+        qApp-&gt;setStyleSheet(ts.readAll());
+    }
+
+    return a.exec();
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="truemainwindow-em-mainwindow-cpp-mainwindow-h-mainwindow-ui-em"><a class="anchor" href="#truemainwindow-em-mainwindow-cpp-mainwindow-h-mainwindow-ui-em"></a>3.2. MainWindow (<em>mainwindow.cpp, mainwindow.h, mainwindow.ui</em> )</h3>
+<div class="sect3">
+<h4 id="refer-functions-above"><a class="anchor" href="#refer-functions-above"></a>3.2.1. Functions and Members</h4>
+<div class="sect4">
+<h5 id="trueglobal-functions"><a class="anchor" href="#trueglobal-functions"></a>Global Functions</h5>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 71.4286%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">delay()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delay the execution for next line for 1 second without causing whole program to hang.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">delay(float t)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delay like delay() but for t milliseconds</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="truepublic-functions"><a class="anchor" href="#truepublic-functions"></a>Public Functions</h5>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 71.4286%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">explicit MainWindow(QWidget *parent = 0)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">~MainWindow()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destructor</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="trueprivate-functions"><a class="anchor" href="#trueprivate-functions"></a>Private Functions</h5>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 71.4286%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">updateStatusBar()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update the status bar string and the GUI.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">setCurrentGlWidget()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set current GL widget&#8201;&#8212;&#8201;hacked from Qt Textures example.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="trueprotected-members"><a class="anchor" href="#trueprotected-members"></a>Protected members</h5>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 71.4286%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">timerEvent(QTimerEvent *event)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">timerEvent callback, used to update camera video stream view and update new images</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="trueprivate-members"><a class="anchor" href="#trueprivate-members"></a>Private members</h5>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 71.4286%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ui::MainWindow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">*ui</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pointer to access GUI elements.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cv::VideoCapture</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">topCapture_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Access camera images, for top camera.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cv::VideoCapture</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sideCapture_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Access camera images, for side camera</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cv::Mat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">topSrc_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used to store latest top camera image for image processing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cv::Mat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sideSrc_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used to store latest side camera image for image processing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cv::Mat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">roiTop_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used to store top image texture for 3D visualization cuboid.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cv::Mat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">roiSide_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used to store side image texture for 3D visualization cuboid.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mFlipVert</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to flip image, left unused</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mFlipHoriz</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to flip image, left unusued</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">manualLoadMode_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag to enable manual images loading.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QString</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">statusString_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status string for statusbar</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QString</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">statusStringOld_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">old status string for checking whether statusString_ need updating</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QString</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">topStatus_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status string for top camera</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QString</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sideStatus_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status string for side camera</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MeasureThread</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">topMeasureThread_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MeasureThread for top camera</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MeasureThread</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sideMeasureThread_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MeasureThread for side camera</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">show3DView_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag for continous 3D view</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">topCameraTimer_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id for QTimer to update top camera</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">topCameraId_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Device ID for top camera, used with cv::VideoCapture</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">topCalibWidth_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Known width for top calibration</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">topPixelPerMetric_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Calculated pixel/mm (or manually input by user)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">isLiveTop_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag for continous top camera measurement</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sideCameraTimer_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id for QTimer to update side camera</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sideCameraId_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Device ID for side camera, used with cv::VideoCapture</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sideCalibWidth_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Known width for sidecalibration</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sidePixelPerMetric_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Calculated side camera pixel/mm (or manually input by user)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">isLiveSide_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flag for continous top camera measurement</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">width_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">buffer used to store width</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">height_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">buffer used to store height</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">length_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">buffer used to store length</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">maxWidth_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum dim, width</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">maxHeight_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum dim, height</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">maxLength_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum dim, length</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QString</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">topFilename_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used to load top images manually</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QString</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sideFilename_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used to load side images manually</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enum</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">{ NumRows = 2, NumColumns = 2 }</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For 3D widget view, hacked from Qt Textures example</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GLWidget</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">*glWidgets[NumRows][NumColumns];</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For 3D widget view, hacked from Qt Textures example</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GLWidget</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">*currentGlWidget;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For 3D widget view, hacked from Qt Textures example</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="truesignals"><a class="anchor" href="#truesignals"></a>Signals</h5>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 71.4286%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">requestTopCalibration(cv::Mat src, double knownWidth)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Send latest top cv::Mat and known width to request top calibration.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">requestTopMeasurement(cv::Mat src, double ppm, bool giveROI, double maxWidth, double maxHeight);</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Send latest top cv::Mat, knwon pixel/mm, flag to receive ROI, maximum width and maximum height to request top measurement</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">requestSideCalibration(cv::Mat src, double knownWidth)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">see above, but for side calibration</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">requestSideMeasurement(cv::Mat src, double ppm, bool giveROI, double maxWidth, double maxHeight)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">see above, but for side measurement.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">setCurrentGlWidget()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">set</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="trueslots"><a class="anchor" href="#trueslots"></a>Slots</h5>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 71.4286%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">void</th>
+<th class="tableblock halign-left valign-top">on_enable3D_toggled(bool checked)</th>
+<th class="tableblock halign-left valign-top">Checkbox to enable continous 3D.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_calcBothButton_clicked()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Triggers Top Calc, then Side Calc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_calc3DButton_clicked()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Load textures to 3D visualization cuboid.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_initAllButton_clicked()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">initialize both cameras, calibrate, measure once.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_startBothButton_clicked()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Shortcut to initialize both caemras</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_actionExit_triggered()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Menubar action exit.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_actionAbout_triggered()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Menubar action showing about Dialog.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_loadTopButton_clicked()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Load top image.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_loadSideButton_clicked()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Load side image.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_enableLoadImage_clicked(bool checked)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chewckbox to enable GUI elements for loading images manually.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_updateTopCalibration(cv::Mat dst,double newPpm, int el)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update GUI after received top calibration results.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_updateTopMeasurement(cv::Mat dst,double width, double height, int el, double angle1, double angle2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update GUI after received top measurement results.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_updateSideCalibration(cv::Mat dst,double newPpm, int el)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update GUI after received side calibration results.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_updateSideMeasurement(cv::Mat dst,double width, double height, int el, double angle1, double angle2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update GUI after received side measurement results.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_startTopButton_clicked()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start top camera video stream.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_startSideButton_clicked()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start side camera video stream.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_calcTopButton_clicked()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Send signal to request top measurement.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_calcSideButton_clicked()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Send signal to request side measurement.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_sideCalibButton_clicked()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Send signal to request top calibration.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_topCalibButton_clicked()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Send signal to request side calibration</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_resetButton_clicked()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Close camera video streams.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_enableLiveTop_toggled(bool checked)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Checkbox to enable live top measurement flag.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_enableLiveSide_toggled(bool checked)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Checkbox to enable live side measurement flag.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_updateROITop(cv::Mat roi, float angle1, float angle2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Receives top ROI, and metal strips angles, update GUI.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_updateROISide(cv::Mat roi, float angle1, float angle2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Receives side ROI, and metal strips angles, update GUI.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="truedetailed-description"><a class="anchor" href="#truedetailed-description"></a>3.2.2. Detailed Description</h4>
+<div class="paragraph">
+<p>This is the main widget of the program.
+It is made and edited using QtCreator GUI designer.
+After each <em>mainwindow.ui</em> edits, QtCreator automatically generates <em>ui_mainwindow.h</em>, which contains code related to Signal and Slots made using the GUI designer.
+Figure <a href="#img-mainwindow1">MainWindow, overall GUI</a> shows the GUI in the running program.</p>
+</div>
+<div class="paragraph">
+<p>Inherits: QWindow</p>
+</div>
+<div class="paragraph">
+<p>This widget holds two <code><strong>MeasureThread</strong></code> member objects, <code><strong>topMeasureThread_</strong></code> and <code><strong>sideMeasureThread_</strong></code>. It connects to these objects using Qt Signal and Slots. While it is said that using Signal and Slots has some resource overhead (<a href="http://stackoverflow.com/questions/10838013/does-large-use-of-Signals-and-Slots-affect-application-performance">link</a>), whether it really has significant impact in this program has not been proven yet.</p>
+</div>
+<div class="paragraph">
+<p>This widget also holds two <code><strong>cv::VideoCapture</strong></code> members, <code><strong>topCapture_</strong></code> and <code><strong>sideCapture_</strong></code>. These will connect to active cameras and capture current images for this widget&#8217;s <code><strong>topMeasureThread_</strong></code> and <code><strong>sideMeasureThread_</strong></code>  to conduct measurement.</p>
+</div>
+<div class="paragraph">
+<p>User can also load images manually within the GUI. User has to check "Load images manually" checkbox at top right to enable the buttons to load images.</p>
+</div>
+<div class="paragraph">
+<p>The following figure illustrates the Signal and Slots connection between <code><strong>MainWindow</strong></code> and its <code><strong>MeasureThread</strong></code>(s), for Signals and Slots related to measurements and calibrations (Not all Signal and Slots connections are shown here).</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="http://localhost:55714/afx/cache/9b6d1dfe019b9dfdd6aeb336349ec029.png" alt="9b6d1dfe019b9dfdd6aeb336349ec029.png">
+</div>
+<div class="title">Figure 2. Signals and Slots</div>
+</div>
+<div class="sect4">
+<h5 id="truethe-gui"><a class="anchor" href="#truethe-gui"></a>The GUI</h5>
+<div class="paragraph">
+<p>Figure <a href="#img-mainwindow1">MainWindow, overall GUI</a> shows the window of the whole program with its GUI.</p>
+</div>
+<div id="img-mainwindow1" class="imageblock">
+<div class="content">
+<img src="images/calib1-main.jpg" alt="calib1 main.jpg">
+</div>
+<div class="title">Figure 3. MainWindow, overall GUI</div>
+</div>
+<div id="img-guipanel" class="imageblock">
+<div class="content">
+<img src="images/ui-labeled.jpg" alt="ui labeled.jpg">
+</div>
+<div class="title">Figure 4. GUI panel for user</div>
+</div>
+<div class="paragraph">
+<p>Figure <a href="#img-guipanel">GUI panel for user</a> shows the GUI panel for the user:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Button and checkbox for loading image manually</p>
+<div class="ulist">
+<ul>
+<li>
+<p>This will disables GUI elements 2.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Device number drop-down</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Selects device number for starting the camera. The default usually works, else number between top and side or increase number count by one (if using laptop&#8201;&#8212;&#8201;since it has webcam).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Resolution select</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Chose from preset values (5MP,3MP,2MP,1MP)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Start cameras button</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Initialize cameras, upon clicking camera video stream wil show as shown in Figure <a href="#img-mainwindow1">MainWindow, overall GUI</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Calc Button</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Start measurement. First button for top camera, second for side camera</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Edge Threshold sliders</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Set the threshold values for Canny edge detection used by the <code><strong>MeasureThread</strong></code>(s)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Calc Both and Calc 3D</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Calc Both button is similar to clicking Calc Top, then Calc Side. Calc 3D loads texture to the 3D view.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Continous/Live checkboxes</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Basically auto-trigger the Calc buttons every camera stream update.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Initialize All and Reset Cameras</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Initialize All button runs calibrations of top and side cameras, then run measurement for top and side cameras. Reset Cameras button closes both of the cameras' video stream.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Maximum dimension values</p>
+<div class="ulist">
+<ul>
+<li>
+<p>When measurement result shows values exceeding maximum values, a warning notifications will show in the camera view.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Calibration panel</p>
+<div class="ulist">
+<ul>
+<li>
+<p>User is required to input known (horizontal left-to-right) width of the first object to be measured. Then after the Calibrate button is clicked, the new pixel/mm value is calculated. User can also input known pixel/mm value into the text field to skip calibration.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div id="img-result-view" class="imageblock">
+<div class="content">
+<img src="images/result-view.jpg" alt="result view.jpg">
+</div>
+<div class="title">Figure 5. Result view (dimensions, metal strip angles, and 3D visualization)</div>
+</div>
+<div class="paragraph">
+<p>Figure <a href="#img-result-view">Result view (dimensions, metal strip angles, and 3D visualization)</a> shows the GUI panel for the user. Here, MainWindow shows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>2D Dimensions from top camera and side camera.</p>
+</li>
+<li>
+<p>3D dimensions by combining both 2D dimensions (lenght value is taken from most recent measurement from either top or side camera)</p>
+</li>
+<li>
+<p>Angles values for metal strip. Angle measured with x-axis to the right equals 0 degrees, and angle increases counter-clockwise but negatively.</p>
+</li>
+<li>
+<p>3D visualzation, textures are from Region-of-Interest (ROI) found with Canny edge detection used during measurement by the <code><strong>MeasureThread</strong></code>(s). User can use mouse-drag to rotate the view around.</p>
+</li>
+</ol>
+</div>
+<div id="img-camera-view" class="imageblock">
+<div class="content">
+<img src="images/camera-view.jpg" alt="camera view.jpg">
+</div>
+<div class="title">Figure 6. Camera views</div>
+</div>
+<div class="paragraph">
+<p>Shown in Figure <a href="#img-camera-view">Camera views</a> is the views for camera. On the left column, the live camera streams of top camera and side camera are shown. In right column, the measurements images with annotations are shown, after user ran measurements or calibrations.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="truebasic-procedure-to-use-the-program"><a class="anchor" href="#truebasic-procedure-to-use-the-program"></a>Basic Procedure to use the program.</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Place object to be measured in the workstation, inside field of view of both cameras.</p>
+</li>
+<li>
+<p>Click <strong>Start Top Cam</strong> button, then <strong>Start Side Cam</strong> button to initiliaze the camera video streams (You may need to adjust the Device Number value if the first try did not work). Check the camera view in the left column. You may need to adjust the object&#8217;s position and camera lens focus until the view is good enough.</p>
+</li>
+<li>
+<p>Calibrate the pixel/mm value by inputting the value in Known Width (mm) fields for both the cameras and press Calibrate Button. You may do this multiple times, adjusting Edge Threshold slider before each calibration, so that the program detects the object&#8217;s edges accurately.</p>
+</li>
+<li>
+<p>You can swap with other objects after calibrating, or continue using the same object.</p>
+</li>
+<li>
+<p>Press <strong>Calc Top</strong> button, then <strong>Calc Side</strong> button. After a moment the result  is shown in the right column view, with some annotations showing detection borders, corner numbers, width, length, etc. Check the measurements result at the right.</p>
+</li>
+<li>
+<p>Press <strong>Calc 3D</strong> button. The 3D view at the bottm right should load a new 3D visualization cuboid of the object (with only front and right textures). Use mouse-drag to rotate around the view.</p>
+</li>
+<li>
+<p>You can use "Live" mode&#8201;&#8212;&#8201;Check the checkboxes for <strong>Top Live Calc</strong>, <strong>Side Live Calc</strong>, and the program will auto-trigger the <strong>Calc Top</strong> and <strong>Calc Side</strong> buttons.</p>
+</li>
+<li>
+<p>Enter desired amount of <strong>Maximum dim</strong> values, the right column image view will display warning notifcation if the object measured exceed the maximum dimensions.</p>
+</li>
+<li>
+<p>Using <strong>Continous 3D Refresh</strong> checkbox is not recommended as it greatly slows down the program, loading large ROI of the images as texture to the 3D visualization cuboid.</p>
+</li>
+<li>
+<p>You can try using the shortcuts such as <strong>Calc Both</strong> button, <strong>Initialize All</strong> button and <strong>Reset Cameras</strong> button for faster operations of the program.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="truesource-code-explanation"><a class="anchor" href="#truesource-code-explanation"></a>3.2.3. Source code explanation</h4>
+<div class="paragraph">
+<p>Since this class is made with QtCreator and QtCreator&#8217;s Designer, some functions are defined inside the Designer, and auto-generated the <code><strong>ui_mainwindow.h</strong></code> in the build directory.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Most of the functions in this class are Qt Slots functions, which are basically callbacks. The code is self-explanatory, hence it is not documented in-depth here, user is advised to just run through reading each functions' code.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>In <code><strong>mainwindow.h</strong></code>, the includes, class members, functions, Signals, Slots, etc are defined.
+The includes are defined at top of the file.</p>
+</div>
+<div class="paragraph">
+<p>Note that using <code><strong>using namespace cv;</strong></code> is not used for shortcut to omit <code><strong>cv::</strong></code>, as it can cause ambigous name problem during compiling under Windows.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-c++" data-lang="c++">//Qt related
+#include &lt;QMainWindow&gt;
+#include &lt;QApplication&gt;
+#include &lt;QPointer&gt;
+#include &lt;QDebug&gt;
+#include &lt;QPointer&gt;
+#include &lt;QDebug&gt;
+#include &lt;QString&gt;
+#include &lt;QTime&gt;
+
+//OpenCV
+#include &lt;opencv2/opencv.hpp&gt;
+
+//For array manipulation
+#include &lt;iomanip&gt;
+#include &lt;algorithm&gt;
+#include &lt;iterator&gt;
+#include &lt;vector&gt;
+
+// QtOpenGL-based widget that support viewing cv::Mat
+#include &lt;cvimagewidget.h&gt;
+
+// the MeasureTHreaad
+#include "measurethread.h"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Constants are declared afterwards.
+These constant are related to resoultion of the camera video stream. Some constants are left for experiments and unused, like <code><strong>P_W</strong></code> and <code><strong>P_H</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-c++" data-lang="c++">#define  P_W 320 //preview resolution, currently unused
+#define  P_H 240
+
+// ~83.8 ppm at 3 MP
+// ~110 ppm at 5 MP
+#define  C5MP_W 2592
+#define  C5MP_H 1944
+
+#define  C3MP_W 2048
+#define  C3MP_H 1536
+
+#define  C2MP_W 1920
+#define  C2MP_H 1080
+
+#define  C1MP_W 1600
+#define  C1MP_H 1200</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After that,  class members, functions, Signals, Slots, are defined. Some of them will be explained later in next sections.</p>
+</div>
+<div class="paragraph">
+<p>In <code><strong>mainwindow.cpp</strong></code>, class functions written. The functions descriptions are as described earlier in sub-sections before ( <a href="#refer-functions-above">Functions and Members</a> ). Refer to the source code and its comments to understand in-depth.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="truemeasurethread-em-measurethread-cpp-measurethread-h-em"><a class="anchor" href="#truemeasurethread-em-measurethread-cpp-measurethread-h-em"></a>3.3. MeasureThread (<em>measurethread.cpp, measurethread.h</em> )</h3>
+<div class="sect3">
+<h4 id="truefunctions-and-members"><a class="anchor" href="#truefunctions-and-members"></a>3.3.1. Functions and Members</h4>
+<div class="sect4">
+<h5 id="truepublic-member"><a class="anchor" href="#truepublic-member"></a>Public Member</h5>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 71.4286%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enum</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mode {CALIBRATE,MEASURE,LIVE}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mode selection flags, LIVE unused</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enum</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CamPos {TOP,SIDE,FRONT}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Camera position flags, FRONT unused</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="truepublic-functions-2"><a class="anchor" href="#truepublic-functions-2"></a>Public Functions</h5>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 71.4286%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MeasureThread(QObject *parent = 0)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Constructor</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">~MeasureThread()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destrcutor</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">setCamPos(CamPos pos)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identify itself which side it is measuring</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="trueprivate-functions-2"><a class="anchor" href="#trueprivate-functions-2"></a>Private Functions</h5>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 71.4286%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">MeasureResult</th>
+<th class="tableblock halign-left valign-top">findBiggestRect(cv::Mat src)</th>
+<th class="tableblock halign-left valign-top">Receives image that was processed with Canny edge detection, return time elapsed, the debug drawing, biggestRect related data (RotatedRect, its parent contours and hierarchy, the RotatedRect&#8217;s width,height and angle in degrees)</th>
+</tr>
+</thead>
+</table>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-c++" data-lang="c++">struct MeasureResult {
+    int elapsed
+    cv::Mat drawing
+    cv::RotatedRect rect
+    vector&lt;vector&lt;cv::Point&gt; &gt; contours
+    vector&lt;cv::Vec4i&gt; hierarchy
+    double width
+    double height
+    float angle
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="trueprotected-functions"><a class="anchor" href="#trueprotected-functions"></a>Protected Functions</h5>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 71.4286%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">run()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Run the thread, performing measurement or calibration.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="trueprivate-members-2"><a class="anchor" href="#trueprivate-members-2"></a>Private Members</h5>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 71.4286%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QMutex</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mutex</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mutex lock, refer QThread official docs</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QWaitCondition</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">condition</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wait condition for thread, refer QThread official docs.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cv::Mat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">src_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The source image cv::Mat received from MainWindow.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cv::Mat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">orig_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Buffer cv::Mat for various purpose e.g. debug drawing.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cv::Mat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">gray_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">src_ grayscale&#8217;d.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cv::Mat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">edged_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">gray_ Canny edge&#8217;d.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cv::Mat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">drawing_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cv::Mat for debug drawing.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cv::Mat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">element_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Element for Dilate/Erode cv::Mat for image processing before Canny edge function is used.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">restart_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used to trigger restart. Unusued. Left from Qt Mandlebrot example.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">abort_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used to trigger abort. Unusued. Left from Qt Mandlebrot example.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">calibWidth_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Known width received from MainWindow.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ppm_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Calculated or received pixel/mm from MainWindow.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">width_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Buffer for width.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">height_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Buffer for height.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">maxWidth_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum width, received from MainWindow.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">double</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">maxHeight_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum height, received from MainWindow.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">kernel_size_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used for image processing.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">edgeThresh_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used for Canny edge detection.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lowThreshold_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used for Canny edge detection.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const max_lowThreshold_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used for Canny edge detection.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ratio_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used for image processsing.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">morph_elem_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used to initialize element_ .</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operation_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used to initialize element_ .</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">morph_size_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used to initialize element_ .</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cv::Scalar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">color_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Main/default color (white).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cv::Scalar*</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">colors_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Color palette (RGB,White).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cv::Scalar*</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">colors2_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Color palette (CMY,White).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mode_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mode selection.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CamPos</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">camPos_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Camera position.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">giveROI_</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Receive from MainWindow whether to give ROI iamge or not.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="truesignals-2"><a class="anchor" href="#truesignals-2"></a>Signals</h5>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 71.4286%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">calibrationResult(cv::Mat dst, double newPpm,int el)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Calibration results (debug drawing, new pixel/mm, time elapsed).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">measurementResult(cv::Mat dst, double width, double height, int el, double angle1, double angle2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Measurement results (debug drawing, width, heigt, , time elapsed) *angle1 and angle2 is unused.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">viewROIResult(cv::Mat roi, float angle1, float angle2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ROI cropping result, with first and second metal strips angles in degree.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="trueslots-2"><a class="anchor" href="#trueslots-2"></a>Slots</h5>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 71.4286%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_startCalibration(cv::Mat srcCapture, double calibWidth)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start calibration given source image and known width.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_startMeasurement(cv::Mat srcCapture, double ppm, bool giveROI, double maxWidth, double maxHeight)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start measurement given source image, pixel/mm, flag to send ROI crop, maximum allowed width and height.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_startLiveMeasurement(cv::Mat srcCapture, double ppm)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unused. Live measurement done by auto-trigger Calc buttons in MainWindow</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">void</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">on_threshChange(int newValue)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">change lowThreshold_ value when user slides the Edge threshold slider in MainWindow</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="truedetailed-description-2"><a class="anchor" href="#truedetailed-description-2"></a>3.3.2. Detailed Description</h4>
+<div class="paragraph">
+<p>This is the MeasureThread, which runs the measurement algorithm</p>
+</div>
+<div class="paragraph">
+<p>The code running the algorithm is inside the run() function.
+There are many flags that change how run() works, depending on signal received from MainWindow, and which side MeasureThread is configured (in MainWindow constructor, MainWindow::setCamPos(CamPos pos) is called for MainWindow::topMeasureThread_ and MainWindow::sideMeasureThread_ )</p>
+</div>
+<div class="paragraph">
+<p>Originally the code is written that MainWindow can request whether it wants ROI images (for 3D visualization cuboid), but now in MeasureThread it will send regardless (since MainWindow always send signal with true value for giveROI_)</p>
+</div>
+<div class="paragraph">
+<p>The calibration and measurement algorithm share the same code, with condition that it updates pixel/mm value ppm_ if the mode_ == CALIBRATION</p>
+</div>
+<div class="paragraph">
+<p>Connection as follows. Note that slot <code><strong>on_threshChange(int newValue)</strong></code> is not shown in this diagram below.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="http://localhost:55714/afx/cache/9b6d1dfe019b9dfdd6aeb336349ec029.png" alt="9b6d1dfe019b9dfdd6aeb336349ec029.png">
+</div>
+<div class="title">Figure 7. Signals and Slots</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="truehow-it-works"><a class="anchor" href="#truehow-it-works"></a>3.3.3. How It Works</h4>
+<div class="olist arabic">
+<ol class="arabic" start="0">
+<li>
+<p>Firstly, MeasureThread&#8217;s signals and slots must be connected together with a MainWindow&#8217;s slots and signals. This is done in the constructor function of the MainWindow. The MainWindow also calls <code><strong>MeasureThread::setCamPos(CamPos pos)</strong></code> to designated where it is measuring so that correct flags are triggered later.</p>
+</li>
+<li>
+<p>MainWindow emits a signal to request calibration, <code><strong>requestTopCalibration(cv::Mat src, double knownWidth)</strong></code> or <code><strong>requestSideCalibration(cv::Mat src, double knownWidth)</strong></code>. This signal contains the a <code><strong>cv::Mat</strong></code> containing the image of the object to be measured.</p>
+</li>
+<li>
+<p>MeasureThread receives this signal via its slot <code><strong>on_startCalibration(cv::Mat srcCapture, double calibWidth)</strong></code>. From here, MeasureThread sets the flags needed and execute its <code><strong>MeasureThread::run()</strong></code> method. Here, MeasureThread sets its <code><strong>src_</strong></code>, <code><strong>calibWidth_</strong></code> and <code><strong>mode_</strong></code>. Then it calls <code><strong>start(LowPriority)</strong></code> to execute its <code><strong>run()</strong></code> method.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-c++" data-lang="c++">void MeasureThread::on_startCalibration(cv::Mat srcCapture, double knownWidth)
+{
+    QMutexLocker locker(&amp;mutex);
+    if (!isRunning())
+    {
+        src_ = srcCapture;
+        calibWidth_ = knownWidth;
+        mode_ = CALIBRATE;
+        start(LowPriority);
+    }
+    else
+    {
+        restart_ = true;
+        condition.wakeOne();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>The <code><strong>run()</strong></code> method is executed. Here, there are many if conditionals where it checks which mode it should run, etc. Afterwards, the signal <code><strong>calibrationResult(cv::Mat dst, double newPpm,int el)</strong></code> is emitted, where it contains debug drawing, and and the pixel/mm calculated.</p>
+</li>
+</ol>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code><strong>findBiggestRect(cv::Mat src)</strong></code> is an important function that is used very often. It contains the algorithm used to detect object boundaries, find the biggest object, and for that object, calculate the minimum rectangle that fits. The rectangle found is needed for its width, height and angle. To use this functions, it has to receive a <code><strong>cv::Mat</strong></code> containing the edge image for which it will work upon. It is up to the developer to decide on how to pre-process the image to get the edge image (In this case, the source image is converted to gray, smoothed with Gaussian blur, converted to edge image with Canny edge detection, finally grow-erode with cv::morphologyEx to join little gaps of the edges)</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-c++" data-lang="c++">    // [1] -- Image processing before findBiggestRect(edged_);
+    cv::cvtColor( src_, edged_, CV_BGR2GRAY );
+    cv::GaussianBlur(edged_,edged_, cv::Size( kernel_size_, kernel_size_ ), 0, 0 );
+    cv::Canny( edged_, edged_, lowThreshold_, lowThreshold_*ratio_, kernel_size_ );
+    cv::morphologyEx( edged_, edged_, operation_, element_ );
+    MeasureResult res = findBiggestRect(edged_); <i class="conum" data-value="1"></i><b>(1)</b>
+
+
+
+    drawing_ = src_.clone(); // paste src_ and res.drawing to drawing_
+    res.drawing.copyTo(drawing_.rowRange(0,drawing_.rows).colRange(0,drawing_.cols), res.drawing);
+    width_ = res.width; // update width_ and height_
+    height_ = res.height;
+    float angle1=999,angle2=999; // TODO
+
+    qDebug() &lt;&lt; QTime::currentTime().toString("h:mm:ss ") &lt;&lt; "coilAngle:" &lt;&lt; QString::number(res.angle);
+
+    // [2] -- Calibrate -- just transfer vals
+    if (mode_==CALIBRATE)
+    {
+        emit calibrationResult(drawing_, ppm_, res.elapsed);
+    }
+
+    // [3] -- Measure: check for nothing and over max dim, then emit results
+    else if (mode_==MEASURE)
+    {
+        // [3.1] -- Draw ? Detect nothing if width calcualted is zero
+        if (width_&lt;=0) // compare refer to init vals
+        {
+            // Draw ? nothing detected
+        }
+
+        // [3.2] -- Draw ! &gt; max dim if exceed dimensions
+        if (width_&gt;=maxWidth_ || height_&gt;=maxHeight_ )
+        {
+            // Draw warning
+            if (camPos_==TOP)
+            {
+                //..
+            }
+            else if (camPos_==SIDE)
+            {
+                //..
+            }
+
+        }
+
+        // [3.3] --  Finally emit result
+        emit measurementResult(drawing_, width_, height_, res.elapsed, angle1, angle2);
+
+        // [3.4] -- Look for metal strip angles
+        if (giveROI_ &amp;&amp; width_&gt;0)
+        {
+            if (camPos_ == TOP)
+            {
+                // code to calculate strip angles
+                emit viewROIResult(roi,angle1,angle2);
+            }
+
+            else if (camPos_ == SIDE)
+            {
+                // code to calculate strip angles
+                emit viewROIResult(roi,angle1,angle2);
+            }
+
+        }
+    }</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="4">
+<li>
+<p>For this thread to do measurement, it is similar. The MainWindow emits a <code><strong>requestTopMeasurement(cv::Mat src, double ppm, bool giveROI, double maxWidth, double maxHeight)</strong></code> or  <code><strong>requestSideMeasurement(cv::Mat src, double ppm, bool giveROI, double maxWidth, double maxHeight)</strong></code>, to the MeasureThread&#8217;s slot <code><strong>on_startMeasurement(cv::Mat srcCapture, double ppm, bool giveROI, double maxWidth, double maxHeight)</strong></code>, and the appropriate flags are set accordingly. Then, <code><strong>run()</strong></code> is executed and the function flows according to which flags are true. Later, the signal <code><strong>measurementResult(drawing_, width_, height_, res.elapsed, angle1, angle2)</strong></code> is emitted to MainWindow, where it contains debug drawing, and other measurement result data. (Note the parameters angle1, angle2 is currently unused as this role is now taken by the signal <code><strong>viewROIResult(roi,angle1,angle2);</strong></code>&#8201;&#8212;&#8201;see next step)</p>
+</li>
+<li>
+<p>If <code><strong>giveROI_</strong></code> is true, the <code><strong>run()</strong></code> function execute the code to crop the ROI containing the object and calculate the angles of the metal strips of the object (the inductor coils). Some parameters such as position of the metal strips are hard-coded according to the datasheet and pre-captured images of the coils. Later the signal <code><strong>viewROIResult(roi,angle1,angle2);</strong></code> is emitted (which contains the <code><strong>cv::Mat</strong></code> for the ROI, the angles for the first and second metal strips). <code><strong>cv::grabCut()</strong></code> function is used to find and crop the (shiny) metal strips on the object. Refer to the source code to understand how the code works.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="truethe-findbiggestrect-cv-mat-src-function"><a class="anchor" href="#truethe-findbiggestrect-cv-mat-src-function"></a>3.3.4. The findBiggestRect(cv::Mat src) function</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-c++" data-lang="c++">MeasureResult MeasureThread::findBiggestRect(cv::Mat src)
+{
+    // https://namkeenman.wordpress.com/2015/12/18/open-cv-determine-angle-of-rotatedrect-minarearect/
+    // Refer link above on how to read the angles
+
+    // [1] -- vars to be returned <i class="conum" data-value="1"></i><b>(1)</b>
+    cv::Mat drawing;
+    cv::RotatedRect rect;
+    vector&lt;vector&lt;cv::Point&gt; &gt; contours;
+    vector&lt;cv::Vec4i&gt; hierarchy;
+    double width=0;
+    double height=0;
+    float angle= 0;
+
+    QTime t;
+    t.start();
+
+    // [2] -- find contours and sort <i class="conum" data-value="2"></i><b>(2)</b>
+    cv::findContours( src, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE,cv::Point(0, 0) );
+
+    if (contours.empty())
+    {
+         qDebug() &lt;&lt; QTime::currentTime().toString("h:mm:ss ") &lt;&lt; "EMPTY contour";
+         MeasureResult m;
+         return m; // dummy empty
+    }
+    std::sort(contours.begin(), contours.end(), compareContourAreas);
+
+    // [3] -- get minRects <i class="conum" data-value="3"></i><b>(3)</b>
+    vector&lt;cv::RotatedRect&gt; minRect( contours.size());
+    for( size_t i = 0; i &lt; contours.size(); i++ )
+    {
+        minRect[i] = minAreaRect( cv::Mat(contours[i]) );
+    }
+
+    // [4] -- blank Mat and some vars inits <i class="conum" data-value="4"></i><b>(4)</b>
+    drawing = cv::Mat::zeros( src.size(), CV_8UC3 );
+    cv::Point2f rect_points[4];
+    double ratio = 3000.0;
+    double minSize = (src.cols*src.rows)/ratio; // minimum size acceptable
+
+    // [5] -- find and measure draw all minRects above minSize <i class="conum" data-value="5"></i><b>(5)</b>
+    for( size_t i = 0; i&lt; contours.size(); i++ )
+    {
+        // [5.1] -- skip smalls, draw contours <i class="conum" data-value="6"></i><b>(6)</b>
+        if (contourArea(contours[i]) &lt; minSize) continue; // skip smalls
+        cv::drawContours( drawing, contours, (int)i, colors2_[2], 2, 8, hierarchy, 0,cv::Point() );
+        //cerr &lt;&lt; Mat(contours[i]) &lt;&lt; endl;
+
+        // [5.2] -- sort the points from top-left clockwise, copy to rect_points <i class="conum" data-value="7"></i><b>(7)</b>
+        cv::Point2f pts[4];
+        minRect[i].points( pts ); //store points to rect_points
+        vector&lt;cv::Point2f&gt;v(begin(pts), end(pts));
+        v = sortPoints(v);
+        copy(v.begin(), v.end(), rect_points);
+
+        // [5.3] -- draw rect and corner number <i class="conum" data-value="8"></i><b>(8)</b>
+        for( int j = 0; j &lt; 4; j++ )
+        {
+            cv::line( drawing, rect_points[j], rect_points[(j+1)%4], colors_[1], 2, 8 );\
+            cv::circle( drawing,rect_points[j],20,colors_[j],10,8 );
+            cv::putText( drawing, to_string(j), rect_points[j], CV_FONT_HERSHEY_SIMPLEX, 3,
+                         color_, 7, 8 );
+        }
+
+        // [5.4] -- draw midpoints line <i class="conum" data-value="9"></i><b>(9)</b>
+        cv::Point2f tltr=midpoint(rect_points[0], rect_points[(1)%4]);
+        cv::Point2f blbr=midpoint(rect_points[2], rect_points[(3)%4]);
+        cv::Point2f tlbl=midpoint(rect_points[1], rect_points[(2)%4]);
+        cv::Point2f trbr=midpoint(rect_points[3], rect_points[(0)%4]);
+        cv::Point2f ctr = midpoint(tltr,blbr);
+        cv::line( drawing, tltr,blbr, colors2_[0], 3, 8 ); //width
+        cv::line( drawing, tlbl,trbr, colors2_[1], 3, 8 ); //height
+        cv::putText( drawing,  to_string(i), ctr, CV_FONT_HERSHEY_COMPLEX, 4,
+                     color_, 7, 8 );
+
+        // [5.5] -- calculate width and height (or calibrate) <i class="conum" data-value="10"></i><b>(10)</b>
+        double dY = cv::norm(cv::Mat(tltr),cv::Mat(blbr));
+        double dX = cv::norm(cv::Mat(tlbl),cv::Mat(trbr));
+
+        if (mode_==CALIBRATE)
+        {
+            ppm_ = dX / calibWidth_;
+        }
+
+        double dimX = dX/ppm_;
+        double dimY = dY/ppm_;
+        width=dimX;
+        height=dimY;
+
+
+        // [5.6] -- draw measurements <i class="conum" data-value="11"></i><b>(11)</b>
+        std::stringstream stream;
+        stream &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; dimX &lt;&lt; " mm";
+        string strX = stream.str();
+        stream.str("");
+        stream &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; dimY &lt;&lt; " mm";
+        string strY = stream.str();
+        cv::putText( drawing, strX, tltr, CV_FONT_HERSHEY_SIMPLEX, 2,
+                     color_, 3, 8 );
+        cv::putText( drawing, strY, tlbl, CV_FONT_HERSHEY_SIMPLEX, 2,
+                     color_, 3, 8 );
+    }
+
+    // [6] -- Return the result <i class="conum" data-value="12"></i><b>(12)</b>
+    // Note: since minRect vec is ascending, last width = biggestWidth
+    // Bonus: biggest Rect center shows count of how many contour found (including small skipped ones)
+
+    cv::RotatedRect biggest=minRect.back();
+    angle = biggest.angle;
+
+    MeasureResult res = {
+        .elapsed = t.elapsed(),
+        .drawing=drawing,
+        .rect=biggest,
+        .contours = contours,
+        .hierarchy= hierarchy,
+        .width=width,
+        .height=height,
+        .angle=angle
+    };
+    return res;
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>All the variables needed are initialized here</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code><strong>cv::findContours()</strong></code> function is used to get the contours. If there is no contours, we terminate early, returning empty <code><strong>MeasureResult</strong></code>. Else if there are contours, they are from biggest to smallest.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>From the contours, all the possible <code><strong>cv::RotatedRect</strong></code> are found with <code><strong>cv::minAreaRect()</strong></code> function. all of them are put into a vector.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>A blank <code><strong>cv::Mat</strong> drawing</code> is prepared for debug drawing. A vector for <code><strong>cv::Point2f</strong></code> to store positions of corners is initialized. Also a (constant) variable for minimum size for a contour to be accepted is calculated with formula.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Here, a loop that iterate all contours found is started.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Small contours are skipped. Each contorus is compared to <code><strong>minSize</strong></code> calculated earlier. Then it is drawn into <code><strong>drawing</strong></code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>Points are sorted from top-left clockwise.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td>Each <code><strong>RotatedRect</strong></code> is drawn, together with its corner markers (circles) and corner numbers.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="9"></i><b>9</b></td>
+<td>Midpoints are drawn, and the count/number ID for <code><strong>RotatedRect</strong></code> at its center.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="10"></i><b>10</b></td>
+<td>Width and height in pixels unit are calculated with <code><strong>cv::norm</strong></code> function. Then, it is converted to mm with known pixel/mm value. If the mode is calibration, the pixel/mm value is overwritten with new value.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="11"></i><b>11</b></td>
+<td>Measurements for width and height are drawn beside the sides of the <code><strong>RotatedRect</strong></code> 's lines.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="12"></i><b>12</b></td>
+<td>A <code><strong>MeasureResult</strong></code> is prepared to return values needed.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="truecqtopencvviewergl-em-cqtopencvviewergl-cpp-cqtopencvviewergl-h-em"><a class="anchor" href="#truecqtopencvviewergl-em-cqtopencvviewergl-cpp-cqtopencvviewergl-h-em"></a>3.4. CQtOpenCVViewerGl (<em>cqtopencvviewergl.cpp, cqtopencvviewergl.h,</em> )</h3>
+<div class="sect3">
+<h4 id="truedetailed-description-3"><a class="anchor" href="#truedetailed-description-3"></a>3.4.1. Detailed Description</h4>
+<div class="paragraph">
+<p>This is a class to render a <code><strong>cv::Mat</strong></code> with OpenGL in a widget.
+It was downloaded here: <a href="https://github.com/Myzhar/QtOpenCVViewerGl" class="bare">https://github.com/Myzhar/QtOpenCVViewerGl</a></p>
+</div>
+<div class="paragraph">
+<p>A modification is added at line 73 to 75, where Qt::FastTransformation argument is used to render video stream fast (since a faster algorithm is used to scale down the images)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-c++" data-lang="c++"> mResizedImg = mRenderQtImg.scaled(QSize(mRenderWidth, mRenderHeight),
+                                                      Qt::IgnoreAspectRatio,
+                                                      Qt::FastTransformation);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="trueglwidget-em-glwdiget-cpp-glwidget-h-em"><a class="anchor" href="#trueglwidget-em-glwdiget-cpp-glwidget-h-em"></a>3.5. GLWidget (<em>glwdiget.cpp, glwidget.h,</em> )</h3>
+<div class="sect3">
+<h4 id="truedetailed-description-4"><a class="anchor" href="#truedetailed-description-4"></a>3.5.1. Detailed Description</h4>
+<div class="paragraph">
+<p>This widget is derived from the original <code><strong>GLWidget</strong></code> in Qt Textures Example ( <a href="http://doc.qt.io/qt-5/qtopengl-textures-example.html" class="bare">http://doc.qt.io/qt-5/qtopengl-textures-example.html</a> )</p>
+</div>
+<div class="paragraph">
+<p>It is used to render 3D cuboid visualization of the measured object, with only top texture and side texture.</p>
+</div>
+<div class="paragraph">
+<p>Some modifications are done to connect this class properly with <code><strong>MainWindow</strong></code>.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="1">
+<li>
+<p>Added private members <code><strong>cv::Mat roiTop_</strong></code> and <code><strong>cv::Mat roiSide_</strong></code>, which are initialized in constructor so that an initial blank black cuboid is created.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-c++" data-lang="c++">GLWidget::GLWidget(QWidget *parent)
+    : QOpenGLWidget(parent),
+      clearColor(Qt::black),
+      xRot(0),
+      yRot(0),
+      zRot(0),
+      program(0),w(0),h(0)
+{
+//    projection
+   cv::Mat t(1000, 1000, CV_8UC3, cv::Scalar(0, 0, 0));
+    roiTop_ = t;
+   cv::Mat s(400, 1000, CV_8UC3, cv::Scalar(0, 0, 0));
+    //std::cout &lt;&lt; s.size();
+    roiSide_ = s;
+    memset(textures, 0, sizeof(textures));
+}</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>A public function that can be called by MainWindow to send new top and side ROI images to update the cuboid.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-c++" data-lang="c++">void GLWidget::updateTex(cv::Mat top,cv::Mat side)
+{
+    roiTop_ = top;
+    roiSide_ = side;
+    vbo.release();
+    for (int i = 0; i &lt; 6; ++i)
+        delete textures[i];
+    makeObject(); // explained in next step
+    update();
+    qDebug() &lt;&lt; QTime::currentTime().toString("h:mm:ss ") &lt;&lt; "[glwidget] updated tex";
+
+}</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Convert received ROI <code><strong>cv::Mat</strong></code> to <code><strong>QImage</strong></code>, then create new textures.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-c++" data-lang="c++">void GLWidget::makeObject()
+{
+    static const int coords[6][4][3] = {
+        { { +1, -1, -1 }, { -1, -1, -1 }, { -1, +1, -1 }, { +1, +1, -1 } },
+        { { +1, +1, -1 }, { -1, +1, -1 }, { -1, +1, +1 }, { +1, +1, +1 } },
+        { { +1, -1, +1 }, { +1, -1, -1 }, { +1, +1, -1 }, { +1, +1, +1 } },
+        { { -1, -1, -1 }, { -1, -1, +1 }, { -1, +1, +1 }, { -1, +1, -1 } },
+        { { +1, -1, +1 }, { -1, -1, +1 }, { -1, -1, -1 }, { +1, -1, -1 } },
+        { { -1, -1, +1 }, { +1, -1, +1 }, { +1, +1, +1 }, { -1, +1, +1 } }
+    };
+
+
+
+    for (int j = 0; j &lt; 6; ++j)
+    {
+       cv::Mat dest; // 1==top, 5==front, 0==back
+        if((j==1)){ // top
+            dest = roiTop_;
+        } else if ((j==3)){ // left side
+            dest = roiSide_;
+        }
+        else {
+            dest = cv::Mat(roiTop_.cols, roiSide_.rows, CV_8UC3, cv::Scalar(0, 0, 0));
+        }
+
+        QImage image =Mat2QImage(dest);
+        textures[j] = new QOpenGLTexture(image.mirrored());
+        // originlly was:
+        //textures[j] = new QOpenGLTexture(QImage(QString("images/side%1.png").arg(j + 1)).mirrored());
+
+}
+
+    QVector&lt;GLfloat&gt; vertData;
+    float r = 0.0004;
+    float w = roiTop_.rows*r;
+    float l = roiTop_.cols*r;
+    float h = roiSide_.rows*r;
+
+    for (int i = 0; i &lt; 6; ++i) {
+        for (int j = 0; j &lt; 4; ++j) {
+            // vertex position
+            vertData.append(w * coords[i][j][0]);
+            vertData.append(h * coords[i][j][1]);
+            vertData.append(l * coords[i][j][2]);
+            // texture coordinate
+            vertData.append(j == 0 || j == 3);
+            vertData.append(j == 0 || j == 1);
+        }
+    }
+    //vbo.destroy();
+    vbo.create();
+    vbo.bind();
+    vbo.allocate(vertData.constData(), vertData.count() * sizeof(GLfloat));
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2016-11-28 16:01:09 MPST
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+</body>
+</html>

@@ -1,0 +1,405 @@
+:sectnums:
+
+=== MeasureThread (_measurethread.cpp, measurethread.h_ )
+
+==== Functions and Members
+
+===== Public Member
+[cols="1,1,5"]
+|===
+  |enum |Mode {CALIBRATE,MEASURE,LIVE}|Mode selection flags, LIVE unused
+  |enum |CamPos {TOP,SIDE,FRONT}|Camera position flags, FRONT unused
+|===
+
+===== Public Functions
+[cols="1,1,5"]
+|===
+||MeasureThread(QObject *parent = 0)|Constructor
+||~MeasureThread()|Destrcutor
+|void |setCamPos(CamPos pos)|Identify itself which side it is measuring
+|===
+
+===== Private Functions
+[cols="1,1,5"]
+|===
+|MeasureResult |findBiggestRect(cv::Mat src)|Receives image that was processed with Canny edge detection, return time elapsed, the debug drawing, biggestRect related data (RotatedRect, its parent contours and hierarchy, the RotatedRect's width,height and angle in degrees)
+
+|===
+
+[source,c++]
+----
+struct MeasureResult {
+    int elapsed
+    cv::Mat drawing
+    cv::RotatedRect rect
+    vector<vector<cv::Point> > contours
+    vector<cv::Vec4i> hierarchy
+    double width
+    double height
+    float angle
+}
+
+
+
+----
+////
+===== struct MeasureResult
+[cols="3,5"]
+|===
+    |int |elapsed
+    |cv::Mat |drawing
+    |cv::RotatedRect |rect
+    |vector<vector<cv::Point> > |contours
+    |vector<cv::Vec4i> |hierarchy
+    |double |width
+    |double |height
+    |float |angle
+|===
+////
+===== Protected Functions
+[cols="1,1,5"]
+|===
+|void |run()|Run the thread, performing measurement or calibration.
+|===
+
+===== Private Members
+[cols="1,1,5"]
+|===
+|QMutex |mutex|Mutex lock, refer QThread official docs
+|QWaitCondition |condition|Wait condition for thread, refer QThread official docs.
+
+|cv::Mat |src_|The source image cv::Mat received from MainWindow.
+|cv::Mat |orig_|Buffer cv::Mat for various purpose e.g. debug drawing.
+|cv::Mat |gray_|src_ grayscale'd.
+|cv::Mat |edged_|gray_ Canny edge'd.
+|cv::Mat |drawing_|cv::Mat for debug drawing.
+|cv::Mat |element_| Element for Dilate/Erode cv::Mat for image processing before Canny edge function is used.
+|bool |restart_|Used to trigger restart. Unusued. Left from Qt Mandlebrot example.
+|bool |abort_|Used to trigger abort. Unusued. Left from Qt Mandlebrot example.
+
+|double |calibWidth_|Known width received from MainWindow.
+|double |ppm_|Calculated or received pixel/mm from MainWindow.
+|double |width_|Buffer for width.
+|double |height_|Buffer for height.
+|double |maxWidth_|Maximum width, received from MainWindow.
+|double |maxHeight_|Maximum height, received from MainWindow.
+
+
+|int |kernel_size_| Used for image processing.
+|int |edgeThresh_| Used for Canny edge detection.
+
+|int |lowThreshold_| Used for Canny edge detection.
+|int |const max_lowThreshold_| Used for Canny edge detection.
+|int |ratio_| Used for image processsing.
+
+|int |morph_elem_|Used to initialize element_ .
+|int |operation_|Used to initialize element_ . 
+|int |morph_size_|Used to initialize element_ .
+
+|cv::Scalar |color_|Main/default color (white).
+|cv::Scalar* |colors_|Color palette (RGB,White).
+|cv::Scalar* |colors2_|Color palette (CMY,White).
+
+|Mode |mode_ | Mode selection.
+|CamPos |camPos_ | Camera position.
+|bool |giveROI_|Receive from MainWindow whether to give ROI iamge or not.
+|===
+
+===== Signals
+[cols="1,1,5"]
+|===
+|void |calibrationResult(cv::Mat dst, double newPpm,int el)|Calibration results (debug drawing, new pixel/mm, time elapsed).
+|void |measurementResult(cv::Mat dst, double width, double height, int el, double angle1, double angle2)
+|Measurement results (debug drawing, width, heigt, , time elapsed) *angle1 and angle2 is unused.
+|void |viewROIResult(cv::Mat roi, float angle1, float angle2)| ROI cropping result, with first and second metal strips angles in degree.
+|===
+
+===== Slots
+[cols="1,1,5"]
+|===
+|void |on_startCalibration(cv::Mat srcCapture, double calibWidth)|Start calibration given source image and known width.
+|void |on_startMeasurement(cv::Mat srcCapture, double ppm, bool giveROI, double maxWidth, double maxHeight)
+|Start measurement given source image, pixel/mm, flag to send ROI crop, maximum allowed width and height.
+|void |on_startLiveMeasurement(cv::Mat srcCapture, double ppm)
+|Unused. Live measurement done by auto-trigger Calc buttons in MainWindow
+|void |on_threshChange(int newValue)
+|change lowThreshold_ value when user slides the Edge threshold slider in MainWindow
+|===
+
+==== Detailed Description
+This is the MeasureThread, which runs the measurement algorithm
+
+The code running the algorithm is inside the run() function.
+There are many flags that change how run() works, depending on signal received from MainWindow, and which side MeasureThread is configured (in MainWindow constructor, MainWindow::setCamPos(CamPos pos) is called for MainWindow::topMeasureThread_ and MainWindow::sideMeasureThread_ )
+
+Originally the code is written that MainWindow can request whether it wants ROI images (for 3D visualization cuboid), but now in MeasureThread it will send regardless (since MainWindow always send signal with true value for giveROI_)
+
+The calibration and measurement algorithm share the same code, with condition that it updates pixel/mm value ppm_ if the mode_ == CALIBRATION
+
+Connection as follows. Note that slot `*on_threshChange(int newValue)*` is not shown in this diagram below. 
+
+include::Signal-diagram.adoc[]
+
+==== How It Works
+[arabic, start=0]
+
+. Firstly, MeasureThread's signals and slots must be connected together with a MainWindow's slots and signals. This is done in the constructor function of the MainWindow. The MainWindow also calls `*MeasureThread::setCamPos(CamPos pos)*` to designated where it is measuring so that correct flags are triggered later.
+
+. MainWindow emits a signal to request calibration, `*requestTopCalibration(cv::Mat src, double knownWidth)*` or `*requestSideCalibration(cv::Mat src, double knownWidth)*`. This signal contains the a `*cv::Mat*` containing the image of the object to be measured.
+
+. MeasureThread receives this signal via its slot `*on_startCalibration(cv::Mat srcCapture, double calibWidth)*`. From here, MeasureThread sets the flags needed and execute its `*MeasureThread::run()*` method. Here, MeasureThread sets its `*src_*`, `*calibWidth_*` and `*mode_*`. Then it calls `*start(LowPriority)*` to execute its `*run()*` method.
+
+[source,c++]
+----
+void MeasureThread::on_startCalibration(cv::Mat srcCapture, double knownWidth)
+{
+    QMutexLocker locker(&mutex);
+    if (!isRunning())
+    {
+        src_ = srcCapture;
+        calibWidth_ = knownWidth;
+        mode_ = CALIBRATE;
+        start(LowPriority);
+    }
+    else
+    {
+        restart_ = true;
+        condition.wakeOne();
+    }
+}
+----
+[arabic, start=3]
+. The `*run()*` method is executed. Here, there are many if conditionals where it checks which mode it should run, etc. Afterwards, the signal `*calibrationResult(cv::Mat dst, double newPpm,int el)*` is emitted, where it contains debug drawing, and and the pixel/mm calculated.
+
+<1> `*findBiggestRect(cv::Mat src)*` is an important function that is used very often. It contains the algorithm used to detect object boundaries, find the biggest object, and for that object, calculate the minimum rectangle that fits. The rectangle found is needed for its width, height and angle. To use this functions, it has to receive a `*cv::Mat*` containing the edge image for which it will work upon. It is up to the developer to decide on how to pre-process the image to get the edge image (In this case, the source image is converted to gray, smoothed with Gaussian blur, converted to edge image with Canny edge detection, finally grow-erode with cv::morphologyEx to join little gaps of the edges)   
+
+[source,c++]
+----
+    // [1] -- Image processing before findBiggestRect(edged_);
+    cv::cvtColor( src_, edged_, CV_BGR2GRAY );
+    cv::GaussianBlur(edged_,edged_, cv::Size( kernel_size_, kernel_size_ ), 0, 0 );
+    cv::Canny( edged_, edged_, lowThreshold_, lowThreshold_*ratio_, kernel_size_ );
+    cv::morphologyEx( edged_, edged_, operation_, element_ );
+    MeasureResult res = findBiggestRect(edged_); <!--1-->
+
+
+
+    drawing_ = src_.clone(); // paste src_ and res.drawing to drawing_
+    res.drawing.copyTo(drawing_.rowRange(0,drawing_.rows).colRange(0,drawing_.cols), res.drawing);
+    width_ = res.width; // update width_ and height_
+    height_ = res.height;
+    float angle1=999,angle2=999; // TODO
+
+    qDebug() << QTime::currentTime().toString("h:mm:ss ") << "coilAngle:" << QString::number(res.angle);
+
+    // [2] -- Calibrate -- just transfer vals
+    if (mode_==CALIBRATE)
+    {
+        emit calibrationResult(drawing_, ppm_, res.elapsed);
+    }
+
+    // [3] -- Measure: check for nothing and over max dim, then emit results
+    else if (mode_==MEASURE)
+    {
+        // [3.1] -- Draw ? Detect nothing if width calcualted is zero
+        if (width_<=0) // compare refer to init vals
+        {
+            // Draw ? nothing detected
+        }
+
+        // [3.2] -- Draw ! > max dim if exceed dimensions
+        if (width_>=maxWidth_ || height_>=maxHeight_ )
+        {
+            // Draw warning
+            if (camPos_==TOP)
+            {
+                //..
+            }
+            else if (camPos_==SIDE)
+            {
+                //..
+            }
+
+        }
+
+        // [3.3] --  Finally emit result
+        emit measurementResult(drawing_, width_, height_, res.elapsed, angle1, angle2);
+
+        // [3.4] -- Look for metal strip angles
+        if (giveROI_ && width_>0)
+        {
+            if (camPos_ == TOP)
+            {
+                // code to calculate strip angles
+                emit viewROIResult(roi,angle1,angle2);
+            }
+
+            else if (camPos_ == SIDE)
+            {
+                // code to calculate strip angles
+                emit viewROIResult(roi,angle1,angle2);
+            }
+
+        }
+    }
+----
+[arabic, start=4]
+. For this thread to do measurement, it is similar. The MainWindow emits a `*requestTopMeasurement(cv::Mat src, double ppm, bool giveROI, double maxWidth, double maxHeight)*` or  `*requestSideMeasurement(cv::Mat src, double ppm, bool giveROI, double maxWidth, double maxHeight)*`, to the MeasureThread's slot `*on_startMeasurement(cv::Mat srcCapture, double ppm, bool giveROI, double maxWidth, double maxHeight)*`, and the appropriate flags are set accordingly. Then, `*run()*` is executed and the function flows according to which flags are true. Later, the signal `*measurementResult(drawing_, width_, height_, res.elapsed, angle1, angle2)*` is emitted to MainWindow, where it contains debug drawing, and other measurement result data. (Note the parameters angle1, angle2 is currently unused as this role is now taken by the signal `*viewROIResult(roi,angle1,angle2);*` -- see next step)
+
+. If `*giveROI_*` is true, the `*run()*` function execute the code to crop the ROI containing the object and calculate the angles of the metal strips of the object (the inductor coils). Some parameters such as position of the metal strips are hard-coded according to the datasheet and pre-captured images of the coils. Later the signal `*viewROIResult(roi,angle1,angle2);*` is emitted (which contains the `*cv::Mat*` for the ROI, the angles for the first and second metal strips). `*cv::grabCut()*` function is used to find and crop the (shiny) metal strips on the object. Refer to the source code to understand how the code works. 
+
+==== The findBiggestRect(cv::Mat src) function
+
+[source, c++]
+----
+MeasureResult MeasureThread::findBiggestRect(cv::Mat src)
+{
+    // https://namkeenman.wordpress.com/2015/12/18/open-cv-determine-angle-of-rotatedrect-minarearect/
+    // Refer link above on how to read the angles
+
+    // [1] -- vars to be returned <!--1-->
+    cv::Mat drawing;
+    cv::RotatedRect rect;
+    vector<vector<cv::Point> > contours;
+    vector<cv::Vec4i> hierarchy;
+    double width=0;
+    double height=0;
+    float angle= 0;
+
+    QTime t;
+    t.start();
+
+    // [2] -- find contours and sort <!--2-->
+    cv::findContours( src, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE,cv::Point(0, 0) );
+
+    if (contours.empty())
+    {
+         qDebug() << QTime::currentTime().toString("h:mm:ss ") << "EMPTY contour";
+         MeasureResult m;
+         return m; // dummy empty
+    }
+    std::sort(contours.begin(), contours.end(), compareContourAreas);
+
+    // [3] -- get minRects <!--3-->
+    vector<cv::RotatedRect> minRect( contours.size());
+    for( size_t i = 0; i < contours.size(); i++ )
+    { 
+        minRect[i] = minAreaRect( cv::Mat(contours[i]) );
+    }
+
+    // [4] -- blank Mat and some vars inits <!--4-->
+    drawing = cv::Mat::zeros( src.size(), CV_8UC3 );
+    cv::Point2f rect_points[4];
+    double ratio = 3000.0;
+    double minSize = (src.cols*src.rows)/ratio; // minimum size acceptable
+
+    // [5] -- find and measure draw all minRects above minSize <!--5-->
+    for( size_t i = 0; i< contours.size(); i++ )
+    {
+        // [5.1] -- skip smalls, draw contours <!--6-->
+        if (contourArea(contours[i]) < minSize) continue; // skip smalls
+        cv::drawContours( drawing, contours, (int)i, colors2_[2], 2, 8, hierarchy, 0,cv::Point() );
+        //cerr << Mat(contours[i]) << endl;
+
+        // [5.2] -- sort the points from top-left clockwise, copy to rect_points <!--7-->
+        cv::Point2f pts[4];
+        minRect[i].points( pts ); //store points to rect_points
+        vector<cv::Point2f>v(begin(pts), end(pts));
+        v = sortPoints(v);
+        copy(v.begin(), v.end(), rect_points);
+
+        // [5.3] -- draw rect and corner number <!--8-->
+        for( int j = 0; j < 4; j++ )
+        {
+            cv::line( drawing, rect_points[j], rect_points[(j+1)%4], colors_[1], 2, 8 );\
+            cv::circle( drawing,rect_points[j],20,colors_[j],10,8 );
+            cv::putText( drawing, to_string(j), rect_points[j], CV_FONT_HERSHEY_SIMPLEX, 3,
+                         color_, 7, 8 );
+        }
+
+        // [5.4] -- draw midpoints line <!--9-->
+        cv::Point2f tltr=midpoint(rect_points[0], rect_points[(1)%4]);
+        cv::Point2f blbr=midpoint(rect_points[2], rect_points[(3)%4]);
+        cv::Point2f tlbl=midpoint(rect_points[1], rect_points[(2)%4]);
+        cv::Point2f trbr=midpoint(rect_points[3], rect_points[(0)%4]);
+        cv::Point2f ctr = midpoint(tltr,blbr);
+        cv::line( drawing, tltr,blbr, colors2_[0], 3, 8 ); //width
+        cv::line( drawing, tlbl,trbr, colors2_[1], 3, 8 ); //height
+        cv::putText( drawing,  to_string(i), ctr, CV_FONT_HERSHEY_COMPLEX, 4,
+                     color_, 7, 8 );
+
+        // [5.5] -- calculate width and height (or calibrate) <!--10-->
+        double dY = cv::norm(cv::Mat(tltr),cv::Mat(blbr));
+        double dX = cv::norm(cv::Mat(tlbl),cv::Mat(trbr));
+
+        if (mode_==CALIBRATE)
+        {
+            ppm_ = dX / calibWidth_;
+        }
+
+        double dimX = dX/ppm_;
+        double dimY = dY/ppm_;
+        width=dimX;
+        height=dimY;
+
+
+        // [5.6] -- draw measurements <!--11-->
+        std::stringstream stream;
+        stream << fixed << setprecision(2) << dimX << " mm";
+        string strX = stream.str();
+        stream.str("");
+        stream << fixed << setprecision(2) << dimY << " mm";
+        string strY = stream.str();
+        cv::putText( drawing, strX, tltr, CV_FONT_HERSHEY_SIMPLEX, 2,
+                     color_, 3, 8 );
+        cv::putText( drawing, strY, tlbl, CV_FONT_HERSHEY_SIMPLEX, 2,
+                     color_, 3, 8 );
+    }
+
+    // [6] -- Return the result <!--12-->
+    // Note: since minRect vec is ascending, last width = biggestWidth
+    // Bonus: biggest Rect center shows count of how many contour found (including small skipped ones)
+
+    cv::RotatedRect biggest=minRect.back();
+    angle = biggest.angle;
+
+    MeasureResult res = {
+        .elapsed = t.elapsed(),
+        .drawing=drawing,
+        .rect=biggest,
+        .contours = contours,
+        .hierarchy= hierarchy,
+        .width=width,
+        .height=height,
+        .angle=angle
+    };
+    return res;
+
+}
+----
+
+
+<1> All the variables needed are initialized here
+
+<2> `*cv::findContours()*` function is used to get the contours. If there is no contours, we terminate early, returning empty `*MeasureResult*`. Else if there are contours, they are from biggest to smallest.
+
+<3> From the contours, all the possible `*cv::RotatedRect*` are found with `*cv::minAreaRect()*` function. all of them are put into a vector.
+
+<4> A blank `*cv::Mat* drawing` is prepared for debug drawing. A vector for `*cv::Point2f*` to store positions of corners is initialized. Also a (constant) variable for minimum size for a contour to be accepted is calculated with formula.
+
+<5> Here, a loop that iterate all contours found is started.
+
+<51> Small contours are skipped. Each contorus is compared to `*minSize*` calculated earlier. Then it is drawn into `*drawing*`.
+
+<52> Points are sorted from top-left clockwise.
+
+<53> Each `*RotatedRect*` is drawn, together with its corner markers (circles) and corner numbers.
+
+<54> Midpoints are drawn, and the count/number ID for `*RotatedRect*` at its center.
+
+<55> Width and height in pixels unit are calculated with `*cv::norm*` function. Then, it is converted to mm with known pixel/mm value. If the mode is calibration, the pixel/mm value is overwritten with new value.
+
+<56> Measurements for width and height are drawn beside the sides of the `*RotatedRect*` 's lines.
+
+<6> A `*MeasureResult*` is prepared to return values needed.
+

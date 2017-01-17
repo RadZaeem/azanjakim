@@ -1,0 +1,16 @@
+:sectnums:
+
+=== CQtOpenCVViewerGl (_cqtopencvviewergl.cpp, cqtopencvviewergl.h,_ )
+
+==== Detailed Description
+This is a class to render a `*cv::Mat*` with OpenGL in a widget.
+It was downloaded here: https://github.com/Myzhar/QtOpenCVViewerGl
+
+A modification is added at line 73 to 75, where Qt::FastTransformation argument is used to render video stream fast (since a faster algorithm is used to scale down the images)
+[source,c++]
+----
+ mResizedImg = mRenderQtImg.scaled(QSize(mRenderWidth, mRenderHeight),
+                                                      Qt:file:///home/muaz/azanjakim/docs/meaurecam-technical.adoc
+:IgnoreAspectRatio,
+                                                      Qt::FastTransformation);
+----

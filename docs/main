@@ -1,0 +1,34 @@
+= 17rakaat
+:appversion: 1.0
+Raden Munim <raden.m.muaz@gmail.com>
+2016-11-21
+:toc: left
+:listing-caption: Listing
+:code-caption: Code
+:figure-caption: Figure
+:sectnums:
+
+== Introduction
+This documentation explains the source code of 17rakaat
+17rakaat is a Django web app that auto-detects user location and determines the prayer times based on database from JAKIM E-solat (http://e-solat.gov.my)
+
+== Prerequisites
+
+* Python 3.5
+
+* Django 1.10
+
+* Additional libraries: install with: 
+
+-----
+pip install django requests geoindex geopy lxml vincenty LatLon
+-----
+
+* To run fetchsolat2017.py
+
+----
+pip install lxml tabulate dateutil  
+----
+
+== The Models
+

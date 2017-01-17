@@ -1,0 +1,24 @@
+caliper reference readings
+xy [x from top, y from left side]
+1. 12.60*12.84
+2.12.62*12.88
+3. 12.60*12.78
+
+z:
+[mid strip]
+1. 7.22
+2. 7.14
+[far back]
+3. 7.07
+4. 7.02
+
+
+calib result (5MP) using reading xy #2 @ thresh 20-22
+top(xy)  : 12.62 (known) * 12.72  @ 126.35ppm
+side(yz) : 12.88 (known) * 7.41 @ 144.39 ppm
+
+measure result using ppm above, thresh 20-22
+top(xy)  : 12.60*12.67 | angle (top,bottom) (-88.2101,-87.0892) 
+side(yz) : 12.72*7.35  | angle (left,right) (0,0)
+
+

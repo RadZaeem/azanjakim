@@ -1,0 +1,195 @@
+= Code examples
+// Enable the captions for listing blocks.
+:listing-caption: Listing
+ 
+ 
+
+
+f -- f
+f 
+... 
+f
+12--14
+
+
+
+
+cF:: ialah
+- [x] checked
+- [ ] kosong
+http://asciidoctor.org[Asciidoctor]
+
+[source,python,linenums,highlight='7-9']
+----
+print("hello!") <!--1-->
+----
+
+
+<1> refer no 1.
+
+[graphviz,molecule,svg]
+
+----
+graph ethane {
+    C_0 -- H_0 [type=s];
+    H_0 -- C_lalala [type=s];
+    
+    
+    
+}
+}
+----
+
+== Creating an application
+ 
+To create a simple Ratpack application we write
+the following code:
+ 
+// Our listing block has an id of SimpleJavaApp,
+// so we can reference it as a link.
+// The link text is the title of this listing block.
+// We use the listing caption support of Asciidoctor
+// in our title with the attributes listing-caption
+// and counter:refnum. The value of listing-caption
+// is defined with a document attribute (Listing)
+// and counter:refnum contains the counter value
+// for listing blocks.
+// Finally we empty the caption attribute, otherwise
+// the default caption rule is used to show Level {counter}.
+[#SimpleJavaApp,source,java,caption='',title='{listing-caption} {counter:refnum}. Simple Java Ratpack application']
+----
+package com.mrhaki;
+ 
+import ratpack.server.RatpackServer;
+ 
+public class Main {
+    public static void main(String... args) throws Exception {
+        RatpackServer.start(server ->
+            server
+                .handlers(chain ->
+                    chain
+                        .get(ctx -> ctx.render("Hello World!"))));
+    }
+}
+----
+ 
+// A second section also with an ID
+// and custom caption and title attributes.
+[#SimpleGroovyApp,source,groovy,caption='',title='{listing-caption} {counter:refnum}. Simple Groovy Ratpack application']
+----
+package com.mrhaki
+ 
+import static ratpack.groovy.Groovy.ratpack
+ 
+ratpack {
+    handlers {
+        get {
+            render "Hello World!"
+        }
+    }
+}
+----
+ 
+// In these paragraphs we create a link to the sections with
+// id's SimpleJavaApp and SimpleGroovyApp. The text of the links
+// will be Listing 1. Simple Java Ratpack application and
+// Listing 2. Simple Groovy Ratpack application.
+As we can see in <<SimpleJavaApp>> the code is simple. The configuration
+of the Ratpack application is done using a series of methods.
+ 
+With the Groovy code in <<SimpleGroovyApp>> we can use a DSL to define
+the application. This results in even better readable code.
+
+.UML Diagram Example
+[uml,file="uml-example.png"]
+--
+abstract class AbstractList
+abstract AbstractCollection
+interface List
+interface Collection
+
+List <|-- AbstractList
+Collection <|-- AbstractCollection
+
+Collection <|- List
+AbstractCollection <|- AbstractList
+AbstractList <|-- ArrayList
+
+class ArrayList {
+  Object[] elementData
+  size()
+}
+
+class MainWindow {
+  topMeasureThread_
+  sideMeasureThread_
+  
+}
+
+
+
+
+
+
+enum TimeUnit {
+  DAYS
+  HOURS
+  MINUTES
+}
+
+annotation SuppressWarnings
+--
+
+
+
+
+
+
+[ditaa]
+....
+ +-----------------------------------------------------------------------------------------------------------------------------------------+
+ |                                                                                                                                         |
+ |  +------------------------------------------------------------------------------------------------------------------------------------+ |
+ |  |                                                                                                                                    | |
+ |  |    +-----------------------------------------------------------------------------------------------------------------------------+ | |
+ |  |    |                                                                                                                             | | |
+ |  |    |                                                                                                                             | | |
+ |  |    |   +----------------------------------------------------------+          +------------------------------------------------+  | | |
+ |  |    |   | MainWindow                                               |          |  MainWindow.topMeasureThread_                  |  | | |
+ |  |    |   +---------------------------+----+-------------------------+          +---------------------+----+---------------------+  | | |
+ |  |    |   | SLOTS                     |emit| SIGNALS                 |          | SLOTS               |emit|       SIGNALS       |  | | |
+ |  |    |   +---------------------------+    +-------------------------+          +---------------------+    +---------------------+  | | |
+ |  |    |   |on_topCalibButton_clicked  |--->| requestTopCalibration   +--------->+on_startCalibration  |--->| calibrationResult   +--+ | |
+ |  |    |   +---------------------------+    +-------------------------+          +---------------------+    +---------------------+    | |
+ |  |    |   |on_calcTopButton_clicked   |--->| requestTopMeasurement   +--------->+on_startMeasurement  |-+->| measurementResult   +----+ |
+ |  |    |   +---------------------------+    +-------------------------+          +---------------------+ |  +---------------------+      |
+ |  |    |   |on_sideCalibButton_clicked |--->| requestSideCalibration  +-----+                            +->| viewROIResult       +------+
+ |  |    |   +---------------------------+    +-------------------------+     |                               +---------------------+
+ |  |    |   |on_calcSideButton_clicked  |--->| requestSideMeasurement  +--+  |
+ |  |    |   +---------------------------+    +-------------------------+  |  |
+ |  |    +-->+on_updateTopCalibration    |                                 |  |
+ |  |        +---------------------------+                                 |  |
+ |  +------->+on_updateTopMeasurement    |                                 |  |    +------------------------------------------------+
+ |           +---------------------------+                                 |  |    |  MainWindow.topMeasureThread_                  |
+ +---------->+on_updateROITop            |                                 |  |    +---------------------+----+---------------------+
+             +---------------------------+                                 |  |    | SLOTS               |emit|       SIGNALS       |
+ +---------->+on_updateSideCalibration   |                                 |  |    +---------------------+    +---------------------+
+ |           +---------------------------+                                 |  +--->+on_startCalibration  |--->| calibrationResult   +-------+
+ |  +------->+on_updateSideMeasurement   |                                 |       +---------------------+    +---------------------+       |
+ |  |        +---------------------------+                                 +------>+on_startMeasurement  |-+->| measurementResult   +----+  |
+ |  |   +--->+on_updateROISide           |                                         +---------------------+ |  +---------------------+    |  |
+ |  |   |    +---------------------------+                                                               | +->| viewROIResult       +-+  |  |
+ |  |   |                                                                                                     +---------------------+ |  |  |
+ |  |   |                                                                                                                             |  |  |
+ |  |   |                                                                                                                             |  |  |
+ |  |   |                                                                                                                             |  |  |
+ |  |   |                                                                                                                             |  |  |
+ |  |   |                                                                                                                             |  |  |
+ |  |   +-----------------------------------------------------------------------------------------------------------------------------+  |  |
+ |  |                                                                                                                                    |  |
+ |  +------------------------------------------------------------------------------------------------------------------------------------+  |
+ |                                                                                                                                          |
+ +------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+

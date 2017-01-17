@@ -1,0 +1,39 @@
+
+=== The main function (_main.cpp_)
+
+This file contains the `*int main*` function. 
+
+. It initialize QApplication instance,
+. load MainWindow widget,
+. register cv::Mat meta type as workaround for the project to compile,
+. load dark theme
+
+
+[source,c++,caption='',title='main.cpp']
+----
+#include "mainwindow.h"
+#include <QApplication>
+#include <QTime>
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv); // 1.
+
+    qRegisterMetaType< cv::Mat >("cv::Mat"); // 2.
+    MainWindow w; // 3.
+    w.show();
+    QFile f(":qdarkstyle/style.qss"); // 4.
+    if (!f.exists())
+    {
+        printf("Unable to set stylesheet, file not found\n");
+    }
+    else
+    {
+        f.open(QFile::ReadOnly | QFile::Text);
+        QTextStream ts(&f);
+        qApp->setStyleSheet(ts.readAll());
+    }
+
+    return a.exec();
+}
+----

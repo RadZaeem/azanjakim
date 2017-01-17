@@ -1,5 +1,5 @@
 /*
-
+Just saved here just in case forgotten
 QueryData.js
 
 A function to parse data from a query string

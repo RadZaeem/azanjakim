@@ -20,7 +20,9 @@ from django.conf import settings
 
 import sqlite3
 
-#pip install requests json django geoindex geopy lxml
+#import LatLon
+
+#pip install requests json django geoindex geopy lxml LatLon
 
 
 def text(elt):
@@ -72,27 +74,6 @@ class ParsedZone(models.Model):
 
     FREEGEOPIP_URL = 'http://freegeoip.net/json/'
 
-
-    def update_latest(self,ip=""):
-        self.ip_parse_dict = self.get_geolocation_for_ip(ip)
-        self.ip_parse_str=json.dumps(self.ip_parse_dict)
-        self.ip_address = self.ip_parse_dict["ip"]
-        self.zone_name= self.ip_parse_dict["city"]
-
-        #extra code as state name must match with EsolatZone's state,
-        self.state_name = self.ip_parse_dict["region_name"].upper()
-        self.state_name = self.state_name.replace(' ','_')
-        if self.state_name == "PENANG": # special case
-            self.state_name = "PULAU_PINANG"
-
-        self.lat = self.ip_parse_dict["latitude"]
-        self.lng = self.ip_parse_dict["longitude"]
-
-        try:
-            self.get_closest_zone() #update here
-
-        except Exception as e:
-            print(str(e))
 
     def update_latest2(self,lat=0.0,lng=0.0):
         self.lat = lat
@@ -189,8 +170,9 @@ class ParsedTimes(models.Model):
 
 
 
-    def update_times_by_xml(self,ip=""):
-        self.zone.update_latest(ip)
+    def update_times_by_xml(self,lat,lng):
+        #DEPRECATED
+        self.zone.update_latest2(lat,lng)
         kod=self.zone.esolat_zone.code_name
         url="http://www2.e-solat.gov.my/xml/today/?zon={}".format(kod)
         r = requests.get(url)
@@ -204,15 +186,16 @@ class ParsedTimes(models.Model):
                 if child.tag=="title":
                     name=child.text
                 elif child.tag=="description":
+                    #print("Time is ", child.text)
                     t=time.strptime(child.text,"%H:%M")
             items[name]=t
 
         self.subuh    = datetime.time(items["Subuh"].tm_hour,items["Subuh"].tm_min)
         self.syuruk   = datetime.time(items["Syuruk"].tm_hour,items["Syuruk"].tm_min)
-        self.zuhur    = datetime.time(items["Zohor"].tm_hour+12,items["Zohor"].tm_min)
-        self.asar     = datetime.time(items["Asar"].tm_hour+12,items["Asar"].tm_min)
-        self.maghrib  = datetime.time(items["Maghrib"].tm_hour+12,items["Maghrib"].tm_min)
-        self.isha     = datetime.time(items["Isyak"].tm_hour+12,items["Isyak"].tm_min)
+        self.zuhur    = datetime.time(items["Zohor"].tm_hour,items["Zohor"].tm_min)
+        self.asar     = datetime.time(items["Asar"].tm_hour,items["Asar"].tm_min)
+        self.maghrib  = datetime.time(items["Maghrib"].tm_hour,items["Maghrib"].tm_min)
+        self.isha     = datetime.time(items["Isyak"].tm_hour,items["Isyak"].tm_min)
 
         '''
 #test at shell

@@ -8,9 +8,11 @@ from django.shortcuts import *
 from .models import *
 #from ipware.ip import get_ip
 
-from django.contrib.gis.geos import Point
+#from django.contrib.gis.geos import Point
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+
+from django.contrib.humanize.templatetags.humanize import intcomma
 
 
 
@@ -35,9 +37,6 @@ class IndexView(generic.TemplateView):
 def index(request):
     template_name = 'azanlocator/index.html'
 
-    #ip = get_ip(request)
-    #if ip == "127.0.0.1" or ip is None: ip = ""
-    #print ip
     if request.GET.get('lat') and request.GET.get('lon'):
         new_parse = ParsedTimes()
         new_parse.save()
@@ -46,12 +45,7 @@ def index(request):
         lng = float(request.GET.get('lon'))
         print (lat,lng)
         new_parse.update_times_by_db(lat,lng)
+        #new_parse.update_times_by_xml(lat,lng) #deprecated
         return render(request, template_name, {'new_parse':new_parse})
-        #camps = Campground.objects.all().distance(origin).order_by('distance')
     else:
         return render(request, template_name)
-        #camps = Campground.objects.all().order_by('name')
-
-    #return render(request, template_name, {'new_parse':new_parse})
-        #print self.new_parse.zone.ip_address
-

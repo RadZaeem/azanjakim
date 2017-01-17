@@ -1,0 +1,112 @@
+:sectnums:
+
+=== GLWidget (_glwdiget.cpp, glwidget.h,_ )
+
+==== Detailed Description
+
+This widget is derived from the original `*GLWidget*` in Qt Textures Example ( http://doc.qt.io/qt-5/qtopengl-textures-example.html )
+
+It is used to render 3D cuboid visualization of the measured object, with only top texture and side texture.
+
+Some modifications are done to connect this class properly with `*MainWindow*`.
+
+[arabic, start=1]
+. Added private members `*cv::Mat roiTop_*` and `*cv::Mat roiSide_*`, which are initialized in constructor so that an initial blank black cuboid is created.
+
+[source,c++]
+----
+GLWidget::GLWidget(QWidget *parent)
+    : QOpenGLWidget(parent),
+      clearColor(Qt::black),
+      xRot(0),
+      yRot(0),
+      zRot(0),
+      program(0),w(0),h(0)
+{
+//    projection
+   cv::Mat t(1000, 1000, CV_8UC3, cv::Scalar(0, 0, 0));
+    roiTop_ = t;
+   cv::Mat s(400, 1000, CV_8UC3, cv::Scalar(0, 0, 0));
+    //std::cout << s.size();
+    roiSide_ = s;
+    memset(textures, 0, sizeof(textures));
+}
+----
+[arabic, start=2]
+. A public function that can be called by MainWindow to send new top and side ROI images to update the cuboid.
+
+[source,c++]
+----
+void GLWidget::updateTex(cv::Mat top,cv::Mat side)
+{
+    roiTop_ = top;
+    roiSide_ = side;
+    vbo.release();
+    for (int i = 0; i < 6; ++i)
+        delete textures[i];
+    makeObject(); // explained in next step
+    update();
+    qDebug() << QTime::currentTime().toString("h:mm:ss ") << "[glwidget] updated tex";
+
+}
+----
+[arabic, start=3]
+. Convert received ROI `*cv::Mat*` to `*QImage*`, then create new textures.
+
+[source,c++]
+----
+void GLWidget::makeObject()
+{
+    static const int coords[6][4][3] = {
+        { { +1, -1, -1 }, { -1, -1, -1 }, { -1, +1, -1 }, { +1, +1, -1 } },
+        { { +1, +1, -1 }, { -1, +1, -1 }, { -1, +1, +1 }, { +1, +1, +1 } },
+        { { +1, -1, +1 }, { +1, -1, -1 }, { +1, +1, -1 }, { +1, +1, +1 } },
+        { { -1, -1, -1 }, { -1, -1, +1 }, { -1, +1, +1 }, { -1, +1, -1 } },
+        { { +1, -1, +1 }, { -1, -1, +1 }, { -1, -1, -1 }, { +1, -1, -1 } },
+        { { -1, -1, +1 }, { +1, -1, +1 }, { +1, +1, +1 }, { -1, +1, +1 } }
+    };
+
+
+
+    for (int j = 0; j < 6; ++j)
+    {
+       cv::Mat dest; // 1==top, 5==front, 0==back
+        if((j==1)){ // top
+            dest = roiTop_;
+        } else if ((j==3)){ // left side
+            dest = roiSide_;
+        }
+        else {
+            dest = cv::Mat(roiTop_.cols, roiSide_.rows, CV_8UC3, cv::Scalar(0, 0, 0));
+        }
+
+        QImage image =Mat2QImage(dest);
+        textures[j] = new QOpenGLTexture(image.mirrored());
+        // originlly was:
+        //textures[j] = new QOpenGLTexture(QImage(QString("images/side%1.png").arg(j + 1)).mirrored());
+
+}
+
+    QVector<GLfloat> vertData;
+    float r = 0.0004;
+    float w = roiTop_.rows*r;
+    float l = roiTop_.cols*r;
+    float h = roiSide_.rows*r;
+
+    for (int i = 0; i < 6; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            // vertex position
+            vertData.append(w * coords[i][j][0]);
+            vertData.append(h * coords[i][j][1]);
+            vertData.append(l * coords[i][j][2]);
+            // texture coordinate
+            vertData.append(j == 0 || j == 3);
+            vertData.append(j == 0 || j == 1);
+        }
+    }
+    //vbo.destroy();
+    vbo.create();
+    vbo.bind();
+    vbo.allocate(vertData.constData(), vertData.count() * sizeof(GLfloat));
+}
+----

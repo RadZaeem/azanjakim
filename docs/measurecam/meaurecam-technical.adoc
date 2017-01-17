@@ -1,0 +1,128 @@
+= MeasureCam v 1.0
+:appversion: 1.0
+Raden Munim <raden.m.muaz@gmail.com>
+2016-11-21
+:toc: left
+:listing-caption: Listing
+:code-caption: Code
+:figure-caption: Figure
+:sectnums:
+
+== Introduction
+This documentation explains the source code of MeasureCam.
+Written using http://asciidocfx.com[AsciidocFX].
+
+
+MeasureCam is a program which uses two digital cameras with microscope lens to measure dimensions (width*length*height) of a small object with computer vision using OpenCV. In this particular case, it was specifically written to measure inductor coils in square casing. It uses top camera's image to measure width and length and side camera's image to measure length and height. 
+
+The program is made with Qt5.6, QtCreator and OpenCV 3
+
+It is recommended to read Qt5 Signals and Slots first at 
+http://doc.qt.io/qt-5/SignalsandSlots.html
+
+Download latest source code here: https://gitlab.com/RadZaeem/MeasureCam
+
+Prerequisites:
+
+. Install QtCreator with MinGW
+** https://download.qt.io/archive/qt/5.6/5.6.2/qt-opensource-windows-x86-mingw492-5.6.2.exe
+
+. Install CMAKE
+** https://cmake.org/download/
+
+. Configure PATH environment variable to include this
+** C:\Qt\Qt5.6.2\5.6\mingw49_32\bin
+** C:\Qt\Qt5.6.2\Tools\mingw492_32\bin
+** C:\Program Files\CMake\bin
+** C:\opencv-mingw\install\x86\mingw\bin
+*** this path is for next step.
+. Compile and Install OpenCV 3
+** http://zahidhasan.wordpress.com/2014/08/19/qt-5-3-1-64-bit-mingw-windows/
+
+== The files
+Inside the source code archive
+
+[cols="2,5"]
+|===
+|Name |Description
+
+|cqtopencvviewergl.cpp
+
+cqtopencvviewergl.h
+|*class CQtOpenCVViewerGl : public QOpenGLWidget, protected QOpenGLFunctions_2_0* 
+
+The OpenGL widget that supports rendering cv::Mat
+
+|glwidget.cpp
+
+glwidget.h
+|
+*class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions*
+
+OpenGL widget to render the 3d cuboid with textures for front and side view taken from images of measured object.
+
+|mainwindow.cpp
+
+mainwindow.h
+|
+*class MainWindow : public QMainWindow*
+
+The main window widget of the program. Contains the callbacks for UI elements (buttons, sliders, etc). Contains four instances of CQtOpenCVviewer widgets and other UI elements.
+
+|measurethread.cpp
+
+measurethread.h
+|
+
+*class MeasureThread : public QThread*
+
+The QThread-based class for runnning measurement algorithm using OpenCV. Also used for calibration.
+
+|mainwindow.ui
+|The UI layout for mainwindow, made with QtCreator
+
+|qdarkstyle (folder)
+|Folder containing stylesheets dark theme for the program.
+
+|MeasureCam.pro
+|The project file containing configurations to work with QtCreator, such as OpenCV path, etc. 
+|===
+
+Other files in the archive such as utils.h, stats.h, tracker.h, logbrowser.h, are used for debug/experiments, not in the scope of this documentation.
+
+=== Brief Overview of Signals and Slots Connections
+
+The __int main__function is inside _main.cpp_. It instantiates a *MainWindow* instance named **w**, load the dark theme and run the program.
+
+The MainWindow instance acts like a singleton. It has two  instances: **topMeasureThread_** and **sideMeasureThread_**. The MainWindow communicates with its MeasureThread(s) using Qt5 Signal and Slots.
+
+The MeasureThread(s) runs the thread for measurements and calibration. The MainWindow has cv::VideoCapture instances for each threads. It passes the camera images in form of cv::Mat to the threads for them to execute measurement algorithm. **topMeasureThread_** handles top camera images, and **sideMeasureThread_** handles side camera images.
+
+There are two types of buttons, one to run calibration and and another to run measurement algorithm, for each threads. Hence, there are four buttons: topCalibButton, calcTopButton, sideCalibButton, calcSideButton. Each button has a Slot that is triggered when user clicks it. Refer to the Figure below; the Slots are named such as "void on_topButton_clicked()".
+
+The *Slots* are basically callback functions. In the function, it emit **Signals**, which trigger the Slots it was connected to. The connections are configured in the initializer function of the MainWindow ( MainWindow::MainWindow() ). Figure below shows the connections, starting from MainWindow's button-click Slots.
+
+When Slots in the MeasureThread are triggered by Signals from MainWindow, it runs the measurement or calibration algorithm. After it finishes, it emits the results (containing cv::Mat, length, width, etc.) together in a Signal connected to Slots in the MainWindow. The MainWindow then updates and displays the results in the GUI.
+
+Detailed explanation is discussed later in this documentation. 
+
+Note that not all Signals and Slots are explained in this diagram. Other Slots such as GLWidget, etc are explained in their respective sections.
+
+//[#figure1, caption='',title='{figure-caption} {counter:refnum}. Signal and Slots connection']
+
+include::Signal-diagram.adoc[] 
+
+//separate file because ascii diagram is too large
+
+
+== Classes
+
+include::main.adoc[]
+
+include::mainwindow.adoc[]
+
+include::measurethread.adoc[]
+
+include::cqtopencvviewergl.adoc[]
+
+include::glwidget.adoc[]
