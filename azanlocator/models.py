@@ -196,7 +196,9 @@ class ParsedTimes(models.Model):
         self.asar     = datetime.time(items["Asar"].tm_hour,items["Asar"].tm_min)
         self.maghrib  = datetime.time(items["Maghrib"].tm_hour,items["Maghrib"].tm_min)
         self.isha     = datetime.time(items["Isyak"].tm_hour,items["Isyak"].tm_min)
-
+    def __str__(self):
+        return  self.date_time_parsed.strftime(" %d %B %Y (%A)") + " @ "+ self.zone.zone_name
+    
         '''
 #test at shell
 from azanlocator.models import *
@@ -231,29 +233,28 @@ pt.update_times()
                                         time.strptime(data[2][8],"%I:%M").tm_min)
         '''
 
-    def __str__(self):
-        return  self.date_time_parsed.strftime(" %d %B %Y (%A)") + " @ "+ self.zone.zone_name
         #("%A, %d. %B %Y %I:%M%p")
 
-class DailyTimes(models.Model):
-    today = models.DateField(default=timezone.now)
-    subuh   = models.TimeField(default=datetime.time(6, 0))
-    syuruk   = models.TimeField(default=datetime.time(6, 0))
-    zuhur   = models.TimeField(default=datetime.time(6, 0))
-    asar    = models.TimeField(default=datetime.time(6, 0))
-    maghrib = models.TimeField(default=datetime.time(6, 0))
-    isha    = models.TimeField(default=datetime.time(6, 0))
 
-    def __str__(self):
-        return  self.currentDate.strftime(" %d %B %Y (%A)") + " @ "+ self.zone.zone_name
-        #("%A, %d. %B %Y %I:%M%p")
+# class DailyTimes(models.Model):
+#     today = models.DateField(default=timezone.now)
+#     subuh   = models.TimeField(default=datetime.time(6, 0))
+#     syuruk   = models.TimeField(default=datetime.time(6, 0))
+#     zuhur   = models.TimeField(default=datetime.time(6, 0))
+#     asar    = models.TimeField(default=datetime.time(6, 0))
+#     maghrib = models.TimeField(default=datetime.time(6, 0))
+#     isha    = models.TimeField(default=datetime.time(6, 0))
 
-class ZoneTimes(models.Model):
-    daily_times = models.ForeignKey(DailyTimes, default=1)
-    esolat_zone = models.ForeignKey(EsolatZone, default=1)
+#     def __str__(self):
+#         return  self.currentDate.strftime(" %d %B %Y (%A)") + " @ "+ self.zone.zone_name
+#         #("%A, %d. %B %Y %I:%M%p")
 
-class MasterSchedules(models.Model):
-    zones_times = models.ForeignKey(ZoneTimes, default=1)
+# class ZoneTimes(models.Model):
+#     daily_times = models.ForeignKey(DailyTimes, default=1)
+#     esolat_zone = models.ForeignKey(EsolatZone, default=1)
+
+# class MasterSchedules(models.Model):
+#     zones_times = models.ForeignKey(ZoneTimes, default=1)
 
 
 

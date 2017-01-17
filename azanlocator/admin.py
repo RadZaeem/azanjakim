@@ -9,4 +9,4 @@ from django.contrib import admin
 admin.site.register(ParsedTimes)
 admin.site.register(ParsedZone)
 admin.site.register(EsolatZone)
-admin.site.register(MasterSchedules)
+#admin.site.register(MasterSchedules)
