@@ -238,25 +238,25 @@ pt.update_times()
         #("%A, %d. %B %Y %I:%M%p")
 
 
-# class DailyTimes(models.Model):
-#     today = models.DateField(default=timezone.now)
-#     subuh   = models.TimeField(default=datetime.time(6, 0))
-#     syuruk   = models.TimeField(default=datetime.time(6, 0))
-#     zuhur   = models.TimeField(default=datetime.time(6, 0))
-#     asar    = models.TimeField(default=datetime.time(6, 0))
-#     maghrib = models.TimeField(default=datetime.time(6, 0))
-#     isha    = models.TimeField(default=datetime.time(6, 0))
+class DailyTimes(models.Model):
+    today = models.DateField(default=timezone.now)
+    subuh   = models.TimeField(default=datetime.time(6, 0))
+    syuruk   = models.TimeField(default=datetime.time(6, 0))
+    zuhur   = models.TimeField(default=datetime.time(6, 0))
+    asar    = models.TimeField(default=datetime.time(6, 0))
+    maghrib = models.TimeField(default=datetime.time(6, 0))
+    isha    = models.TimeField(default=datetime.time(6, 0))
 
-#     def __str__(self):
-#         return  self.currentDate.strftime(" %d %B %Y (%A)") + " @ "+ self.zone.zone_name
-#         #("%A, %d. %B %Y %I:%M%p")
+    def __str__(self):
+        return  self.currentDate.strftime(" %d %B %Y (%A)") + " @ "+ self.zone.zone_name
+        #("%A, %d. %B %Y %I:%M%p")
 
-# class ZoneTimes(models.Model):
-#     daily_times = models.ForeignKey(DailyTimes, default=1)
-#     esolat_zone = models.ForeignKey(EsolatZone, default=1)
+class ZoneTimes(models.Model):
+    esolat_zone = models.ForeignKey(EsolatZone, default=1)
+    daily_times = models.ForeignKey(ZoneTimes, default=1)
 
-# class MasterSchedules(models.Model):
-#     zones_times = models.ForeignKey(ZoneTimes, default=1)
+class MasterSchedules(models.Model):
+    zones_times = models.ForeignKey(ZoneTimes, default=1)
 
 
 
