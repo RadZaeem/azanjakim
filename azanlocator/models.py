@@ -52,10 +52,14 @@ class ParsedZone(models.Model):
 
     #raw_solat_parse =  models.CharField(max_length=400, default="nothing")
 
-    esolat_zone = models.ForeignKey(EsolatZone,default=1)
+    esolat_zone = models.ForeignKey(EsolatZone,related_name='parsed_zone', on_delete=models.CASCADE,default=1)
 
 
     FREEGEOPIP_URL = 'http://freegeoip.net/json/'
+
+    # class Meta:
+    #     unique_together = ('esolat_zone', 'order')
+    #     ordering = ['order']
 
     def get_client_ip(self,request):
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -114,7 +118,7 @@ def init_zone_code():
     return ParsedZone.objects.get_or_create(id=1)[0].id
 
 class ParsedTimes(models.Model):
-    zone = models.ForeignKey(ParsedZone)#, default=init_zone_code)#, on_delete=models.CASCADE)
+    zone = models.ForeignKey(ParsedZone, related_name='parsed_times', on_delete=models.CASCADE)#, default=init_zone_code)#, on_delete=models.CASCADE)
     subuh   = models.TimeField(default=datetime.time(6, 0))
     syuruk   = models.TimeField(default=datetime.time(6, 0))
     zuhur   = models.TimeField(default=datetime.time(6, 0))
@@ -126,6 +130,10 @@ class ParsedTimes(models.Model):
 
     con = None
     cur = None
+
+    # class Meta:
+    #     unique_together = ('zone', 'order')
+    #     ordering = ['order']
 
     db_path = os.path.join(settings.BASE_DIR,'azanlocator','esolat.db')
 
@@ -203,41 +211,6 @@ class ParsedTimes(models.Model):
     def __str__(self):
         return  self.date_time_parsed.strftime(" %d %B %Y (%A)") + " @ "+ self.zone.esolat_zone.zone_name
     
-        '''
-#test at shell
-from azanlocator.models import *
-pt = ParsedTimes()
-pt.update_times()
-        '''
-
-
-        '''
-        #old way by table parse
-
-        root = LH.fromstring(r.content)
-        for table in root.xpath('//table'):
-            #header = [text(th) for th in table.xpath('//th')]        # 1
-            data = [[text(td) for td in tr.xpath('td')]  for tr in table.xpath('//tr')]
-            for r in data:
-                for s in r:
-                    new_s = ''.join(s.split())
-                    data[data.index(r)][r.index(s)]=new_s
-
-        self.subuh    = datetime.time(time.strptime(data[2][3],"%I:%M").tm_hour,
-                                        time.strptime(data[2][3],"%I:%M").tm_min)
-        self.syuruk   = datetime.time(time.strptime(data[2][4],"%I:%M").tm_hour,
-                                        time.strptime(data[2][4],"%I:%M").tm_min)
-        self.zuhur    = datetime.time(time.strptime(data[2][5],"%I:%M").tm_hour,
-                                        time.strptime(data[2][5],"%I:%M").tm_min)
-        self.asar     = datetime.time(time.strptime(data[2][6],"%I:%M").tm_hour,
-                                        time.strptime(data[2][6],"%I:%M").tm_min)
-        self.maghrib  = datetime.time(time.strptime(data[2][7],"%I:%M").tm_hour,
-                                        time.strptime(data[2][7],"%I:%M").tm_min)
-        self.isha     = datetime.time(time.strptime(data[2][8],"%I:%M").tm_hour,
-                                        time.strptime(data[2][8],"%I:%M").tm_min)
-        '''
-
-        #("%A, %d. %B %Y %I:%M%p")
 
 class MasterSchedule(models.Model):
     date_created=models.DateField(default=timezone.now)
@@ -276,30 +249,31 @@ class DailyTimes(models.Model):
 
 '''
 #test at shell
-.
 
-#test for given ip
-
-from azanlocator.models import *
-a=ParsedZone.objects.all()[0]
-a.update_latest("103.56.124.65")
-a.get_closest_zone()
-
+# test update new ParsedZone
 from azanlocator.models import *
 d=ParsedTimes()
 d.save()
 d.update_times_by_db()
 d.maghrib
 
+# test update old ParsedZone
 from azanlocator.models import *
 d=ParsedTimes.objects.get_all()[0]
 d.update_times_by_db()
 d.maghrib
 
+# test retrieve a DailyTimes
 skudai=ZoneTimes.objects.filter(zone_code="JHR02")
-    waktu_skudai=DailyTimes.objects.filter(zone_times=skudai)
-    hari_ini=waktu_skudai.filter(today=datetime.date(2017, 12, 1))
-    #<QuerySet [<DailyTimes:  01 December 2017 (Friday)>]>
+waktu_skudai=DailyTimes.objects.filter(zone_times=skudai)
+hari_ini=waktu_skudai.filter(today=datetime.date(2017, 12, 1))
+#<QuerySet [<DailyTimes:  01 December 2017 (Friday)>]>
+
+# test serializer for ParsedTime
+from azanlocator.serializers import *
+p = ParsedTimes.objects.all()[0]
+s = ParsedTimesSerializer(p)
+
 
 
 
