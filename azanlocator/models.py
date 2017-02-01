@@ -28,20 +28,6 @@ import sqlite3
 def text(elt):
     return elt.text_content().replace(u'\xa0', u' ')
 
-SAMPLE_RESPONSE = {
-    "ip":"108.46.131.77",
-    "country_code":"US",
-    "country_name":"United States",
-    "region_code":"NY",
-    "region_name":"New York",
-    "city":"Brooklyn",
-    "zip_code":"11249",
-    "time_zone":"America/New_York",
-    "latitude":40.645,
-    "longitude":-73.945,
-    "metro_code":501
-}
-
 STATES =  ['JOHOR' ,'KEDAH', 'KELANTAN',
 'KUALA_LUMPUR', 'LABUAN', 'MELAKA', 'NEGERI_SEMBILAN', 'PAHANG',
 'PERAK', 'PERLIS', 'PULAU_PINANG', 'PUTRAJAYA', 'SABAH','SARAWAK',
@@ -58,26 +44,36 @@ class EsolatZone(models.Model):
         return self.zone_name
 
 class ParsedZone(models.Model):
-    state_name  = models.CharField(max_length=30, default="KUALA LUMPUR")
-    zone_name   = models.CharField(max_length=30, default="Kuala Lumpur")
-
     ip_address = models.CharField(max_length=20, default="202.75.5.204")
-    ip_parse_str = models.CharField(max_length=400, default=json.dumps(SAMPLE_RESPONSE))
-    ip_parse_dict = {}
+    #ip_parse_str = models.CharField(max_length=400, default=json.dumps(SAMPLE_RESPONSE))
+    #ip_parse_dict = {}
     lat = models.FloatField(default=0.0)
     lng = models.FloatField(default=0.0)
 
-    raw_solat_parse =  models.CharField(max_length=400, default="nothing")
+    #raw_solat_parse =  models.CharField(max_length=400, default="nothing")
 
     esolat_zone = models.ForeignKey(EsolatZone,default=1)
 
 
     FREEGEOPIP_URL = 'http://freegeoip.net/json/'
 
+    def get_client_ip(self,request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        self.ip_address = ip
+        print(self.ip_address)
+        self.save()
 
     def update_latest(self,lat=0.0,lng=0.0):
         self.lat = lat
         self.lng = lng
+        if (self.lat==0.0 and self.lng==0.0):
+            print("zero lat lng given, defaulting to KL")
+            self.esolat_zone = EsolatZone.objects.filter(code_name="SGR03")[0]
+            return
         try:
             self.get_closest_zone() #update here
 
@@ -86,13 +82,8 @@ class ParsedZone(models.Model):
 
     
     def get_closest_zone(self):
-        #if self.state_name not in STATES:
-        #    print "State unknown from IP, default to Kuala Lumpur"
-        #    self.esolat_zone = EsolatZone.objects.filter(state_name="KUALA_LUMPUR")[0]
-        #    return
-
         zones_in_state = EsolatZone.objects.all()#.filter(state_name=self.state_name)
-        print ("\nZones:", zones_in_state)
+        #print ("\nZones:", zones_in_state)
         zone_points = {}
         for z in  zones_in_state:
             zone_points[z] = (z.lat, z.lng)
@@ -103,27 +94,27 @@ class ParsedZone(models.Model):
         for z in zone_points:
             zone_dists[z] = vincenty(now_point, zone_points[z])
 
-       # print ("\nZones -- Vincenty:", zone_dists)
+       # print ("\nZones Distance -- Vincenty:", zone_dists)
 
         nearest_point = min(zone_dists, key=zone_dists.get)
         print ("Nearest is ", nearest_point)
-        #print nearest_point
         self.esolat_zone = nearest_point
 
     def get_geolocation_for_ip(self,ip):
+        #DEPRECATED - now we use HTML5 geolocation
         url = '{}/{}'.format(self.FREEGEOPIP_URL, ip)
         response = requests.get(url)
         response.raise_for_status()
         return response.json()
 
     def __str__(self):
-        return self.zone_name +", " + self.state_name
+        return self.esolat_zone.zone_name
 
 def init_zone_code():
     return ParsedZone.objects.get_or_create(id=1)[0].id
 
 class ParsedTimes(models.Model):
-    zone = models.ForeignKey(ParsedZone, default=init_zone_code)#, on_delete=models.CASCADE)
+    zone = models.ForeignKey(ParsedZone)#, default=init_zone_code)#, on_delete=models.CASCADE)
     subuh   = models.TimeField(default=datetime.time(6, 0))
     syuruk   = models.TimeField(default=datetime.time(6, 0))
     zuhur   = models.TimeField(default=datetime.time(6, 0))
@@ -137,6 +128,9 @@ class ParsedTimes(models.Model):
     cur = None
 
     db_path = os.path.join(settings.BASE_DIR,'azanlocator','esolat.db')
+
+    def update_ip_address(self,request):
+        self.zone.get_client_ip(request)
     def update_times_by_db(self,lat=0.0,lng=0.0): #ip=""):
         # DEPRECATED, use orm now
         self.zone.update_latest(lat,lng)
@@ -164,7 +158,9 @@ class ParsedTimes(models.Model):
         self.isha = self.isha.replace(hour=self.isha.hour)
 
     def update_times_by_orm(self,lat=0.0,lng=0.0):
+        self.zone = ParsedZone.objects.create()
         self.zone.update_latest(lat,lng)
+        self.zone.save()
         code_str = self.zone.esolat_zone.code_name
         date_obj = self.date_time_parsed.date()
 
@@ -205,7 +201,7 @@ class ParsedTimes(models.Model):
         self.maghrib  = datetime.time(items["Maghrib"].tm_hour,items["Maghrib"].tm_min)
         self.isha     = datetime.time(items["Isyak"].tm_hour,items["Isyak"].tm_min)
     def __str__(self):
-        return  self.date_time_parsed.strftime(" %d %B %Y (%A)") + " @ "+ self.zone.zone_name
+        return  self.date_time_parsed.strftime(" %d %B %Y (%A)") + " @ "+ self.zone.esolat_zone.zone_name
     
         '''
 #test at shell
