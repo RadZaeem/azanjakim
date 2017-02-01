@@ -23,11 +23,13 @@ from azanlocator.models import *
 # CARA NAK GUNA SCRIPT NI
 $ python mange.py shell
 from azanlocator.gen_esolatzon import *
-#kalau takde lagi kodzon.csv
-return_csv()
+
 #kalau dah ada kodzon.csv
 from azanlocator.models import *
 generate_models()
+
+#kalau takde lagi kodzon.csv buat ni dulu
+return_csv()
 
 SEKIANgen
 
