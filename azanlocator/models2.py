@@ -126,7 +126,7 @@ class ParsedZone(models.Model):
         return self.zone_name +", " + self.state_name
 
 def init_zone_code():
-    return ParsedZone.objects.get_or_create(id=1)[0].id
+    return ParsedZone.objects.get_or_create(id=1)[0]
 
 class ParsedTimes(models.Model):
     zone = models.ForeignKey(ParsedZone, default=init_zone_code)#, on_delete=models.CASCADE)
