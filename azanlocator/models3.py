@@ -237,27 +237,21 @@ pt.update_times()
 
         #("%A, %d. %B %Y %I:%M%p")
 
-class MasterSchedule(models.Model):
-    date_created=models.DateField(default=timezone.now)
-    def __str__(self):
-        return  self.date_created.strftime(" %d %B %Y (%A)")
+# class MasterSchedule(models.Model):
+#     date_created=models.DateField(default=timezone.now)
+#     zone_times = models.ForeignKey(ZoneTimes,default=1)
+#     def __str__(self):
+#         return  self.date_created.strftime(" %d %B %Y (%A)")
 
-class ZoneTimes(models.Model):
-    zone_code = models.CharField(max_length=10)
-    master_schedule = models.ForeignKey(MasterSchedule, default=1)
-    #daily_times = models.ForeignKey(DailyTimes,default=1)
-    def __str__(self):
-        return  self.zone_code
+# class ZoneTimes(models.Model):
+#     zone_code = models.CharField(max_length=10)
+#     master_schedule = models.ForeignKey(MasterSchedule, default=1)
+#     daily_times = models.ForeignKey(DailyTimes,default=1)
+#     def __str__(self):
+#         return  self.zone_code
 
 class DailyTimes(models.Model):
-    '''
-    #to retrieve:
-    skudai=ZoneTimes.objects.filter(zone_code="JHR02")
-    waktu_skudai=DailyTimes.objects.filter(zone_times=skudai)
-    hari_ini=waktu_skudai.filter(today=datetime.date(2017, 12, 1))
-    #<QuerySet [<DailyTimes:  01 December 2017 (Friday)>]>
-    '''
-    zone_times = models.ForeignKey(ZoneTimes,default=1)
+    # zone_times = models.ForeignKey(ZoneTimes,default=1)
     today = models.DateField(default=timezone.now)
     subuh   = models.TimeField(default=datetime.time(6, 0))
     syuruk   = models.TimeField(default=datetime.time(6, 0))
@@ -270,17 +264,18 @@ class DailyTimes(models.Model):
         return  self.today.strftime(" %d %B %Y (%A)")
         #("%A, %d. %B %Y %I:%M%p")
 
-# class ZoneTimes(models.Model):
-#     zone_code = models.CharField(max_length=10)
-#     MasterSchedule = models.ForeignKey(MasterSchedule, default=1)
-#     daily_times = models.ForeignKey(DailyTimes,default=1)
-#     def __str__(self):
-#         return  self.zone_code
+class ZoneTimes(models.Model):
+    zone_code = models.CharField(max_length=10)
+    # MasterSchedule = models.ForeignKey(MasterSchedule, default=1)
+    daily_times = models.ForeignKey(DailyTimes,default=1)
+    def __str__(self):
+        return  self.zone_code
 
-# class MasterSchedule(models.Model):
-#     date_created=models.DateField(default=timezone.now)
-#     def __str__(self):
-#         return  self.date_created.strftime(" %d %B %Y (%A)")
+class MasterSchedule(models.Model):
+    date_created=models.DateField(default=timezone.now)
+    zone_times = models.ForeignKey(ZoneTimes,default=1)
+    def __str__(self):
+        return  self.date_created.strftime(" %d %B %Y (%A)")
 
 
 

@@ -57,7 +57,6 @@ def generate_models(path="kodzon.csv"):
     m.save()
     for c in codes:
         z = ZoneTimes()
-        z.master_schedule = m
         z.zone_code = c
         print(z)
         cur = con.cursor()
@@ -67,7 +66,6 @@ def generate_models(path="kodzon.csv"):
 
         for row in year_table:
             d=DailyTimes()
-            d.zone_times=z
             #t=datetime.date(d.year,d.month,d.day)
             d.today=datetime.date(row[3].year,row[3].month,row[3].day)
             d.subuh=row[3]

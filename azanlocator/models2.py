@@ -126,7 +126,7 @@ class ParsedZone(models.Model):
         return self.zone_name +", " + self.state_name
 
 def init_zone_code():
-    return ParsedZone.objects.get_or_create(id=1)[0]
+    return ParsedZone.objects.get_or_create(id=1)[0].id
 
 class ParsedTimes(models.Model):
     zone = models.ForeignKey(ParsedZone, default=init_zone_code)#, on_delete=models.CASCADE)
@@ -237,8 +237,20 @@ pt.update_times()
 
         #("%A, %d. %B %Y %I:%M%p")
 
+class MasterSchedule(models.Model):
+    date_created=models.DateField(default=timezone.now)
+    def __str__(self):
+        return  self.date_created.strftime(" %d %B %Y (%A)")
+
+class ZoneTimes(models.Model):
+    zone_code = models.CharField(max_length=10)
+    master_schedule = models.ForeignKey(MasterSchedule, default=1)
+    #daily_times = models.ForeignKey(DailyTimes,default=1)
+    def __str__(self):
+        return  self.zone_code
 
 class DailyTimes(models.Model):
+    zone_times = models.ForeignKey(ZoneTimes,default=1)
     today = models.DateField(default=timezone.now)
     subuh   = models.TimeField(default=datetime.time(6, 0))
     syuruk   = models.TimeField(default=datetime.time(6, 0))
@@ -247,17 +259,21 @@ class DailyTimes(models.Model):
     maghrib = models.TimeField(default=datetime.time(6, 0))
     isha    = models.TimeField(default=datetime.time(6, 0))
 
-    # def __str__(self):
-    #     return  self.today.strftime(" %d %B %Y (%A)") + " @ "+ self.zone.zone_name
-    #     #("%A, %d. %B %Y %I:%M%p")
+    def __str__(self):
+        return  self.today.strftime(" %d %B %Y (%A)")
+        #("%A, %d. %B %Y %I:%M%p")
 
-class ZoneTimes(models.Model):
-    zone_code = models.CharField(max_length=10)
-    #esolat_zones = models.ForeignKey(EsolatZone, default=1)
-    daily_times = models.ForeignKey(DailyTimes,default=1)
+# class ZoneTimes(models.Model):
+#     zone_code = models.CharField(max_length=10)
+#     MasterSchedule = models.ForeignKey(MasterSchedule, default=1)
+#     daily_times = models.ForeignKey(DailyTimes,default=1)
+#     def __str__(self):
+#         return  self.zone_code
 
-class MasterSchedule(models.Model):
-    zones_times = models.ForeignKey(ZoneTimes,default=1)
+# class MasterSchedule(models.Model):
+#     date_created=models.DateField(default=timezone.now)
+#     def __str__(self):
+#         return  self.date_created.strftime(" %d %B %Y (%A)")
 
 
 
