@@ -2,7 +2,7 @@
 
 Kalau hilang database:
 
-```python
+```
 # 1 -- generate EsolatZone models
 $ python manage.py shell
 from azanlocator.gen_esolatzon import *
