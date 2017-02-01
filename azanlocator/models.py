@@ -75,7 +75,7 @@ class ParsedZone(models.Model):
     FREEGEOPIP_URL = 'http://freegeoip.net/json/'
 
 
-    def update_latest2(self,lat=0.0,lng=0.0):
+    def update_latest(self,lat=0.0,lng=0.0):
         self.lat = lat
         self.lng = lng
         try:
@@ -116,12 +116,6 @@ class ParsedZone(models.Model):
         response.raise_for_status()
         return response.json()
 
-    def get_geolocation_html5(self,lat=0.0,lng=0.0):
-        pass
-
-
-
-
     def __str__(self):
         return self.zone_name +", " + self.state_name
 
@@ -144,8 +138,8 @@ class ParsedTimes(models.Model):
 
     db_path = os.path.join(settings.BASE_DIR,'azanlocator','esolat.db')
     def update_times_by_db(self,lat=0.0,lng=0.0): #ip=""):
-        #self.zone.update_latest(ip)
-        self.zone.update_latest2(lat,lng)
+        # DEPRECATED, use orm now
+        self.zone.update_latest(lat,lng)
 
         self.con = sqlite3.connect(self.db_path, detect_types=sqlite3.PARSE_DECLTYPES)
         self.cur = self.con.cursor()
@@ -169,11 +163,23 @@ class ParsedTimes(models.Model):
         self.isha = self.cur.execute(time_str.format("Isyak", code_str, date_str)).fetchall()[0][0].time()
         self.isha = self.isha.replace(hour=self.isha.hour)
 
+    def update_times_by_orm(self,lat=0.0,lng=0.0):
+        self.zone.update_latest(lat,lng)
+        code_str = self.zone.esolat_zone.code_name
+        date_obj = self.date_time_parsed.date()
 
+        zone_times=ZoneTimes.objects.filter(zone_code=code_str)
+        today_times=DailyTimes.objects.filter(zone_times=zone_times,today=date_obj)[0]
 
+        self.subuh    = today_times.subuh
+        self.syuruk   = today_times.syuruk 
+        self.zuhur    = today_times.zuhur  
+        self.asar     = today_times.asar   
+        self.maghrib  = today_times.maghrib
+        self.isha     = today_times.isha   
 
     def update_times_by_xml(self,lat,lng):
-        #DEPRECATED
+        # DEPRECATED, may be used for unit test
         self.zone.update_latest2(lat,lng)
         kod=self.zone.esolat_zone.code_name
         url="http://www2.e-solat.gov.my/xml/today/?zon={}".format(kod)
@@ -270,33 +276,7 @@ class DailyTimes(models.Model):
         return  self.today.strftime(" %d %B %Y (%A)")
         #("%A, %d. %B %Y %I:%M%p")
 
-# class ZoneTimes(models.Model):
-#     zone_code = models.CharField(max_length=10)
-#     MasterSchedule = models.ForeignKey(MasterSchedule, default=1)
-#     daily_times = models.ForeignKey(DailyTimes,default=1)
-#     def __str__(self):
-#         return  self.zone_code
 
-# class MasterSchedule(models.Model):
-#     date_created=models.DateField(default=timezone.now)
-#     def __str__(self):
-#         return  self.date_created.strftime(" %d %B %Y (%A)")
-
-
-
-"""
-from django.db import models
-from django.db.models.signals import post_init
-
-class MyModel(models.Model):
-  # normal model definition...
-
-def extraInitForMyModel(**kwargs):
-   instance = kwargs.get('instance')
-   do_whatever_you_need_with(instance)
-
-post_init.connect(extraInitForMyModel, MyModel)
-"""
 
 '''
 #test at shell
@@ -320,6 +300,10 @@ d=ParsedTimes.objects.get_all()[0]
 d.update_times_by_db()
 d.maghrib
 
+skudai=ZoneTimes.objects.filter(zone_code="JHR02")
+    waktu_skudai=DailyTimes.objects.filter(zone_times=skudai)
+    hari_ini=waktu_skudai.filter(today=datetime.date(2017, 12, 1))
+    #<QuerySet [<DailyTimes:  01 December 2017 (Friday)>]>
 
 
 

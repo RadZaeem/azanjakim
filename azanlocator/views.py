@@ -47,7 +47,8 @@ def index(request):
         
         print("GET is: " + repr(request.GET))
         print ("LatLong is:", lat,lng)
-        new_parse.update_times_by_db(lat,lng)
+        new_parse.update_times_by_orm(lat,lng)
+        #new_parse.update_times_by_db(lat,lng)
         new_parse.save()
         #new_parse.update_times_by_xml(lat,lng) #deprecated
         return render(request, template_name, {'new_parse':new_parse})
