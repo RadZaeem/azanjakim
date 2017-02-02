@@ -41,23 +41,6 @@ class IndexView(generic.TemplateView):
         return self.new_parse
 '''
 
-# @api_view(['GET', 'POST'])
-# def daily_times_list(request):
-#     """
-#     List all daily_times, or create a new snippet.
-#     """
-#     if request.method == 'GET':
-#         daily_times = DailyTimes.objects.all()
-#         serializer = DailyTimesSerializer(daily_times, many=True)
-#         return Response(serializer.data)
-
-#     elif request.method == 'POST':
-#         serializer = DailyTimesSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 class DailyTimesList(APIView):
     def get(self, request, format=None):
         # daily_times = DailyTimes.objects.get(pk=1)
@@ -66,11 +49,31 @@ class DailyTimesList(APIView):
         serializer = DailyTimesSerializer(daily_times, many=True)
         return Response(serializer.data)
 
+class RequestParsedTimes(APIView):
+    # def get(self, request, format=None):
+    #     pass
+        # # daily_times = DailyTimes.objects.get(pk=1)
+        # # serializer = DailyTimesSerializer(daily_times)#, many=True)
+        # daily_times = DailyTimes.objects.all()
+        # serializer = DailyTimesSerializer(daily_times, many=True)
+        # return Response(serializer.data)
+
     def post(self, request, format=None):
-        serializer = DailyTimesSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        new_parse = ParsedTimes()
+        new_parse.save()
+        new_parse.update_ip_address(request)
+        print(request.data) # Gotcha -- dont use QueryDict like POST and GET
+        if request.data['lat'] and request.data['lon']:
+            lat = float(request.data['lat'])
+            lng = float(request.data['lon'])
+            new_parse.update_times_by_orm(lat,lng)
+        else:
+            new_parse.update_times_by_orm(0.0,0.0)
+        
+        serializer = ParsedTimesSerializer(new_parse)
+        # if serializer.is_valid():
+        #     serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 def index(request):
