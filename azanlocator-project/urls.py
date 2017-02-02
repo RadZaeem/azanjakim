@@ -20,6 +20,9 @@ from django.conf.urls import url, include
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 
+from django.contrib.auth import views as auth_views
+
+
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -45,5 +48,9 @@ urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    
+    #rest and social
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url('', include('social_django.urls', namespace='social')),
+    url(r'^auth/', include('rest_framework_social_oauth2.urls')),
 ]

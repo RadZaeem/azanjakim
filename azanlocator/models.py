@@ -44,7 +44,7 @@ class EsolatZone(models.Model):
         return self.zone_name
 
 class ParsedZone(models.Model):
-    ip_address = models.CharField(max_length=20, default="202.75.5.204")
+    # ip_address = models.CharField(max_length=20, default="202.75.5.204")
     #ip_parse_str = models.CharField(max_length=400, default=json.dumps(SAMPLE_RESPONSE))
     #ip_parse_dict = {}
     lat = models.FloatField(default=0.0)
@@ -61,15 +61,15 @@ class ParsedZone(models.Model):
     #     unique_together = ('esolat_zone', 'order')
     #     ordering = ['order']
 
-    def get_client_ip(self,request):
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]
-        else:
-            ip = request.META.get('REMOTE_ADDR')
-        self.ip_address = ip
-        print(self.ip_address)
-        self.save()
+    # def get_client_ip(self,request):
+    #     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    #     if x_forwarded_for:
+    #         ip = x_forwarded_for.split(',')[0]
+    #     else:
+    #         ip = request.META.get('REMOTE_ADDR')
+    #     self.ip_address = ip
+    #     print(self.ip_address)
+    #     self.save()
 
     def update_latest(self,lat=0.0,lng=0.0):
         self.lat = lat
@@ -118,7 +118,7 @@ def init_zone_code():
     return ParsedZone.objects.get_or_create(id=1)[0].id
 
 class ParsedTimes(models.Model):
-    zone = models.ForeignKey(ParsedZone, related_name='parsed_times', on_delete=models.CASCADE)#, default=init_zone_code)#, on_delete=models.CASCADE)
+    zone = models.ForeignKey(ParsedZone, related_name='parsed_times', on_delete=models.CASCADE, default=init_zone_code)#, on_delete=models.CASCADE)
     subuh   = models.TimeField(default=datetime.time(6, 0))
     syuruk   = models.TimeField(default=datetime.time(6, 0))
     zuhur   = models.TimeField(default=datetime.time(6, 0))
@@ -127,6 +127,8 @@ class ParsedTimes(models.Model):
     isha    = models.TimeField(default=datetime.time(6, 0))
 
     date_time_parsed = models.DateTimeField(default=timezone.now)
+
+    ip_address = models.CharField(max_length=20, default="202.75.5.204")
 
     con = None
     cur = None
@@ -138,7 +140,15 @@ class ParsedTimes(models.Model):
     db_path = os.path.join(settings.BASE_DIR,'azanlocator','esolat.db')
 
     def update_ip_address(self,request):
-        self.zone.get_client_ip(request)
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        self.ip_address = ip
+        print(self.ip_address)
+        self.save()
+        
     def update_times_by_db(self,lat=0.0,lng=0.0): #ip=""):
         # DEPRECATED, use orm now
         self.zone.update_latest(lat,lng)
@@ -210,7 +220,7 @@ class ParsedTimes(models.Model):
         self.isha     = datetime.time(items["Isyak"].tm_hour,items["Isyak"].tm_min)
     def __str__(self):
         return  self.date_time_parsed.strftime(" %d %B %Y (%A)") + " @ "+ self.zone.esolat_zone.zone_name
-    
+
 
 class MasterSchedule(models.Model):
     date_created=models.DateField(default=timezone.now)
