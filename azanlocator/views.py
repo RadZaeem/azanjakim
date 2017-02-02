@@ -63,7 +63,8 @@ class RequestParsedTimes(APIView):
         new_parse.save()
         new_parse.update_ip_address(request)
         print(request.data) # Gotcha -- dont use QueryDict like POST and GET
-        if request.data['lat'] and request.data['lon']:
+        if 'lat' in request.data and 'lon' in request.data:
+            
             lat = float(request.data['lat'])
             lng = float(request.data['lon'])
             new_parse.update_times_by_orm(lat,lng)
@@ -104,5 +105,11 @@ The plan:
 1. user give POST must include params (lat,lng,account)
 2. view parse the params -- create a parsedtimes and update it
 3. serialize return parsedtimes
-- 
+
+1. user give POST including zone code
+2. access masterschedule query the zone
+3. serialize and return parsedtimes (maybe need flag auto-detect or manual select)
+
+1. use viewsets for masterschedule
+1. use oauth2 and django-admin to access parsedtimes
 '''

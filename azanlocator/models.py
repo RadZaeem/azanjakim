@@ -49,6 +49,7 @@ class ParsedZone(models.Model):
     #ip_parse_dict = {}
     lat = models.FloatField(default=0.0)
     lng = models.FloatField(default=0.0)
+    did_autolocate = models.BooleanField(default=False)
 
     #raw_solat_parse =  models.CharField(max_length=400, default="nothing")
 
@@ -71,15 +72,18 @@ class ParsedZone(models.Model):
     #     print(self.ip_address)
     #     self.save()
 
-    def update_latest(self,lat=0.0,lng=0.0):
+    def update_latest(self,lat=0.0,lng=0.0,zone_code=None):
         self.lat = lat
         self.lng = lng
         if (self.lat==0.0 and self.lng==0.0):
+            #TODO make outside malaysia default to this
+            #TODO make update by not autolocate
             print("zero lat lng given, defaulting to KL")
             self.esolat_zone = EsolatZone.objects.filter(code_name="SGR03")[0]
             return
         try:
             self.get_closest_zone() #update here
+            self.did_autolocate = True
 
         except Exception as e:
             print(str(e))
@@ -129,6 +133,7 @@ class ParsedTimes(models.Model):
     date_time_parsed = models.DateTimeField(default=timezone.now)
 
     ip_address = models.CharField(max_length=20, default="202.75.5.204")
+    
 
     con = None
     cur = None
