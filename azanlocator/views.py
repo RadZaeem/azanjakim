@@ -48,7 +48,7 @@ from rest_framework import permissions
 
 from rest_framework import generics
 
-from .permissions import IsOwnerOrReadOnly
+from .permissions import *
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
@@ -68,7 +68,7 @@ class DailyTimesList(APIView):
         return Response(serializer.data)
 
 class RequestParsedTimes(APIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly)
+    permission_classes = (IsOwnerOrAnon,)#Only,)#,IsOwnerOrReadOnly)
     # def get(self, request, format=None):
     #     pass
     #     # daily_times = DailyTimes.objects.get(pk=1)
@@ -79,7 +79,13 @@ class RequestParsedTimes(APIView):
 
     def post(self, request, format=None):
         new_parse = ParsedTimes()
-        new_parse.owner=self.request.user
+        # if type(self.request.user)==
+        # new_parse.owner=self.request.user
+        print(type(self.request.user))
+        if (type(self.request.user)==User):
+            new_parse.owner=self.request.user
+        else:
+            new_parse.owner=User.objects.get(pk=1)
         new_parse.save()
         new_parse.update_ip_address(request)
         print(request.data) # Gotcha -- dont use QueryDict like POST and GET
