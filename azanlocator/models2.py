@@ -122,7 +122,6 @@ def init_zone_code():
     return ParsedZone.objects.get_or_create(id=1)[0].id
 
 class ParsedTimes(models.Model):
-    owner = models.ForeignKey('auth.User', related_name='parsed_times', on_delete=models.CASCADE)
     zone = models.ForeignKey(ParsedZone, related_name='parsed_times', on_delete=models.CASCADE, default=init_zone_code)#, on_delete=models.CASCADE)
     subuh   = models.TimeField(default=datetime.time(6, 0))
     syuruk   = models.TimeField(default=datetime.time(6, 0))
@@ -144,9 +143,6 @@ class ParsedTimes(models.Model):
     #     ordering = ['order']
 
     db_path = os.path.join(settings.BASE_DIR,'azanlocator','esolat.db')
-
-    def save(self, *args, **kwargs):
-        super(ParsedTimes, self).save(*args, **kwargs)
 
     def update_ip_address(self,request):
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')

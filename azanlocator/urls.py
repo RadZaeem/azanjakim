@@ -9,6 +9,8 @@ urlpatterns = [
     # url(r'^daily-times/$', views.daily_times_list),
     url(r'^daily-times/$', views.DailyTimesList.as_view()),
     url(r'^request-parsed-times/$', views.RequestParsedTimes.as_view()),
+    url(r'^users/$', views.UserList.as_view()),
+    url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
     # url(r'^snippets/(?P<pk>[0-9]+)/$', views.snippet_detail),
 ]
 

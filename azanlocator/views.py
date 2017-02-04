@@ -41,6 +41,24 @@ class IndexView(generic.TemplateView):
         return self.new_parse
 '''
 
+from django.contrib.auth.models import User
+from .serializers import UserSerializer
+
+from rest_framework import permissions
+
+from rest_framework import generics
+
+from .permissions import IsOwnerOrReadOnly
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
 class DailyTimesList(APIView):
     def get(self, request, format=None):
         # daily_times = DailyTimes.objects.get(pk=1)
@@ -50,16 +68,18 @@ class DailyTimesList(APIView):
         return Response(serializer.data)
 
 class RequestParsedTimes(APIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly)
     # def get(self, request, format=None):
     #     pass
-        # # daily_times = DailyTimes.objects.get(pk=1)
-        # # serializer = DailyTimesSerializer(daily_times)#, many=True)
-        # daily_times = DailyTimes.objects.all()
-        # serializer = DailyTimesSerializer(daily_times, many=True)
-        # return Response(serializer.data)
+    #     # daily_times = DailyTimes.objects.get(pk=1)
+    #     # serializer = DailyTimesSerializer(daily_times)#, many=True)
+    #     old_parses = ParsedTimes.objects.all()
+    #     serializer = ParsedTimesSerializer(old_parses, many=True)
+    #     return Response(serializer.data)
 
     def post(self, request, format=None):
         new_parse = ParsedTimes()
+        new_parse.owner=self.request.user
         new_parse.save()
         new_parse.update_ip_address(request)
         print(request.data) # Gotcha -- dont use QueryDict like POST and GET
@@ -77,6 +97,9 @@ class RequestParsedTimes(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    # def perform_create(self, serializer):
+    #     serializer.save(owner=self.request.user)
+
 def index(request):
     template_name = 'azanlocator/index.html'
 

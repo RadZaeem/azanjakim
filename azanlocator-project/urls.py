@@ -21,6 +21,7 @@ from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 
 from django.contrib.auth import views as auth_views
+from django.conf.urls import include
 
 
 # Serializers define the API representation.
@@ -53,4 +54,9 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url('', include('social_django.urls', namespace='social')),
     url(r'^auth/', include('rest_framework_social_oauth2.urls')),
+]
+
+urlpatterns += [
+    url(r'^api-auth/', include('rest_framework.urls',
+                               namespace='rest_framework')),
 ]

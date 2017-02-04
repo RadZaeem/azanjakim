@@ -3,6 +3,7 @@ from azanlocator.models import *
 
 from rest_framework import serializers
 
+from django.contrib.auth.models import User
 
 class EsolatZoneSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,6 +20,7 @@ class ParsedZoneSerializer(serializers.ModelSerializer):
 
 class ParsedTimesSerializer(serializers.ModelSerializer):
     zone = ParsedZoneSerializer(read_only=True)
+    owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model=ParsedTimes
         fields = '__all__'
@@ -39,6 +41,15 @@ class DailyTimesSerializer(serializers.ModelSerializer):
     class Meta:
         model=DailyTimes
         fields = '__all__'
+
+
+
+class UserSerializer(serializers.ModelSerializer):
+    parsed_times = serializers.PrimaryKeyRelatedField(many=True, queryset=ParsedTimes.objects.all())
+
+    class Meta:
+        model = User
+        fields =  ('id', 'username', 'parsed_times')
         
 
         # fields = ('zone','subuh')
