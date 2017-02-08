@@ -68,14 +68,14 @@ class DailyTimesList(APIView):
         return Response(serializer.data)
 
 class RequestParsedTimes(APIView):
-    permission_classes = (IsOwnerOrAnon,)#Only,)#,IsOwnerOrReadOnly)
-    # def get(self, request, format=None):
-    #     pass
-    #     # daily_times = DailyTimes.objects.get(pk=1)
-    #     # serializer = DailyTimesSerializer(daily_times)#, many=True)
-    #     old_parses = ParsedTimes.objects.all()
-    #     serializer = ParsedTimesSerializer(old_parses, many=True)
-    #     return Response(serializer.data)
+    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (IsOwnerOrAnon,)#Only,)#,IsOwnerOrReadOnly)
+    def get(self, request, format=None):
+        # daily_times = DailyTimes.objects.get(pk=1)
+        # serializer = DailyTimesSerializer(daily_times)#, many=True)
+        old_parses = ParsedTimes.objects.all().filter(owner=request.user)
+        serializer = ParsedTimesSerializer(old_parses, many=True)
+        return Response(serializer.data)
 
     def post(self, request, format=None):
         new_parse = ParsedTimes()
