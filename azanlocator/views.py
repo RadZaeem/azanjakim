@@ -112,6 +112,7 @@ def index(request):
     if request.GET.get('lat') and request.GET.get('lon'):
 
         new_parse = ParsedTimes()
+        new_parse.owner=User.objects.get(pk=1)
         
         #origin = Point(float(request.GET.get('lon')), float(request.GET.get('lat')))
         lat = float(request.GET.get('lat'))

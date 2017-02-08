@@ -23,6 +23,15 @@ from rest_framework import routers, serializers, viewsets
 from django.contrib.auth import views as auth_views
 from django.conf.urls import include
 
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from rest_auth.registration.views import SocialLoginView
+
+# from django.views.generic import TemplateView, RedirectView
+
+
+class FacebookLogin(SocialLoginView):
+    adapter_class = FacebookOAuth2Adapter
+
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -44,19 +53,27 @@ urlpatterns = [
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
+    # url(r'^$', TemplateView.as_view(template_name="index.html"), name='home'),
+
     url(r'^azanlocator/', include('azanlocator.urls')),
     url(r'', include('azanlocator.urls')),
 
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
+
+    url(r'^accounts/', include('allauth.urls')),
     
     #rest and social
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url('', include('social_django.urls', namespace='social')),
-    url(r'^auth/', include('rest_framework_social_oauth2.urls')),
+    url(r'^rest-auth/', include('rest_auth.urls')),
+
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+
+    url(r'^rest-auth/facebook/$', FacebookLogin.as_view(), name='fb_login'),
 ]
 
-urlpatterns += [
-    url(r'^api-auth/', include('rest_framework.urls',
-                               namespace='rest_framework')),
-]
+# urlpatterns += [
+#     url(r'^api-auth/', include('rest_framework.urls',
+#                                namespace='rest_framework')),
+# ]
