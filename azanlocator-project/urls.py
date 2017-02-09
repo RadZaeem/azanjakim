@@ -86,4 +86,4 @@ urlpatterns = [
 # ]
 
 # to request a parsed times
-# curl -H "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InJhZGVuNzMiLCJleHAiOjE0ODY2MTE2MDIsImVtYWlsIjoiIiwidXNlcl9pZCI6NX0.ApR-d7XX6ptfqQCkTOuMHUQa6ZMiAHTpE_C10MFc0Fo" -H "Content-Type: application/json" -X POST -d '{"lat":"1.0","lon":"103"}' http://127.0.0.1:8000/request-parsed-times/
+# curl -H "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0ODY2MTIyNjEsImVtYWlsIjoiIiwidXNlcl9pZCI6NSwidXNlcm5hbWUiOiJyYWRlbjczIn0.ME6WmyDeC6CptunYA0ut1hDAJhlrFcHMoTo7mgfHw2w" -H "Content-Type: application/json" -X POST -d '{"lat":"1.0","lon":"103"}' http://127.0.0.1:8000/request-parsed-times/

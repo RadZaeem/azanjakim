@@ -96,6 +96,7 @@ class RequestParsedTimes(APIView):
             new_parse.update_times_by_orm(lat,lng)
         else:
             new_parse.update_times_by_orm(0.0,0.0)
+        new_parse.save()
         
         serializer = ParsedTimesSerializer(new_parse)
         # if serializer.is_valid():
