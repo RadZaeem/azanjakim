@@ -11,7 +11,7 @@ urlpatterns = [
     # url(r'^$', views.IndexView.as_view(), name='index'),
     url(r'^index$', views.index, name='index'),
     url(r'^home$', views.index, name='home'),
-    # url(r'^home$', TemplateView.as_view(template_name="azanlocator/index.html"), name='home'),
+    url(r'^test$', TemplateView.as_view(template_name="azanlocator/test.html"), name='test'),
     # url(r'^daily-times/$', views.daily_times_list),
     url(r'^daily-times/$', views.DailyTimesList.as_view()),
     url(r'^request-parsed-times/$', views.RequestParsedTimes.as_view()),
