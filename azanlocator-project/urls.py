@@ -25,7 +25,7 @@ from django.conf.urls import include
 
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from rest_auth.registration.views import SocialLoginView
-
+from rest_framework_jwt.views import obtain_jwt_token
 # from django.views.generic import TemplateView, RedirectView
 
 
@@ -34,7 +34,7 @@ class FacebookLogin(SocialLoginView):
 
 
 # Serializers define the API representation.
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.HyperlinkedModelSerializer): 
     class Meta:
         model = User
         fields = ('url', 'username', 'email', 'is_staff')
@@ -71,9 +71,19 @@ urlpatterns = [
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
 
     url(r'^rest-auth/facebook/$', FacebookLogin.as_view(), name='fb_login'),
+
+    url(r'^api-token-auth/', obtain_jwt_token),
 ]
 
+# if already have facebook access_token, to fetch:
+# curl -H "Content-Type: application/json" -X POST -d '{"access_token":""}' localhost:8000/rest-auth/facebook/
+
+# then use the given Django OR JWT token to access
+# curl -X GET http://127.0.0.1:8000/request-parsed-times/ -H 'Authorization: Token '
 # urlpatterns += [
 #     url(r'^api-auth/', include('rest_framework.urls',
 #                                namespace='rest_framework')),
 # ]
+
+# to request a parsed times
+# curl -H "Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InJhZGVuNzMiLCJleHAiOjE0ODY2MTE2MDIsImVtYWlsIjoiIiwidXNlcl9pZCI6NX0.ApR-d7XX6ptfqQCkTOuMHUQa6ZMiAHTpE_C10MFc0Fo" -H "Content-Type: application/json" -X POST -d '{"lat":"1.0","lon":"103"}' http://127.0.0.1:8000/request-parsed-times/
