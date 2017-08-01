@@ -1,3 +1,5 @@
+from datetime import timedelta # for tomorrow
+
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -70,8 +72,8 @@ class DailyTimesList(APIView):
 class RequestParsedTimes(APIView):
     # TODO buat auto anon user based on fingerprint
     # kena ubah. stopkan dulu facebook login..
-    #permission_classes = (permissions.IsAuthenticated,)
-    permission_classes = (IsOwnerOrAnon,)#Only,)#,IsOwnerOrReadOnly)
+    permission_classes = (permissions.IsAuthenticated,)
+    #permission_classes = (IsOwnerOrAnon,)#Only,)#,IsOwnerOrReadOnly)
     def get(self, request, format=None):
         # daily_times = DailyTimes.objects.get(pk=1)
         # serializer = DailyTimesSerializer(daily_times)#, many=True)
@@ -92,6 +94,10 @@ class RequestParsedTimes(APIView):
         new_parse.update_ip_address(request)
         print(request.data) # Gotcha -- dont use QueryDict like POST and GET
         if 'lat' in request.data and 'lon' in request.data:
+            # default date is current day
+            if 'day-delta' in request.data:
+                delta = int(request.data['day-delta'])
+                new_parse.date_time_parsed += timedelta(days=delta)
             
             lat = float(request.data['lat'])
             lng = float(request.data['lon'])

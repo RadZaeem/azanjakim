@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from rest_framework_jwt.views import refresh_jwt_token
+from rest_framework_jwt.views import verify_jwt_token
 from django.conf.urls import include, url
 from django.contrib import admin
 
@@ -73,6 +75,9 @@ urlpatterns = [
     url(r'^rest-auth/facebook/$', FacebookLogin.as_view(), name='fb_login'),
 
     url(r'^api-token-auth/', obtain_jwt_token),
+    url(r'^api-token-refresh/', refresh_jwt_token),
+    url(r'^api-token-verify/', verify_jwt_token),
+
 ]
 
 # if already have facebook access_token, to fetch:
