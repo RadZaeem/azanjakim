@@ -50,6 +50,7 @@ Test curl
 ```
 # register user
 # TODO
+
 # get token
 curl  -X POST -d "username=qweqweqwe&password=qweqweqwe" http://localhost:8000/api-token-auth/ | jq -r '.token'
 

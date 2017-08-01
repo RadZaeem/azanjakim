@@ -1,6 +1,7 @@
 .pyc 
 
 settings.py 
+frontend-mithril/node_modules
 
 *.json 
 
