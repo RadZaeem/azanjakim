@@ -25,4 +25,23 @@ quit()
 
 ```
 
-lepas tu jaga kodzon.csv esolat.db baik2
+Psuedocode for proposed appflow in frontend (javascript)
+```
+# auto-register, note always check fingerprint if not using fb
+# fingerprint for storing anon users who never fb login
+# use ClientJS for fingerprint
+if not rest-auth/user:
+    clientjs-get-fingerprint
+    try:
+      rest-auth/login # receive token here
+    except no credentials:
+      rest-auth/registration # also logged in, receive token here
+
+# here must already login (even as anon)
+drf-parse-times today
+drf-parse-times tomorrow
+
+# done. here user free to check other locations' times, etc.
+# also user can fb login here.
+
+```

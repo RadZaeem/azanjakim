@@ -68,8 +68,10 @@ class DailyTimesList(APIView):
         return Response(serializer.data)
 
 class RequestParsedTimes(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    # permission_classes = (IsOwnerOrAnon,)#Only,)#,IsOwnerOrReadOnly)
+    # TODO buat auto anon user based on fingerprint
+    # kena ubah. stopkan dulu facebook login..
+    #permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (IsOwnerOrAnon,)#Only,)#,IsOwnerOrReadOnly)
     def get(self, request, format=None):
         # daily_times = DailyTimes.objects.get(pk=1)
         # serializer = DailyTimesSerializer(daily_times)#, many=True)
