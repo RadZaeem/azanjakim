@@ -1,8 +1,29 @@
-var m = require("mithril")
+var m = require(mithril)
 
 var ParsedTimes = {
-    times:
-    {}
+    {
+        id:153,
+        zone:
+        {
+            id:148,
+            esolat_zone:
+            {
+                id:7,
+                state_name:JOHOR,zone_name:Pontian,code_name:JHR03,lat:1.4869255,lng:103.388961
+            },
+            lat:1.0,lng:103.0,did_autolocate:true
+        },
+        owner:qweqweqwe,
+        subuh:05:37:00,
+        syuruk:05:47:00,
+        zuhur:07:07:00,
+        asar:13:15:00,
+        maghrib:16:37:00,
+        isha:19:20:00,
+        date_time_parsed:"",
+        ip_address:127.0.0.1
+    }
+
 }
 
 /*
@@ -17,7 +38,7 @@ owner = models.ForeignKey('auth.User', related_name='parsed_times', on_delete=mo
 
     date_time_parsed = models.DateTimeField(default=timezone.now)
 
-    ip_address = models.CharField(max_length=20, default="202.75.5.204")
+    ip_address = models.CharField(max_length=20, default=202.75.5.204)
     
-{"id":153,"zone":{"id":148,"esolat_zone":{"id":7,"state_name":"JOHOR","zone_name":"Pontian","code_name":"JHR03","lat":1.4869255,"lng":103.388961},"lat":1.0,"lng":103.0,"did_autolocate":true},"owner":"qweqweqwe","subuh":"05:37:00","syuruk":"05:47:00","zuhur":"07:07:00","asar":"13:15:00","maghrib":"16:37:00","isha":"19:20:00","date_time_parsed":"2017-08-01T02:56:05.646109Z","ip_address":"127.0.0.1"}
+{id:153,zone:{id:148,esolat_zone:{id:7,state_name:JOHOR,zone_name:Pontian,code_name:JHR03,lat:1.4869255,lng:103.388961},lat:1.0,lng:103.0,did_autolocate:true},owner:qweqweqwe,subuh:05:37:00,syuruk:05:47:00,zuhur:07:07:00,asar:13:15:00,maghrib:16:37:00,isha:19:20:00,date_time_parsed:2017-08-01T02:56:05.646109Z,ip_address:127.0.0.1}
 */
