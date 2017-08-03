@@ -64,6 +64,7 @@ export var Auth = {
 
         })
         .then( (result) => {
+          console.log("successfully registered, token: " + result["token"])
           api.token(result["token"])
 
         })
@@ -105,7 +106,7 @@ export var Auth = {
     anonInit: function(vnode) {
       console.log("initializing, using token: "+api.token())
       if (api.token()) { //token exist
-        api.request( {
+        m.request( {
           method: "POST",
           url: api.url+"api-token-refresh/",
           data: {"token": api.token()}

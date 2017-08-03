@@ -2,7 +2,7 @@ import m from "mithril"
 import {Auth} from "../models/Auth"
 import {api} from "api"
 // main = navbar page
-// TODO: move this to oninit lifecycle method
+// TODO: move this to oninit lifecycle method 
 var dataStore = {
     scrolled: false
 }
@@ -11,13 +11,18 @@ var dataStore = {
 
 export var main = {
     oninit: function() {
-        api.token("")
-
-        // api.token("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MDIzMjY4NDUsIm9yaWdfaWF0IjoxNTAxNzI2ODQ1LCJlbWFpbCI6IiIsInVzZXJuYW1lIjoicmFkZW43MyIsInVzZXJfaWQiOjV9.Cf2OTMbihzyhDHuuZXFxKCef7DKr8IqVwikP3OJhEwM")
-        // Auth.getTestToken()
+        /*
+        auth (fb or anon )
+        check if HTML5 location is on or off
+        if off:
+          default coords to KL
+        else if on:
+          get coords
+        requestParsedTimes today, tomorrow
+        */
+        // api.token("")
         Auth.initialize()
-        //Auth.getTestToken()
-        //Auth.loginOrRegisterFingerprint()
+
     },
     onscrollEvent(e) {
         if (e.srcElement.scrollTop > 0) {
