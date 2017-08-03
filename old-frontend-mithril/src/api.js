@@ -1,7 +1,7 @@
 m = require("mithril")
 
 var api = {
-
+url: "http://127.0.0.1:8000/",
 request: function(options){
   options.config = function(xhr) {
     xhr.setRequestHeader('Authorization', 'Bearer ' + api.token())

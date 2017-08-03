@@ -1,10 +1,11 @@
-m = require("mithril")
+import m from "mithril"
 
-var api = {
+export var api = {
+  url: "http://localhost:8000/", //change in production, put in config file
 
 request: function(options){
   options.config = function(xhr) {
-    xhr.setRequestHeader('Authorization', 'Bearer ' + api.token())
+    xhr.setRequestHeader('Authorization', 'JWT ' + api.token())
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest') 
     // xhr.setRequestHeader('Access-Control-Allow-Headers', 'Authorization')
     // xhr.setRequestHeader('Access-Control-Allow-Methods', 'POST')
@@ -22,7 +23,6 @@ token: function(value){
 }
 }
 
-module.exports = api
 // m.request({
 //   method: "GET",
 //   url: "/some/url/", 

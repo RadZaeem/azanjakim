@@ -12,14 +12,34 @@ console.log("Auth says that "+Auth.client.getFingerprint());
 var api = require("../api")
 api.request(
 {
-            method: "POST",
-            url: "http://127.0.0.1:8000/api-token-auth/",
-            data: {"username":"qweqweqwe","password":"qweqweqwe"},
-        }
+    method: "POST",
+    url: api.url+"api-token-auth/",
+    data: {"username":"qweqweqwe","password":"qweqweqwe"},
+}
 )
 .then(function(result) {
     api.token(result["token"])
-    console.log(api.token())
+    console.log("update token: " +api.token())
+    return result
+
+})
+.then(function(result) {
+    //result.token = "gg"
+    api.request( {
+        method: "POST",
+        url: api.url+"api-token-refresh/",
+        data: result
+    }).
+    then(function(result) {
+        console.log("succeeded verify")
+        console.log(result)
+    }).
+    catch(function(error){
+        if (error["non_field_errors"])
+            console.log("expired token or invalid")
+
+    })
+
 
 })
 

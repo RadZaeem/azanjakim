@@ -1,4 +1,6 @@
 import m from "mithril"
+import {Auth} from "../models/Auth"
+import {api} from "api"
 // main = navbar page
 // TODO: move this to oninit lifecycle method
 var dataStore = {
@@ -6,6 +8,13 @@ var dataStore = {
 }
 
 export var main = {
+    oninit: function() {
+        //api.token("a")
+        // Auth.getTestToken()
+        Auth.initialize()
+        //Auth.getTestToken()
+        //Auth.loginOrRegisterFingerprint()
+    },
     onscrollEvent(e) {
         if (e.srcElement.scrollTop > 0) {
             this.scrolled = true
@@ -19,8 +28,7 @@ export var main = {
     onRemoveEvent() {
         dataStore.scrolled = false
     },
-
-    view: function (vnode) {
+    view: function(vnode)  {
         return [
             m("header#header", { class: dataStore.scrolled ? "shadow" : "", key: "header" },
                 m(".container",

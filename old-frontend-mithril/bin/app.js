@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1309,37 +1309,10 @@ m.vnode = Vnode
 if (true) module["exports"] = m
 else window.m = m
 }());
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5).setImmediate, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6).setImmediate, __webpack_require__(2)))
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function(f){var d,e,p=function(){d=(new (window.UAParser||exports.UAParser)).getResult();e=new Detector;return this};p.prototype={getSoftwareVersion:function(){return"0.1.11"},getBrowserData:function(){return d},getFingerprint:function(){var b=d.ua,c=this.getScreenPrint(),a=this.getPlugins(),g=this.getFonts(),n=this.isLocalStorage(),f=this.isSessionStorage(),h=this.getTimeZone(),u=this.getLanguage(),m=this.getSystemLanguage(),e=this.isCookie(),C=this.getCanvasPrint();return murmurhash3_32_gc(b+"|"+
@@ -1426,6 +1399,33 @@ typeof window?window:this);
 
 
 /***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1475,13 +1475,52 @@ module.exports = User
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
+m = __webpack_require__(0)
+
+var api = {
+url: "http://127.0.0.1:8000/",
+request: function(options){
+  options.config = function(xhr) {
+    xhr.setRequestHeader('Authorization', 'Bearer ' + api.token())
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest') 
+    // xhr.setRequestHeader('Access-Control-Allow-Headers', 'Authorization')
+    // xhr.setRequestHeader('Access-Control-Allow-Methods', 'POST')
+    // xhr.setRequestHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:8000/') 
+
+  }
+  return m.request(options)
+},
+
+token: function(value){
+  if (arguments.length)
+    localStorage.setItem('token', value)
+
+  return localStorage.getItem('token')
+}
+}
+
+module.exports = api
+// m.request({
+//   method: "GET",
+//   url: "/some/url/", 
+//   config: function(xhr) {
+//     xhr.setRequestHeader("Authorization", "".concat("Token ", API_TOKEN));
+//   }
+// });
+
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
 // src/index.js
 var m = __webpack_require__(0)
-__webpack_require__(2)
+__webpack_require__(1)
 
-var UserList = __webpack_require__(8)
-var UserForm = __webpack_require__(9)
-var Layout = __webpack_require__(10)
+var UserList = __webpack_require__(9)
+var UserForm = __webpack_require__(10)
+var Layout = __webpack_require__(11)
 
 m.route(document.body, "/list", {
     "/list": {
@@ -1497,7 +1536,7 @@ m.route(document.body, "/list", {
 })
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var apply = Function.prototype.apply;
@@ -1550,13 +1589,13 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(6);
+__webpack_require__(7);
 exports.setImmediate = setImmediate;
 exports.clearImmediate = clearImmediate;
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -1746,10 +1785,10 @@ exports.clearImmediate = clearImmediate;
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(8)))
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -1939,7 +1978,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // src/views/UserList.js
@@ -1956,7 +1995,7 @@ module.exports = {
 }
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // src/views/UserForm.js
@@ -1988,11 +2027,11 @@ module.exports = {
 }
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var m = __webpack_require__(0)
-__webpack_require__(2)
+__webpack_require__(1)
 // Create a new ClientJS object
 var client = new ClientJS();
 
@@ -2000,19 +2039,39 @@ var client = new ClientJS();
 var fingerprint = client.getFingerprint();
 
 // TEST
-var Auth = __webpack_require__(11)
+var Auth = __webpack_require__(12)
 console.log("Auth says that "+Auth.client.getFingerprint());
-var api = __webpack_require__(12)
+var api = __webpack_require__(4)
 api.request(
 {
-            method: "POST",
-            url: "http://127.0.0.1:8000/api-token-auth/",
-            data: {"username":"qweqweqwe","password":"qweqweqwe"},
-        }
+    method: "POST",
+    url: api.url+"api-token-auth/",
+    data: {"username":"qweqweqwe","password":"qweqweqwe"},
+}
 )
 .then(function(result) {
     api.token(result["token"])
-    console.log(api.token())
+    console.log("update token: " +api.token())
+    return result
+
+})
+.then(function(result) {
+    //result.token = "gg"
+    api.request( {
+        method: "POST",
+        url: api.url+"api-token-refresh/",
+        data: result
+    }).
+    then(function(result) {
+        console.log("succeeded verify")
+        console.log(result)
+    }).
+    catch(function(error){
+        if (error["non_field_errors"])
+            console.log("expired token or invalid")
+
+    })
+
 
 })
 
@@ -2032,103 +2091,19 @@ module.exports = {
 }
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // src/models/User.js
 var m = __webpack_require__(0)
-__webpack_require__(2)
+__webpack_require__(1)
 // Create a new ClientJS object
 
-var api = __webpack_require__(12)
-
- // This is called with the results from from FB.getLoginStatus().
- function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
-    // The response object is returned with a status field that lets the
-    // app know the current login status of the person.
-    // Full docs on the response object can be found in the documentation
-    // for FB.getLoginStatus().
-    if (response.status === 'connected') {
-      // Logged into your app and Facebook.
-      testAPI();
-      var uid = response.authResponse.userID;
-      var accessToken = response.authResponse.accessToken;
-      document.getElementById('status').innerHTML =
-      uid + ': ' + accessToken
-  } else if (response.status === 'not_authorized') {
-      // The person is logged into Facebook, but not your app.
-      document.getElementById('status').innerHTML = 'Please log ' +
-      'into this app.';
-  } else {
-      // The person is not logged into Facebook, so we're not sure if
-      // they are logged into this app or not.
-      document.getElementById('status').innerHTML = 'Please log ' +
-      'into Facebook.';
-  }
-}
-
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-  });
-}
-
-window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '474493519606356',
-    cookie     : true,  // enable cookies to allow the server to access 
-                        // the session
-    xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.8' // use graph api version 2.8
-});
-
-  // Now that we've initialized the JavaScript SDK, we call 
-  // FB.getLoginStatus().  This function gets the state of the
-  // person visiting this page and can return one of three states to
-  // the callback you provide.  They can be:
-  //
-  // 1. Logged into your app ('connected')
-  // 2. Logged into Facebook, but not your app ('not_authorized')
-  // 3. Not logged into Facebook and can't tell if they are logged into
-  //    your app or not.
-  //
-  // These three cases are handled in the callback function.
-
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-});
-
-};
-
-  // Load the SDK asynchronously
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src="https://connect.facebook.net/en_US/all.js";
-    fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-
-  // Here we run a very simple test of the Graph API after login is
-  // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
-    //   var uid = response.authResponse.userID;
-    // var accessToken = response.authResponse.accessToken;
-    //   document.getElementById('status').innerHTML =
-    //     uid + ': ' + accessToken
-});
-}
+var api = __webpack_require__(4)
 
 var Auth = {
     user: {},
+    
     client: new ClientJS(),
 
     // ask API if already logged in
@@ -2194,45 +2169,6 @@ var Auth = {
 }
 
 module.exports = Auth
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-m = __webpack_require__(0)
-
-var api = {
-
-request: function(options){
-  options.config = function(xhr) {
-    xhr.setRequestHeader('Authorization', 'Bearer ' + api.token())
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest') 
-    // xhr.setRequestHeader('Access-Control-Allow-Headers', 'Authorization')
-    // xhr.setRequestHeader('Access-Control-Allow-Methods', 'POST')
-    // xhr.setRequestHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:8000/') 
-
-  }
-  return m.request(options)
-},
-
-token: function(value){
-  if (arguments.length)
-    localStorage.setItem('token', value)
-
-  return localStorage.getItem('token')
-}
-}
-
-module.exports = api
-// m.request({
-//   method: "GET",
-//   url: "/some/url/", 
-//   config: function(xhr) {
-//     xhr.setRequestHeader("Authorization", "".concat("Token ", API_TOKEN));
-//   }
-// });
-
-
 
 /***/ })
 /******/ ]);
