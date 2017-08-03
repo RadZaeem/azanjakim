@@ -97,8 +97,8 @@ for (var i = 0; i < routes_values.length; i++) {
 }
 
 
-console.log(JSON.stringify(routes))
-console.log(JSON.stringify(r))
+// console.log(JSON.stringify(routes))
+// console.log(JSON.stringify(r))
 m.route.prefix("")
 m.route(document.getElementById("app"), "/", r)
 //     console.log(response);

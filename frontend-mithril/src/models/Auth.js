@@ -1,28 +1,7 @@
 import "clientjs"
 import {api} from "../api"
-import {m} from "mithril"
+import m from "mithril"
 
-//   (function(d, s, id) {
-//     var js, fjs = d.getElementsByTagName(s)[0];
-//     if (d.getElementById(id)) return;
-//     js = d.createElement(s); js.id = id;
-//     js.src="https://connect.facebook.net/en_US/all.js";
-//     fjs.parentNode.insertBefore(js, fjs);
-// }(document, 'script', 'facebook-jssdk'));
-
-// window.fbAsyncInit = function() {
-//   FB.init({
-//     appId      : '474493519606356',
-//     cookie     : true,  // enable cookies to allow the server to access 
-//                         // the session
-//     xfbml      : true,  // parse social plugins on this page
-//     version    : 'v2.8' // use graph api version 2.8
-// });
-
-//   FB.getLoginStatus(function(response) {
-//     console.log(response)
-//     // statusChangeCallback(response);
-// });}
 export var Auth = {
   user: {},
   client: new ClientJS(),
@@ -51,27 +30,49 @@ export var Auth = {
 
 
     loginOrRegisterFingerprint: function() {
-      this.fingerprint = this.client.getFingerprint();
-      console.log("using fingerprint" + this.fingerprint)
+      this.fingerprint = this.client.getFingerprint().toString();
+      console.log("using fingerprint " + this.fingerprint )
 
-      api.request ({
+
+      m.request ({
           method: "POST",
           url: api.url+"api-token-auth/",
           data: 
           { 
             "username": this.fingerprint,
-            "password": this.fingerprint
+            "password": "a"+this.fingerprint
           }
         })
       .then( (result) => {
+        api.token(result["token"])
+        console.log("success login with fingerprint")
 
       })
       .catch( (error) => {
+        console.log("attempt register")
+        // register
+        m.request({
+          method: "POST",
+          url: api.url+"rest-auth/registration/",
+          data: 
+          { 
+            "username": this.fingerprint,
+            // "email": "",
+            "password1": "a"+this.fingerprint,
+            "password2": "a"+this.fingerprint,
+          }
+
+        })
+        .then( (result) => {
+          api.token(result["token"])
+
+        })
 
       })
     },
     initialize: function(vnode)  {
       // console.log(FB)
+      // if (typeof(FB).und)
       FB.init({
     appId      : '474493519606356',
     cookie     : true,  // enable cookies to allow the server to access 
@@ -80,17 +81,28 @@ export var Auth = {
     version    : 'v2.8' // use graph api version 2.8
 });
       FB.getLoginStatus(function(response) {
-    console.log(response)
+        console.log("callback FB login: ")
+        console.log(response)
+        if (response["status"]=="connected") {
+          Auth.FBInit()
+
+        }
+        else{
+          Auth.anonInit()
+        }
     // statusChangeCallback(response);
 })
-
+},
+    FBInit: function (vnode) {
+      
+    },
 
       // TODO get FB login status FIRST
       // If no FB login, proceed using existing anon token 
 //       FB.getLoginStatus(function(response) {
 //     statusChangeCallback(response);
 // });
-
+    anonInit: function(vnode) {
       console.log("initializing, using token: "+api.token())
       if (api.token()) { //token exist
         api.request( {
@@ -136,83 +148,11 @@ export var Auth = {
         })
       }
         else { // get new token
+          this.loginOrRegisterFingerprint()
 
 
         }
-// "non_field_errors"
-
-        //
-      
-      // m.request( {
-      //       method: "GET",
-      //       url: "http://127.0.0.1:8000/user/",
-      //   })
-      //   .then(function(result) {
-      //       console.log(result)
-      //       // django rest auth give "details" key if not logged in
-      //       if ("detail" in result) {
-      //           return false
-      //       } //  {pk,username,email,first_name, last_name}
-      //       else {
-      //           return result
-      //       }
-      //   })
-      /*
-      initiliaize facebook TODO
-      check for token from browser with api.js
-      if there is token:
-
-        verify token #expired token check
-        if ok:
-          refresh token
-          get user with token at rest-auth/user
-          if first name, last name not empty:
-            it is facebook login
-            show as logged in user
-      else:
-        # loginOrRegisterFingerprint
-        # return token
-        get fingerprint
-        try:
-          login with fingerprint as username/password
-        except:
-          register first with that fingerprint
-          login with fingerprint
-        save token to localStorage
-
-      while True:
-        if user facebook login:
-          #fb login
-          logout anon user
-          get new token
-
-        if user facebook logout:
-          #fb lgout
-          clear token
-          loginOrRegisterFingerprint
-          new token
-
-
-          */
-        },
-
-    // ask API if already logged in
-    // isLoggedIn: function() {
-    //     m.request( {
-    //         method: "GET",
-    //         url: "http://127.0.0.1:8000/user/",
-    //     })
-    //     .then(function(result) {
-    //         console.log(result)
-    //         // django rest auth give "details" key if not logged in
-    //         if ("detail" in result) {
-    //             return false
-    //         } //  {pk,username,email,first_name, last_name}
-    //         else {
-    //             return result
-    //         }
-    //     })
-    // },
+      },
 
 
     loginFingerprint: function() {
