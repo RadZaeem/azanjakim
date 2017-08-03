@@ -2,6 +2,27 @@ import "clientjs"
 import {api} from "../api"
 import {m} from "mithril"
 
+//   (function(d, s, id) {
+//     var js, fjs = d.getElementsByTagName(s)[0];
+//     if (d.getElementById(id)) return;
+//     js = d.createElement(s); js.id = id;
+//     js.src="https://connect.facebook.net/en_US/all.js";
+//     fjs.parentNode.insertBefore(js, fjs);
+// }(document, 'script', 'facebook-jssdk'));
+
+// window.fbAsyncInit = function() {
+//   FB.init({
+//     appId      : '474493519606356',
+//     cookie     : true,  // enable cookies to allow the server to access 
+//                         // the session
+//     xfbml      : true,  // parse social plugins on this page
+//     version    : 'v2.8' // use graph api version 2.8
+// });
+
+//   FB.getLoginStatus(function(response) {
+//     console.log(response)
+//     // statusChangeCallback(response);
+// });}
 export var Auth = {
   user: {},
   client: new ClientJS(),
@@ -50,11 +71,26 @@ export var Auth = {
       })
     },
     initialize: function(vnode)  {
+      // console.log(FB)
+      FB.init({
+    appId      : '474493519606356',
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.8' // use graph api version 2.8
+});
+      FB.getLoginStatus(function(response) {
+    console.log(response)
+    // statusChangeCallback(response);
+})
+
+
       // TODO get FB login status FIRST
       // If no FB login, proceed using existing anon token 
 //       FB.getLoginStatus(function(response) {
 //     statusChangeCallback(response);
 // });
+
       console.log("initializing, using token: "+api.token())
       if (api.token()) { //token exist
         api.request( {
