@@ -7,9 +7,12 @@ var dataStore = {
     scrolled: false
 }
 
+
+
 export var main = {
     oninit: function() {
-        //api.token("a")
+
+        // api.token("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MDIzMjY4NDUsIm9yaWdfaWF0IjoxNTAxNzI2ODQ1LCJlbWFpbCI6IiIsInVzZXJuYW1lIjoicmFkZW43MyIsInVzZXJfaWQiOjV9.Cf2OTMbihzyhDHuuZXFxKCef7DKr8IqVwikP3OJhEwM")
         // Auth.getTestToken()
         Auth.initialize()
         //Auth.getTestToken()

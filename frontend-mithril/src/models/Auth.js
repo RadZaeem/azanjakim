@@ -31,9 +31,30 @@ export var Auth = {
 
     loginOrRegisterFingerprint: function() {
       this.fingerprint = this.client.getFingerprint();
-      console.log(this.fingerprint)
+      console.log("using fingerprint" + this.fingerprint)
+
+      api.request ({
+          method: "POST",
+          url: api.url+"api-token-auth/",
+          data: 
+          { 
+            "username": this.fingerprint,
+            "password": this.fingerprint
+          }
+        })
+      .then( (result) => {
+
+      })
+      .catch( (error) => {
+
+      })
     },
     initialize: function(vnode)  {
+      // TODO get FB login status FIRST
+      // If no FB login, proceed using existing anon token 
+//       FB.getLoginStatus(function(response) {
+//     statusChangeCallback(response);
+// });
       console.log("initializing, using token: "+api.token())
       if (api.token()) { //token exist
         api.request( {
@@ -43,7 +64,7 @@ export var Auth = {
         })
         .then((result)=>{ // token still not expired
           console.log("token refreshed!")
-          console.log(result)
+          // console.log(result)
           // get user info
           api.request( {
             method: "GET",
@@ -52,7 +73,20 @@ export var Auth = {
 
           })
           .then( (result) => {
-            console.log(result)
+            this.user = result
+
+            // console.log("updated user info :" + JSON.stringify(this.user))
+            // if (this.user.first_name) {
+            //   this.usernameDisplay = this.user.first_name + " " + this.user.last_name
+            //   this.isAnonLogin = false
+            //    console.log(this.usernameDisplay)
+            // }
+            // else {
+            //   this.usernameDisplay = ""
+            //   this.isAnonLogin = true
+            //    console.log("anonLogin is: "+this.isAnonLogin)
+            // }
+            // console.log(this.usernameDisplay)
 
           })
 
@@ -66,6 +100,7 @@ export var Auth = {
         })
       }
         else { // get new token
+
 
         }
 // "non_field_errors"
