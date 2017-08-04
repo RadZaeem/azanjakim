@@ -2,7 +2,8 @@ var m = require(mithril)
 
 // basically copy contents
 var ParsedTimes = {
-    json: {},
+    jsonToday: {},
+    jsonTomorrow: {},
     view : function(vnode) {
 
     },

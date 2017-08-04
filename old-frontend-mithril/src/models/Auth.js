@@ -5,6 +5,9 @@ require("clientjs")
 
 var api = require("../api")
 
+// Auth is token manager,
+// Do login, refresh token and stuff
+
 var Auth = {
     user: {},
     

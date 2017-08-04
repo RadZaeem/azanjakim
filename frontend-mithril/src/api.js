@@ -2,6 +2,8 @@ import m from "mithril"
 
 export var api = {
   url: "http://localhost:8000/", //change in production, put in config file
+  // isAnon: true,
+  // enableAutolocate: false,
 
 request: function(options){
   options.config = function(xhr) {
@@ -20,6 +22,12 @@ token: function(value){
     localStorage.setItem('token', value)
 
   return localStorage.getItem('token')
+},
+autolocate: function(value){
+  if (arguments.length)
+    localStorage.setItem('autolocate', value)
+
+  return localStorage.getItem('autolocate')
 }
 }
 

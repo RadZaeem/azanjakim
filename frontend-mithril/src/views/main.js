@@ -1,5 +1,6 @@
 import m from "mithril"
 import {Auth} from "../models/Auth"
+import {AuthStatus} from "../views/AuthStatus"
 import {api} from "api"
 // main = navbar page
 // TODO: move this to oninit lifecycle method 
@@ -12,6 +13,11 @@ var dataStore = {
 export var main = {
     oninit: function() {
         /*
+        // TODO
+        autolocate checkbox
+        save per user session
+
+
         auth (fb or anon )
         check if HTML5 location is on or off
         if off:
@@ -20,8 +26,8 @@ export var main = {
           get coords
         requestParsedTimes today, tomorrow
         */
-        // api.token("")
-        Auth.initialize()
+        api.token("")
+        // Auth.initialize()
 
     },
     onscrollEvent(e) {
@@ -40,8 +46,10 @@ export var main = {
     view: function(vnode)  {
         return [
             m("header#header", { class: dataStore.scrolled ? "shadow" : "", key: "header" },
+                m(AuthStatus),
                 m(".container",
                     m("a.logo", { href: "/", oncreate: m.route.link }, "LOG"),
+
                     m("nav.navlinks",
                         m("ul",
                             m("li", { class: m.route.get() == "/" ? "active" : "" },
