@@ -26,7 +26,7 @@ export var main = {
           get coords
         requestParsedTimes today, tomorrow
         */
-        api.token("")
+        // api.token("")
         // Auth.initialize()
 
     },
@@ -48,7 +48,7 @@ export var main = {
             m("header#header", { class: dataStore.scrolled ? "shadow" : "", key: "header" },
                 m(AuthStatus),
                 m(".container",
-                    m("a.logo", { href: "/", oncreate: m.route.link }, "LOG"),
+                    m("a.logo", { href: "/", oncreate: m.route.link }, "17rakaat.me"),
 
                     m("nav.navlinks",
                         m("ul",
