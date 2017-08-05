@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
+
 <script type="text/javascript">
+// window.fbAsyncInit = function() {
+//   FB.init({
+//     appId      : '474493519606356',
+//     cookie     : true,  // enable cookies to allow the server to access 
+//                         // the session
+//     xfbml      : true,  // parse social plugins on this page
+//     version    : 'v2.8' // use graph api version 2.8
+// });}
 
       (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
@@ -20,14 +29,14 @@
     //     }(document, 'script', 'facebook-jssdk'));
     // // },
 // for some reason if not FB.init two times throwing error, 
-// window.fbAsyncInit = function() {
-//   FB.init({
-//     appId      : '474493519606356',
-//     cookie     : true,  // enable cookies to allow the server to access 
-//                         // the session
-//     xfbml      : true,  // parse social plugins on this page
-//     version    : 'v2.8' // use graph api version 2.8
-// });
+window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '474493519606356',
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.8' // use graph api version 2.8
+})};
 
 
 
@@ -45,6 +54,7 @@
 </head>
 
 <body>
+
   <div id="app">Loading... Please wait</div>
   
   <% if (process.env.NODE_ENV === 'development') { %>

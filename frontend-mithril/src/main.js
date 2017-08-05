@@ -41,7 +41,13 @@ import { routes, generate } from "routes/routes"
 });
 }
 
-
+FB.init({
+      appId      : '474493519606356',
+      cookie     : true,  // enable cookies to allow the server to access 
+                          // the session
+      xfbml      : true,  // parse social plugins on this page
+      version    : 'v2.8' // use graph api version 2.8
+    });
 
 var routes_values = Object.values(routes);
 var r = {}

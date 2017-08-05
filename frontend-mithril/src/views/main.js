@@ -12,6 +12,7 @@ var dataStore = {
 
 export var main = {
     oninit: function() {
+        console.log("main (navbar) init")
         /*
         // TODO
         autolocate checkbox

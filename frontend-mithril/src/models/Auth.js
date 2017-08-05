@@ -6,7 +6,8 @@ export var Auth = {
   user: {},
   client: new ClientJS(),
   fingerprint: "",
-  didFBLogin: false,
+  loginStatus: "loading",
+  didFBLogin: null,
   didAnonLogin: false,// true,
   usernameDisplay: "",
 
@@ -46,9 +47,10 @@ export var Auth = {
     .then(function (result)  {
       api.token(result["token"])
       console.log("success login with fingerprint")
-      // Auth.didFBLogin = true
+      Auth.didFBLogin = false
       Auth.didAnonLogin = true
-      return
+      Auth.loginStatus = "Anon"
+      // return
 
     })
     .catch( (error) =>  {
@@ -71,7 +73,7 @@ export var Auth = {
       .then( function(result)  {
         console.log("successfully registered, token: " + result["token"])
         api.token(result["token"])
-        // Auth.didFBLogin = true
+        Auth.didFBLogin = false
         Auth.didAnonLogin = true
 
       })
@@ -80,13 +82,17 @@ export var Auth = {
   },
   initialize: function(vnode)  {
     // note we added FB SDK load script at index.html
-    FB.init({
-      appId      : '474493519606356',
-      cookie     : true,  // enable cookies to allow the server to access 
-                          // the session
-      xfbml      : true,  // parse social plugins on this page
-      version    : 'v2.8' // use graph api version 2.8
-    });
+    // if (FB==undefined) {
+    //   console.log("FB sdk.js load too late, reloading")
+    //   location.reload();
+    // }
+    // FB.init({
+    //   appId      : '474493519606356',
+    //   cookie     : true,  // enable cookies to allow the server to access 
+    //                       // the session
+    //   xfbml      : true,  // parse social plugins on this page
+    //   version    : 'v2.8' // use graph api version 2.8
+    // });
 
     FB.getLoginStatus(function(response) {
       console.log("callback FB login: ")
@@ -104,27 +110,29 @@ export var Auth = {
   })
   },
   FBInit: function (response){
-    console.log("FBInit using token: "+response.authResponse["accessToken"])
+
+    console.log("FBInit using Facebook API token: "+response.authResponse["accessToken"])
       m.request( {
         method: "POST",
         url: api.url+"rest-auth/facebook/",
         data: {"access_token": response.authResponse["accessToken"]},
-        // background:true
+        background:true 
       })
       .then((result)=>{ // token still not expired
-        console.log("FBInit token received!")
+        console.log("FBInit JWT token received!")
         api.token(result["token"])
         // Auth.didFBLogin = true
         Auth.didFBLogin = true
         Auth.didAnonLogin = false
+        Auth.loginStatus = "FB"
         Auth.user = result["user"]
-        m.redraw()
+        // m.redraw()
         console.log("received user info :" + JSON.stringify(Auth.user))
         Auth.usernameDisplay = Auth.user.first_name + " " + Auth.user.last_name
             
         console.log("usernameDisplay changed to: "+Auth.usernameDisplay)
         //force redraw
-        // m.redraw()  
+        m.redraw()  
         
 
 
@@ -151,8 +159,9 @@ export var Auth = {
       })
       .then((result)=>{ // token still not expired
         console.log("token refreshed!")
-        // Auth.didFBLogin = true
+        Auth.didFBLogin = false
         Auth.didAnonLogin = true
+        Auth.loginStatus = "Anon"
         // m.redraw()
 
         })
@@ -168,7 +177,9 @@ export var Auth = {
 
 
       }
+      // m.redraw()
     }
+    // m.redraw()
 
 
 
