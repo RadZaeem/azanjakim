@@ -1,62 +1,50 @@
 import "clientjs"
 import {api} from "../api"
 import m from "mithril"
-import {FBPromise} from "fb-promise-wrapper"
+const FBPromise  = require('fb-promise-wrapper')
+
+// import {FBPromise} from "fb-promise-wrapper"
 export var Auth = {
 
-  getTokenAndUserWithFBOrAnonFallback: function() {
+  getTokenAndUserWithFBOrTryFingerprint: function() {
     return new Promise( function (resolve,reject) {
-      var tokenAndUser = null;//{ "token": null, "user": null}
-
-    // var tokenAndUser = { token: null, user: null}
-    // var tokenAndUser = null;//this.getTokenAndUserWithFBLoginCallback()
-    // if (tokenAndUser==null) {
-    //   tokenAndUser = { token: null, user: null}
-      // if (api.token())
-      //   Auth.getRefreshedToken(api.token())
-      // .then(function(token) {
-      //   tokenAndUser["token"] = token
-      //   tokenAndUser["user"] = {"username":}
-      //   console.log("token is "+token)
-      //   resolve(token) 
-      // })
-      // .catch(function(token) {
-                // console.time()
-        // var fingerprint = client.getFingerprint()//.toString();
-        // console.timeEnd()
-        // fingerprint = fingerprint.toString();
-
+      Auth.getTokenAndUserWithFBLogin()
+      .then( (tokenAndUser) => {resolve(tokenAndUser)})
+      .catch( (response) => {
+        console.log(response)
         var client = new ClientJS()
-        console.time()
-        var fingerprint = client.getFingerprint().toString();
-        console.timeEnd()
-        fingerprint = fingerprint.toString();
-        Auth.getTokenAndUserByFingerprint(fingerprint)
+        var fingerprint = client.getFingerprint().toString(16);
+        // console.log(typeof client.getFingerprint().toString(16))
+        Auth.getTokenAndUserWithFingerprint(fingerprint)
         .then(function(tokenAndUser) {
           // console.log(tokenAndUser)
           resolve(tokenAndUser)
         })
+      })
+
+        // var client = new ClientJS()
+        // var fingerprint = client.getFingerprint().toString(16);
+        // // console.log(typeof client.getFingerprint().toString(16))
+        // Auth.getTokenAndUserWithFingerprint(fingerprint)
+        // .then(function(tokenAndUser) {
+        //   // console.log(tokenAndUser)
+        //   resolve(tokenAndUser)
+        // })
 
       })
-        // var client = new ClientJS()
-        // var fingerprint = client.getFingerprint().toString();
-        // tokenAndUser.token = this.getTokenByFingerprint(fingerprint)
-
-    
-  // } )
   }, 
 
-  getTokenAndUserWithFBLoginCallback: function(){
-    FB.getLoginStatus(function(response) {
-      console.log("callback FB login: ")
-      console.log(response)
-      if (response["status"]=="connected") {
-        return getTokenAndUserWithFBToken(response.authResponse["accessToken"])
-      }
-      else{
-        return null
-      }
+  getTokenAndUserWithFBLogin: function(){
+    return new Promise( function (resolve,reject) {
+    FBPromise.getLoginStatus().then((response) => {
+      if (response["status"]=="connected") 
+          Auth.getTokenAndUserWithFBToken(response.authResponse["accessToken"])//.then( (result) => {})
+          .then( (result) => {resolve(result)})
+      else reject(response)
+      // resolve(response)
     })
+  })
+
   },
 
   // getTestToken: function () {
@@ -75,7 +63,7 @@ export var Auth = {
   //   })
   // },
 
-  getTokenAndUserByFingerprint: function(fingerprint){
+  getTokenAndUserWithFingerprint: function(fingerprint){
     return new Promise(function(resolve,reject)   {
   //this.fingerprint = this.client.getFingerprint().toString();
     console.log("using fingerprint " + fingerprint )
@@ -126,7 +114,7 @@ export var Auth = {
   },
   
   getTokenAndUserWithFBToken: function (FBToken){
-
+return new Promise(function(resolve,reject)   {
     // console.log("FBInit using Facebook API token: "+response.authResponse["accessToken"])
       m.request( {
         method: "POST",
@@ -137,8 +125,8 @@ export var Auth = {
         background:true 
       })
       .then((result)=>{ // token still not expired
-        console.log("FBInit JWT token received!")
-        return result;
+        // console.log("FBInit JWT token received!")
+        resolve(result);
 
         // api.token(result["token"])
         // Auth.user = result["user"]
@@ -149,7 +137,7 @@ export var Auth = {
         reject(error)
         // return Auth.getRefreshedTokenOrNew()
       })
-      
+    })  
     },
 
 

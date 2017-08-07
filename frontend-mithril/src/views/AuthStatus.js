@@ -9,13 +9,17 @@ export var AuthStatus = {
     // api.token("a")
     // Auth.initialize()
     // var a = 
-    Auth.getTokenAndUserWithFBOrAnonFallback()
-    .then((result) => { 
-        var a = result; console.log(a)
-        api.token(result["token"])
-        // console.log(api.token())
-    })
-    // console.log(Auth.getTokenAndUserWithFBOrAnonFallback())
+    // Auth.getTokenAndUserWithFBOrAnonFallback()
+
+    // Auth.getTokenAndUserWithFBLogin().then( (result) => {console.log(result)})
+    Auth.getTokenAndUserWithFBOrTryFingerprint().then( (result) => {console.log(result)})
+    // .then((result) => { 
+    //     var a = result; console.log(a)
+    //     api.token(result["token"])
+    //     // console.log(api.token())
+    // })
+
+    // // console.log(Auth.getTokenAndUserWithFBOrAnonFallback())
   },
 
   view: function (vnode) {
