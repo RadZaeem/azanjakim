@@ -125,7 +125,7 @@ def init_zone_code():
 
 class ParsedTimes(models.Model):
     owner = models.ForeignKey('auth.User', related_name='parsed_times', on_delete=models.CASCADE)
-    zone = models.ForeignKey(ParsedZone, related_name='parsed_times', on_delete=models.CASCADE, default=init_zone_code)#, on_delete=models.CASCADE)
+    zone = models.ForeignKey(ParsedZone, related_name='parsed_times', on_delete=models.CASCADE)#default=init_zone_code)#, on_delete=models.CASCADE)
     subuh   = models.TimeField(default=datetime.time(6, 0))
     syuruk   = models.TimeField(default=datetime.time(6, 0))
     zuhur   = models.TimeField(default=datetime.time(6, 0))

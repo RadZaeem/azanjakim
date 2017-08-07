@@ -23,6 +23,7 @@ token: function(value){
 
   return localStorage.getItem('token')
 },
+
 autolocate: function(value){
   if (arguments.length)
     localStorage.setItem('autolocate', value)

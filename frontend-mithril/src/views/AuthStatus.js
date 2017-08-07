@@ -6,12 +6,21 @@ import {FBLoginButton} from "./FBLoginButton"
 
 export var AuthStatus = {
   oninit: function (){
-    api.token("")
-    Auth.initialize()
+    // api.token("a")
+    // Auth.initialize()
+    // var a = 
+    Auth.getTokenAndUserWithFBOrAnonFallback()
+    .then((result) => { 
+        var a = result; console.log(a)
+        api.token(result["token"])
+        // console.log(api.token())
+    })
+    // console.log(Auth.getTokenAndUserWithFBOrAnonFallback())
   },
 
   view: function (vnode) {
     // api.token("")
+    return null
     console.log("[AuthStatus] view: "+"didFBLogin, didAnonLogin "+Auth.didFBLogin+", "+Auth.didAnonLogin)
     // Somehow mithril cannot render fb login butotn here. disabled
 

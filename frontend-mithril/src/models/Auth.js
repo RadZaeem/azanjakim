@@ -1,57 +1,102 @@
 import "clientjs"
 import {api} from "../api"
 import m from "mithril"
-
+import {FBPromise} from "fb-promise-wrapper"
 export var Auth = {
-  user: {},
-  client: new ClientJS(),
-  fingerprint: "",
-  loginStatus: "loading",
-  didFBLogin: null,
-  didAnonLogin: false,// true,
-  usernameDisplay: "",
 
-  getTestToken: function () {
-    api.request(
-    {
-      method: "POST",
-      url: api.url+"api-token-auth/",
-      data: {"username":"qweqweqwe","password":"qweqweqwe"},
-    }
-    )
-    .then(function(result) {
-      api.token(result["token"])
-      console.log("update test token: " +api.token())
-      return result
+  getTokenAndUserWithFBOrAnonFallback: function() {
+    return new Promise( function (resolve,reject) {
+      var tokenAndUser = null;//{ "token": null, "user": null}
 
+    // var tokenAndUser = { token: null, user: null}
+    // var tokenAndUser = null;//this.getTokenAndUserWithFBLoginCallback()
+    // if (tokenAndUser==null) {
+    //   tokenAndUser = { token: null, user: null}
+      // if (api.token())
+      //   Auth.getRefreshedToken(api.token())
+      // .then(function(token) {
+      //   tokenAndUser["token"] = token
+      //   tokenAndUser["user"] = {"username":}
+      //   console.log("token is "+token)
+      //   resolve(token) 
+      // })
+      // .catch(function(token) {
+                // console.time()
+        // var fingerprint = client.getFingerprint()//.toString();
+        // console.timeEnd()
+        // fingerprint = fingerprint.toString();
+
+        var client = new ClientJS()
+        console.time()
+        var fingerprint = client.getFingerprint().toString();
+        console.timeEnd()
+        fingerprint = fingerprint.toString();
+        Auth.getTokenAndUserByFingerprint(fingerprint)
+        .then(function(tokenAndUser) {
+          // console.log(tokenAndUser)
+          resolve(tokenAndUser)
+        })
+
+      })
+        // var client = new ClientJS()
+        // var fingerprint = client.getFingerprint().toString();
+        // tokenAndUser.token = this.getTokenByFingerprint(fingerprint)
+
+    
+  // } )
+  }, 
+
+  getTokenAndUserWithFBLoginCallback: function(){
+    FB.getLoginStatus(function(response) {
+      console.log("callback FB login: ")
+      console.log(response)
+      if (response["status"]=="connected") {
+        return getTokenAndUserWithFBToken(response.authResponse["accessToken"])
+      }
+      else{
+        return null
+      }
     })
   },
 
+  // getTestToken: function () {
+  //   api.request(
+  //   {
+  //     method: "POST",
+  //     url: api.url+"api-token-auth/",
+  //     data: {"username":"qweqweqwe","password":"qweqweqwe"},
+  //   }
+  //   )
+  //   .then(function(result) {
+  //     // api.token(result["token"])
+  //     // console.log("update test token: " +api.token())
+  //     return result["token"]
 
-  loginOrRegisterFingerprint: function() {
-    this.fingerprint = this.client.getFingerprint().toString();
-    console.log("using fingerprint " + this.fingerprint )
+  //   })
+  // },
+
+  getTokenAndUserByFingerprint: function(fingerprint){
+    return new Promise(function(resolve,reject)   {
+  //this.fingerprint = this.client.getFingerprint().toString();
+    console.log("using fingerprint " + fingerprint )
 
 
     m.request ({
       method: "POST",
-      url: api.url+"api-token-auth/",
+      // url: api.url+"api-token-auth/",
+      url: api.url+"rest-auth/login/",
       data: 
       { 
-        "username": this.fingerprint,
-        "password": "a"+this.fingerprint
+        "username": fingerprint,
+        "password": "a"+fingerprint
       }
       ,
       // background:true
     })
     .then(function (result)  {
-      api.token(result["token"])
+      // api.token(result["token"])
+      resolve(result)
       console.log("success login with fingerprint")
-      Auth.didFBLogin = false
-      Auth.didAnonLogin = true
-      Auth.loginStatus = "Anon"
-      // return
-
     })
     .catch( (error) =>  {
       console.log(error)
@@ -62,126 +107,85 @@ export var Auth = {
         url: api.url+"rest-auth/registration/",
         data: 
         { 
-          "username": this.fingerprint,
+          "username": fingerprint,
           // "email": "",
-          "password1": "a"+this.fingerprint,
-          "password2": "a"+this.fingerprint,
+          "password1": "a"+fingerprint,
+          "password2": "a"+fingerprint,
         },
         // background: true
 
       })
       .then( function(result)  {
         console.log("successfully registered, token: " + result["token"])
-        api.token(result["token"])
-        Auth.didFBLogin = false
-        Auth.didAnonLogin = true
-
+        resolve(result)
       })
+      .catch( (error) => { reject({"error":"Failed to register fingerprint"})})
 
     })
-  },
-  initialize: function(vnode)  {
-    // note we added FB SDK load script at index.html
-    // if (FB==undefined) {
-    //   console.log("FB sdk.js load too late, reloading")
-    //   location.reload();
-    // }
-    // FB.init({
-    //   appId      : '474493519606356',
-    //   cookie     : true,  // enable cookies to allow the server to access 
-    //                       // the session
-    //   xfbml      : true,  // parse social plugins on this page
-    //   version    : 'v2.8' // use graph api version 2.8
-    // });
-
-    FB.getLoginStatus(function(response) {
-      console.log("callback FB login: ")
-      console.log(response)
-      if (response["status"]=="connected") {
-        Auth.FBInit(response)
-        // return
-
-      }
-      else{
-        Auth.anonInit()
-      }
-      // m.redraw()
-    // statusChangeCallback(response);
   })
   },
-  FBInit: function (response){
+  
+  getTokenAndUserWithFBToken: function (FBToken){
 
-    console.log("FBInit using Facebook API token: "+response.authResponse["accessToken"])
+    // console.log("FBInit using Facebook API token: "+response.authResponse["accessToken"])
       m.request( {
         method: "POST",
         url: api.url+"rest-auth/facebook/",
-        data: {"access_token": response.authResponse["accessToken"]},
+        // data: {"access_token": response.authResponse["accessToken"]},
+        data: {"access_token": FBToken},
+        
         background:true 
       })
       .then((result)=>{ // token still not expired
         console.log("FBInit JWT token received!")
-        api.token(result["token"])
-        // Auth.didFBLogin = true
-        Auth.didFBLogin = true
-        Auth.didAnonLogin = false
-        Auth.loginStatus = "FB"
-        Auth.user = result["user"]
-        // m.redraw()
-        console.log("received user info :" + JSON.stringify(Auth.user))
-        Auth.usernameDisplay = Auth.user.first_name + " " + Auth.user.last_name
-            
-        console.log("usernameDisplay changed to: "+Auth.usernameDisplay)
-        //force redraw
-        m.redraw()  
-        
+        return result;
 
-
-
+        // api.token(result["token"])
+        // Auth.user = result["user"]
+        // Auth.usernameDisplay = Auth.user.first_name + " " + Auth.user.last_name
       })
       .catch((error)=>{
         console.log(error)
-        console.log("FBInit failed -- fallback to anonInit")
-        Auth.anonInit()
+        reject(error)
+        // return Auth.getRefreshedTokenOrNew()
       })
       
     },
 
 
-  anonInit: function(vnode) {
-    console.log("initializing, using token: "+api.token())
-    if (api.token()) { //token exist
+  getRefreshedToken: function(token) {  
+    return new Promise(function(resolve,reject)   {
       console.log("token exist, trying to refresh")
+      
       m.request( {
         method: "POST",
         url: api.url+"api-token-refresh/",
-        data: {"token": api.token()},
+        data: {"token": token},
         // background:true
       })
       .then((result)=>{ // token still not expired
         console.log("token refreshed!")
-        Auth.didFBLogin = false
-        Auth.didAnonLogin = true
-        Auth.loginStatus = "Anon"
+        resolve(token)
         // m.redraw()
 
         })
       .catch((error)=>{
-        if (error["non_field_errors"])
-          console.log("expired token or invalid")
+        if (error["non_field_errors"]) {
+          // console.log("expired token or invalid")
+          reject({"error":"expired token or invalid"})
+        }
+
+      })
+
 
       })
     }
-      else { // get new token
-        console.log("no token, logging in...")
-        this.loginOrRegisterFingerprint()
-
-
-      }
+    
       // m.redraw()
-    }
+    
     // m.redraw()
 
 
 
 
-  }
+  } 
