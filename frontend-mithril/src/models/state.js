@@ -65,8 +65,9 @@ export var state = {
 },
 
   updateUserAndToken: function (tokenAndUser) {
-    Auth.tokenAndUser = tokenAndUser
-    Auth.didAuth = true
+    state.tokenAndUser = tokenAndUser
+    state.didAuth = true
     api.token(tokenAndUser["token"])
+    m.redraw() // to update username display
   }
 }

@@ -11,19 +11,26 @@ export var AuthStatus = {
     },
 
   view: function (vnode) {
-    // api.token("")
-   // Somehow mithril cannot render fb login butotn here. disabled
+    if (!state.didAuth)//(!state.tokenAndUser) 
+        return [m(FBLoginButton), m("p","...")] // must include button here..
+    else if (state.tokenAndUser["user"]["first_name"]=="") 
+        return [m(FBLoginButton), m("p","Anda belum login")] // ..or it wont show here
+    else if (state.tokenAndUser["user"]["first_name"])
+        return [m("p","Assalamualaikum,  " +state.tokenAndUser["user"]["first_name"]),
+        m("a", {"onClick":"FB.logout(function(response) {location.reload()}) "}, "[Logout]")]//     + Auth.usernameDisplay)
+      
+      
+    // if (!state.tokenAndUser) {
+    //     return [m("p","Loading")]
+    //   }
+    // else if (state.tokenAndUser) {
+    //   if (!state.tokenAndUser["user"]["first_name"])
+    //     return [m(FBLoginButton)]
+    //   else
+    //     return [m("p","Welcome, " +state.tokenAndUser["user"]["first_name"]),
+    //     m("a", {"onClick":"FB.logout(function(response) {location.reload()}) "}, "Logout")]//     + Auth.usernameDisplay)
+      
+    //   }
 
-    if (state.tokenAndUser) {
-        return [m("p","Loading")]
-      }
-    else if (state.tokenAndUser) {
-      if (!state.tokenAndUser["user"]["first_name"])
-        return [m(FBLoginButton)]
-      else
-        m("p","Welcome, ")//     + Auth.usernameDisplay)
-      }
-
- 
   } 
 }

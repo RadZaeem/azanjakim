@@ -13,7 +13,7 @@ var dataStore = {
 
 export var main = {
     oninit: function() {
-        state.initialize()
+        state.initialize() // to Auth
         // console.log("main (navbar) init")
     },
     onscrollEvent(e) {
@@ -31,10 +31,12 @@ export var main = {
     },
     view: function(vnode)  {
         return [
+        // m(AuthStatus),
             m("header#header", { class: dataStore.scrolled ? "shadow" : "", key: "header" },
-                m(AuthStatus),
+                // m(AuthStatus),
                 m(".container",
                     m("a.logo", { href: "/", oncreate: m.route.link }, "17rakaat.me"),
+
 
                     m("nav.navlinks",
                         m("ul",
@@ -46,6 +48,7 @@ export var main = {
                             ),
                         )
                     )
+
                 )
             ),
 

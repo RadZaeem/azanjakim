@@ -10,7 +10,8 @@ export var routes = {
     'index': {
         path: '/',
         render: () => {
-            return m(main, m(home))
+            return m(home)
+            // return m(main, m(home))
             // return m(main, m("div.temp", "long page"))
         }
     },
