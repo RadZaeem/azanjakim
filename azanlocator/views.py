@@ -102,13 +102,24 @@ class RequestParsedTimes(APIView):
             lat = float(request.data['lat'])
             lng = float(request.data['lng'])
             new_parse.update_times_by_orm(lat,lng)
+        elif 'coords' in request.data:
+            # default date is current day
+            if 'day-delta' in request.data:
+                delta = int(request.data['day-delta'])
+                new_parse.date_time_parsed += timedelta(days=delta)
+            
+            lat = float(request.data['coords']['lat'])
+            lng = float(request.data['coords']['lng'])
+            new_parse.update_times_by_orm(lat,lng)
         elif 'code' in request.data:
             new_parse.update_times_by_orm(zone_code=request.data['code'])
+        elif 'zone' in request.data:
+            new_parse.update_times_by_orm(zone_code=request.data['zone'])
         else:
             new_parse.update_times_by_orm(0.0,0.0)
         new_parse.update_ip_address(request)
 
-        new_parse.save()
+        # new_parse.save()
         
         serializer = ParsedTimesSerializer(new_parse)
         # if serializer.is_valid():

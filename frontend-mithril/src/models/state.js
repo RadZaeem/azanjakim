@@ -42,13 +42,26 @@ export var state = {
     })
   },
 
-  getTimes : function (coords={lat:0.0,lng:0.0}, doAutolocate=false) {
+  getTimes : function (coords, zone="SGR02", doAutolocate=false) {
+    var coordsOrZone = {} //{"lat":0.0,"lng":0.0}
+    if (coords) {
+      coordsOrZone["coords"]=coords
+    } 
+    else if (zone) { // default to KL
+      coordsOrZone["zone"] = zone
+    }
 
     return new Promise( function (resolve,reject) {
+      api.request ({
+      method: "POST",
+      // url: api.url+"api-token-auth/",
+      url: api.url+"request-parsed-times/",
+      data: coordsOrZone
 
     })
 
-  }
+  })
+},
 
   updateUserAndToken: function (tokenAndUser) {
     Auth.tokenAndUser = tokenAndUser

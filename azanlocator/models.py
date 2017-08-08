@@ -150,6 +150,7 @@ class ParsedTimes(models.Model):
     isha    = models.TimeField(default=datetime.time(6, 0))
 
     date_time_parsed = models.DateTimeField(default=timezone.now)
+    date_time_requested = models.DateTimeField(default=timezone.now)
 
     ip_address = models.CharField(max_length=20, default="202.75.5.204")
     
