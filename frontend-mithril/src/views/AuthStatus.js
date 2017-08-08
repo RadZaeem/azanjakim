@@ -3,6 +3,7 @@ import {api} from "../api"
 import m from "mithril"
 import {Auth}  from "../models/Auth"
 import {FBLoginButton} from "./FBLoginButton"
+import {state} from "../models/state"
 
 export var AuthStatus = {
   oninit: function (){

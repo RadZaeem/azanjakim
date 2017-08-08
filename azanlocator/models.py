@@ -35,6 +35,19 @@ STATES =  ['JOHOR' ,'KEDAH', 'KELANTAN',
 'PERAK', 'PERLIS', 'PULAU_PINANG', 'PUTRAJAYA', 'SABAH','SARAWAK',
 'SELANGOR', 'TERENGGANU']
 
+codes=('JHR01', 'JHR02', 'JHR03', 'JHR04',
+    'KDH01', 'KDH02', 'KDH03', 'KDH04', 'KDH05', 'KDH06', 'KDH07',
+    'KTN01', 'KTN03', 'SGR03', 'WLY02', 'MLK01', 'NGS01', 'NGS02',
+    'PHG01', 'PHG02', 'PHG03', 'PHG04', 'PHG05', 'PHG06',
+    'PRK01', 'PRK02', 'PRK03', 'PRK04', 'PRK05', 'PRK06', 'PRK07',
+    'PLS01',
+    'PNG01',
+    'SGR04',
+    'SBH01', 'SBH02', 'SBH03', 'SBH04', 'SBH05', 'SBH06', 'SBH07', 'SBH08', 'SBH09',
+    'SWK01', 'SWK02', 'SWK03', 'SWK04', 'SWK05', 'SWK06', 'SWK07', 'SWK08', 'SWK09',
+    'SGR01', 'SGR02',
+    'TRG01', 'TRG02', 'TRG03', 'TRG04')
+
 class EsolatZone(models.Model):
     state_name  = models.CharField(max_length=30, default="KUALA LUMPUR")
     zone_name   = models.CharField(max_length=30, default="Kuala Lumpur")
@@ -77,7 +90,10 @@ class ParsedZone(models.Model):
     def update_latest(self,lat=0.0,lng=0.0,zone_code=None):
         self.lat = lat
         self.lng = lng
-        if (self.lat==0.0 and self.lng==0.0):
+        if (zone_code and (zone_code in codes)):
+            self.esolat_zone = EsolatZone.objects.filter(code_name=zone_code)[0]
+            return
+        if (self.lat==0.0 and self.lng==0.0):# and not zone_code):
             #TODO make outside malaysia default to this
             #TODO make update by not autolocate
             print("zero lat lng given, defaulting to KL")
@@ -186,9 +202,9 @@ class ParsedTimes(models.Model):
         self.isha = self.cur.execute(time_str.format("Isyak", code_str, date_str)).fetchall()[0][0].time()
         self.isha = self.isha.replace(hour=self.isha.hour)
 
-    def update_times_by_orm(self,lat=0.0,lng=0.0):
+    def update_times_by_orm(self,lat=0.0,lng=0.0,zone_code=None):
         self.zone = ParsedZone.objects.create()
-        self.zone.update_latest(lat,lng)
+        self.zone.update_latest(lat,lng,zone_code)
         self.zone.save()
         code_str = self.zone.esolat_zone.code_name
         date_obj = self.date_time_parsed.date()

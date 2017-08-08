@@ -90,20 +90,24 @@ class RequestParsedTimes(APIView):
             new_parse.owner=self.request.user
         else:
             new_parse.owner=User.objects.get(pk=1)
-        new_parse.save()
-        new_parse.update_ip_address(request)
+        # new_parse.save()
+        # new_parse.update_ip_address(request)
         print(request.data) # Gotcha -- dont use QueryDict like POST and GET
-        if 'lat' in request.data and 'lon' in request.data:
+        if 'lat' in request.data and 'lng' in request.data:
             # default date is current day
             if 'day-delta' in request.data:
                 delta = int(request.data['day-delta'])
                 new_parse.date_time_parsed += timedelta(days=delta)
             
             lat = float(request.data['lat'])
-            lng = float(request.data['lon'])
+            lng = float(request.data['lng'])
             new_parse.update_times_by_orm(lat,lng)
+        elif 'code' in request.data:
+            new_parse.update_times_by_orm(zone_code=request.data['code'])
         else:
             new_parse.update_times_by_orm(0.0,0.0)
+        new_parse.update_ip_address(request)
+
         new_parse.save()
         
         serializer = ParsedTimesSerializer(new_parse)

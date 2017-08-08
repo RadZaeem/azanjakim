@@ -1,0 +1,24 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "python.pythonPath":"/home/muaz/.virtualenvs/azanjakim/bin/python",
+    // "cwd": "${workspaceRoot}",
+    "python.linting.enabled": false,
+    // "python.linting.pylintPath": "pylint --load-plugins pylint_django"
+    "python.linting.pylintArgs": ["--load-plugins", "pylint_django"]
+//     {
+//     "name": "Python",
+//     "type": "python",
+//     "pythonPath":"${config.python.pythonPath}", 
+//     "request": "launch",
+//     "stopOnEntry": true,
+//     "console": "none",
+//     "program": "${file}",
+//     "cwd": "${workspaceRoot}",
+//     "debugOptions": [
+//         "WaitOnAbnormalExit",
+//         "WaitOnNormalExit",
+//         "RedirectOutput"
+//     ],
+//     "env": {"name":"value"}
+// }
+}

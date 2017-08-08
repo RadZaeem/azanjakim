@@ -11,6 +11,7 @@ export var Auth = {
       Auth.getTokenAndUserWithFBLogin()
       .then( (tokenAndUser) => {resolve(tokenAndUser)})
       .catch( (response) => {
+        console.log("No FB Login, Trying using fingerprint")
         console.log(response)
         var client = new ClientJS()
         var fingerprint = client.getFingerprint().toString(16);
@@ -20,17 +21,8 @@ export var Auth = {
           // console.log(tokenAndUser)
           resolve(tokenAndUser)
         })
+        .catch((error) => {console.log(error)})
       })
-
-        // var client = new ClientJS()
-        // var fingerprint = client.getFingerprint().toString(16);
-        // // console.log(typeof client.getFingerprint().toString(16))
-        // Auth.getTokenAndUserWithFingerprint(fingerprint)
-        // .then(function(tokenAndUser) {
-        //   // console.log(tokenAndUser)
-        //   resolve(tokenAndUser)
-        // })
-
       })
   }, 
 
@@ -41,31 +33,15 @@ export var Auth = {
           Auth.getTokenAndUserWithFBToken(response.authResponse["accessToken"])//.then( (result) => {})
           .then( (result) => {resolve(result)})
       else reject(response)
-      // resolve(response)
+      resolve(response)
     })
   })
 
   },
 
-  // getTestToken: function () {
-  //   api.request(
-  //   {
-  //     method: "POST",
-  //     url: api.url+"api-token-auth/",
-  //     data: {"username":"qweqweqwe","password":"qweqweqwe"},
-  //   }
-  //   )
-  //   .then(function(result) {
-  //     // api.token(result["token"])
-  //     // console.log("update test token: " +api.token())
-  //     return result["token"]
-
-  //   })
-  // },
 
   getTokenAndUserWithFingerprint: function(fingerprint){
     return new Promise(function(resolve,reject)   {
-  //this.fingerprint = this.client.getFingerprint().toString();
     console.log("using fingerprint " + fingerprint )
 
 
@@ -82,14 +58,12 @@ export var Auth = {
       // background:true
     })
     .then(function (result)  {
-      // api.token(result["token"])
       resolve(result)
       console.log("success login with fingerprint")
     })
     .catch( (error) =>  {
       console.log(error)
       console.log("attempt register")
-      // register
       m.request({
         method: "POST",
         url: api.url+"rest-auth/registration/",
@@ -115,27 +89,21 @@ export var Auth = {
   
   getTokenAndUserWithFBToken: function (FBToken){
 return new Promise(function(resolve,reject)   {
-    // console.log("FBInit using Facebook API token: "+response.authResponse["accessToken"])
+    console.log("FBInit using Facebook API token: "+response.authResponse["accessToken"])
       m.request( {
         method: "POST",
         url: api.url+"rest-auth/facebook/",
         // data: {"access_token": response.authResponse["accessToken"]},
-        data: {"access_token": FBToken},
-        
-        background:true 
+        data: {"access_token": FBToken},        
+        // background:true 
       })
       .then((result)=>{ // token still not expired
-        // console.log("FBInit JWT token received!")
         resolve(result);
 
-        // api.token(result["token"])
-        // Auth.user = result["user"]
-        // Auth.usernameDisplay = Auth.user.first_name + " " + Auth.user.last_name
       })
       .catch((error)=>{
         console.log(error)
         reject(error)
-        // return Auth.getRefreshedTokenOrNew()
       })
     })  
     },
@@ -154,12 +122,10 @@ return new Promise(function(resolve,reject)   {
       .then((result)=>{ // token still not expired
         console.log("token refreshed!")
         resolve(token)
-        // m.redraw()
 
         })
       .catch((error)=>{
         if (error["non_field_errors"]) {
-          // console.log("expired token or invalid")
           reject({"error":"expired token or invalid"})
         }
 
@@ -168,11 +134,6 @@ return new Promise(function(resolve,reject)   {
 
       })
     }
-    
-      // m.redraw()
-    
-    // m.redraw()
-
 
 
 
