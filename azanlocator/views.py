@@ -83,30 +83,20 @@ class RequestParsedTimes(APIView):
 
     def post(self, request, format=None):
         new_parse = ParsedTimes()
-        # if type(self.request.user)==
-        # new_parse.owner=self.request.user
+        new_parse.owner=self.request.user
         print(type(self.request.user))
-        if (type(self.request.user)==User):
-            new_parse.owner=self.request.user
-        else:
-            new_parse.owner=User.objects.get(pk=1)
-        # new_parse.save()
-        # new_parse.update_ip_address(request)
-        print(request.data) # Gotcha -- dont use QueryDict like POST and GET
-        if 'lat' in request.data and 'lng' in request.data:
-            # default date is current day
-            if 'day-delta' in request.data:
-                delta = int(request.data['day-delta'])
-                new_parse.date_time_parsed += timedelta(days=delta)
+        # if (type(self.request.user)==User):
+        #     new_parse.owner=self.request.user
+        # else:
+        #     new_parse.owner=User.objects.get(pk=1)
+        # print(request.data) # Gotcha -- dont use QueryDict like POST and GET
+        day_delta=0
+        if 'day-delta' in request.data:
+            delta = int(request.data['day-delta'])
+            new_parse.date_time_parsed += timedelta(days=delta)
             
-            lat = float(request.data['lat'])
-            lng = float(request.data['lng'])
-            new_parse.update_times_by_orm(lat,lng)
-        elif 'coords' in request.data:
+        if 'coords' in request.data:
             # default date is current day
-            if 'day-delta' in request.data:
-                delta = int(request.data['day-delta'])
-                new_parse.date_time_parsed += timedelta(days=delta)
             
             lat = float(request.data['coords']['lat'])
             lng = float(request.data['coords']['lng'])

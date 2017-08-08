@@ -1,5 +1,5 @@
 import m from "mithril"
-
+import {home} from "../views/home"
 //import { main } from "layouts/main"
 
 import { main, about} from "views/main"
@@ -10,7 +10,8 @@ export var routes = {
     'index': {
         path: '/',
         render: () => {
-            return m(main, m("div.temp", "long page"))
+            return m(main, m(home))
+            // return m(main, m("div.temp", "long page"))
         }
     },
     'about': {

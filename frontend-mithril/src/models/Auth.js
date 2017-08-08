@@ -33,7 +33,7 @@ export var Auth = {
           Auth.getTokenAndUserWithFBToken(response.authResponse["accessToken"])//.then( (result) => {})
           .then( (result) => {resolve(result)})
       else reject(response)
-      resolve(response)
+      // resolve(response)
     })
   })
 
@@ -89,7 +89,7 @@ export var Auth = {
   
   getTokenAndUserWithFBToken: function (FBToken){
 return new Promise(function(resolve,reject)   {
-    console.log("FBInit using Facebook API token: "+response.authResponse["accessToken"])
+    console.log("FBInit using Facebook API token: " + FBToken)
       m.request( {
         method: "POST",
         url: api.url+"rest-auth/facebook/",

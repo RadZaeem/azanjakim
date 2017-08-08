@@ -25,6 +25,7 @@ export var state = {
   initialize: function() {
     Auth.getTokenAndUserWithFBOrTryFingerprint()
     .then( (result) => {
+      console.log(result)
       state.updateUserAndToken(result)
     })
   },

@@ -2,6 +2,7 @@ import m from "mithril"
 import {Auth} from "../models/Auth"
 import {AuthStatus} from "../views/AuthStatus"
 import {api} from "api"
+import {state} from "../models/state"
 // main = navbar page
 // TODO: move this to oninit lifecycle method 
 var dataStore = {
@@ -12,24 +13,8 @@ var dataStore = {
 
 export var main = {
     oninit: function() {
-        console.log("main (navbar) init")
-        /*
-        // TODO
-        autolocate checkbox
-        save per user session
-
-
-        auth (fb or anon )
-        check if HTML5 location is on or off
-        if off:
-          default coords to KL
-        else if on:
-          get coords
-        requestParsedTimes today, tomorrow
-        */
-        // api.token("")
-        // Auth.initialize()
-
+        state.initialize()
+        // console.log("main (navbar) init")
     },
     onscrollEvent(e) {
         if (e.srcElement.scrollTop > 0) {
