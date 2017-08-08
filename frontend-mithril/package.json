@@ -31,6 +31,8 @@
   "dependencies": {
     "clientjs": "^0.1.11",
     "fb-promise-wrapper": "^1.0.0",
-    "mithril": "^1.1.1"
+    "mithril": "^1.1.1",
+    "moment": "^2.18.1",
+    "moment-timezone": "^0.5.13"
   }
 }

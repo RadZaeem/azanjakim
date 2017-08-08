@@ -33,13 +33,15 @@ export var main = {
         return [
         // m(AuthStatus),
             m("header#header", { class: dataStore.scrolled ? "shadow" : "", key: "header" },
-                // m(AuthStatus),
                 m(".container",
+                    // m(AuthStatus),
                     m("a.logo", { href: "/", oncreate: m.route.link }, "17rakaat.me"),
+                    // m("a.logo", {} ,m(AuthStatus)),
 
 
                     m("nav.navlinks",
                         m("ul",
+                            m("li",{},m(AuthStatus)),
                             m("li", { class: m.route.get() == "/" ? "active" : "" },
                                 m("a", { href: "/", oncreate: m.route.link }, "INDEX")
                             ),

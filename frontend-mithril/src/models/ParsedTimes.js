@@ -2,16 +2,12 @@ var m = require(mithril)
 
 // basically copy contents
 var ParsedTimes = {
-    jsonToday: {},
-    jsonTomorrow: {},
+    
     view : function(vnode) {
 
     },
 
-    // token is string
-    getJsonWithToken : function(token) {
-        //api.request, then copy to retrievedJson
-    }
+    
 }
 
 /*

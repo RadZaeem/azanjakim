@@ -4,7 +4,10 @@ import m from "mithril"
 
 import {Auth} from "./Auth"
 const FBPromise  = require('fb-promise-wrapper')
+var moment = require('moment')
 
+// mutable data store with destructive functions
+// TODO use flux-based architecture, e.g. Redux
 export var state = {
   didAuth: null,
   lastLogin: null,
@@ -23,11 +26,37 @@ export var state = {
   },
 
   initialize: function() {
+    state.updateCoordsAuto()
     Auth.getTokenAndUserWithFBOrTryFingerprint()
     .then( (result) => {
       console.log(result)
       state.updateUserAndToken(result)
     })
+  },
+
+  updateCoordsAuto: function () {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            state.coords = {
+              "lat":pos.coords.latitude.toString(),
+              "lng":pos.coords.longitude.toString()
+            }
+            console.log(state.coords)
+          },
+          (err) => {
+            console.warn(err)
+
+          })
+    } 
+  },
+
+  updateCoordsManual: function(lat,lng) {
+    state.coords = {
+              "lat":lat.toString(),
+              "lng":lat.toString()
+            }
+
   },
 
   getTimesWithAutolocation: function () {
@@ -43,21 +72,19 @@ export var state = {
     })
   },
 
-  getTimes : function (coords, zone="SGR02", doAutolocate=false) {
-    var coordsOrZone = {} //{"lat":0.0,"lng":0.0}
-    if (coords) {
-      coordsOrZone["coords"]=coords
-    } 
-    else if (zone) { // default to KL
-      coordsOrZone["zone"] = zone
-    }
+  getTimes : function (coords, zone="SGR02", date=null, day_delta = null) {
+    var data = {} 
+    if (coords) data["coords"]=coords //{"lat":"0.0","lng":"0.0"}
+    else if (zone) data["zone"] = zone
+    if (date) data["date"] = date
+    if (day_delta) data["day-delta"] = day_delta // note hypen and underscore
 
     return new Promise( function (resolve,reject) {
       api.request ({
       method: "POST",
       // url: api.url+"api-token-auth/",
       url: api.url+"request-parsed-times/",
-      data: coordsOrZone
+      data: data
 
     })
 
@@ -67,7 +94,7 @@ export var state = {
   updateUserAndToken: function (tokenAndUser) {
     state.tokenAndUser = tokenAndUser
     state.didAuth = true
-    api.token(tokenAndUser["token"])
+    api.token(tokenAndUser["token"]) // put token for api calls
     m.redraw() // to update username display
   }
 }

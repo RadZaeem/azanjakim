@@ -12,12 +12,13 @@ export var AuthStatus = {
 
   view: function (vnode) {
     if (!state.didAuth)//(!state.tokenAndUser) 
-        return [m(FBLoginButton), m("p","...")] // must include button here..
+        return [m(FBLoginButton), "..."] // must include button here..
     else if (state.tokenAndUser["user"]["first_name"]=="") 
-        return [m(FBLoginButton), m("p","Anda belum login")] // ..or it wont show here
+        return [m(FBLoginButton), ""] // ..or it wont show here
     else if (state.tokenAndUser["user"]["first_name"])
-        return [m("p","Assalamualaikum,  " +state.tokenAndUser["user"]["first_name"]),
-        m("a", {"onClick":"FB.logout(function(response) {location.reload()}) "}, "[Logout]")]//     + Auth.usernameDisplay)
+        return ["Assalamualaikum,  " +state.tokenAndUser["user"]["first_name"],  
+            // m("a", {"onClick":"FB.logout(function(response) {location.reload()}) "}, "[Logout]"))]
+        m("a", {"onClick":"FB.logout(function(response) {location.reload()}) "}, "[Logout]")]//     + Auth.usernameDisplay
       
       
     // if (!state.tokenAndUser) {

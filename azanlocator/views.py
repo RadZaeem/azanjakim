@@ -90,11 +90,17 @@ class RequestParsedTimes(APIView):
         # else:
         #     new_parse.owner=User.objects.get(pk=1)
         # print(request.data) # Gotcha -- dont use QueryDict like POST and GET
+
+        if 'date' in request.data: # client give timestamp when request
+            new_parse.date_time_parsed = request.data["date"]
+            new_parse.date_time_requested = request.data["date"]
         day_delta=0
-        if 'day-delta' in request.data:
+        if 'day-delta' in request.data: # to easily ask for next day, a week, etc.
             delta = int(request.data['day-delta'])
             new_parse.date_time_parsed += timedelta(days=delta)
-            
+        # if 'date' in request.data:
+
+
         if 'coords' in request.data:
             # default date is current day
             
