@@ -7,6 +7,25 @@ import {state} from "../models/state"
 var moment = require('moment');
 moment.locale("ms-my")
 
+import mithrilSelect from "mithril-select"
+// var mithrilSelect = require("mithril-select").default
+ 
+// Options for the select
+const colourOptions = [
+  {value: null, content: "Select a colour..."},
+  {value: "red", content: "Red"},
+  {value: "blue", content: "Blue"},
+  {value: "green", content: "Green"},
+  {value: "yellow", content: "Yellow"},
+  {value: "orange", content: "Orange"},
+  {value: "pink", content: "Pink"}
+]
+
+
+ 
+var  colour = ""
+
+
 var timeStr = "00.00.00"
 function updateTime () {
   setInterval(function() {
@@ -28,15 +47,27 @@ var digitalClock = {
 
 var geolocationStatus = {
   view: function(vnode) {
-    return  m("label.switch",
-  [
-    m("input[type='checkbox']"),
-    m("span.slider")
-  ]
-)
+    return [
+    "Lokasi Automatik: ",
+      m("label.switch",
+        [m("input[type='checkbox']",
+           {onclick: m.withAttr("checked", (s)=>{console.log(s)})}
+          ),m("span.slider")]
+        ),
+
+      // m("input[type=checkbox]", {onclick: m.withAttr("checked", function(s) {console.log(s)})})
+
+    // "Negeri: ",
+
+
+
+      ]
+
 
   }
 }
+
+
 
 export var home = {
   oninit: function (){
@@ -52,7 +83,18 @@ export var home = {
     return [
     m(digitalClock),
     m("div",moment().format(" LL")),
-    m(geolocationStatus)
+    m(geolocationStatus),
+    m(mithrilSelect, {
+      options: colourOptions,
+      // A CSS class to add to the root element of the select
+      // class: 'my-select',
+      // Respond to selection changes
+      onchange: (val) => {
+        colour = val != null
+          ? colourOptions.find(c => c.value === val).content : ""
+        console.log(colour)
+      }
+    })
     ]
   //   m("label.switch",
   // [

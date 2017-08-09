@@ -283,6 +283,15 @@ class DailyTimes(models.Model):
         return  self.today.strftime(" %d %B %Y (%A)")
         #("%A, %d. %B %Y %I:%M%p")
 
+# class UserSettings(models.Model):
+
+#     owner = models.ForeignKey('auth.User', related_name='parsed_times', on_delete=models.CASCADE)
+#     zone = models.ForeignKey(ParsedZone, related_name='parsed_times', on_delete=models.CASCADE)#default=init_zone_code)#, on_delete=models.CASCADE)
+    
+    
+
+    # def __str__(self):
+    #     return str(self.owner)
 
 
 '''
