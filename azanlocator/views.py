@@ -69,6 +69,23 @@ class DailyTimesList(APIView):
         serializer = DailyTimesSerializer(daily_times, many=True)
         return Response(serializer.data)
 
+class RequestLastParsedTimes(APIView):
+    # TODO buat auto anon user based on fingerprint
+    # kena ubah. stopkan dulu facebook login..
+    permission_classes = (permissions.IsAuthenticated,)
+    #permission_classes = (IsOwnerOrAnon,)#Only,)#,IsOwnerOrReadOnly)
+    def get(self, request, format=None):
+        # daily_times = DailyTimes.objects.get(pk=1)
+        # serializer = DailyTimesSerializer(daily_times)#, many=True)
+        try:
+            old_parses = ParsedTimes.objects.all().filter(owner=request.user).latest('id')
+        except:
+            old_parses = ParsedTimes.objects.all().filter(owner=request.user)#.latest('id')
+
+        serializer = ParsedTimesSerializer(old_parses, many=False)
+        return Response(serializer.data)
+
+
 class RequestParsedTimes(APIView):
     # TODO buat auto anon user based on fingerprint
     # kena ubah. stopkan dulu facebook login..

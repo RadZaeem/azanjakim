@@ -8,19 +8,7 @@ var moment = require('moment');
 moment.locale("ms-my")
 
 import mithrilSelect from "mithril-select"
-// var mithrilSelect = require("mithril-select").default
- 
-// Options for the select
-const colourOptions = [
-  {value: null, content: "Select a colour..."},
-  {value: "red", content: "Red"},
-  {value: "blue", content: "Blue"},
-  {value: "green", content: "Green"},
-  {value: "yellow", content: "Yellow"},
-  {value: "orange", content: "Orange"},
-  {value: "pink", content: "Pink"}
-]
-
+import {stateOptions} from "./StateZoneData"
 
  
 var  colour = ""
@@ -29,9 +17,10 @@ var  colour = ""
 var timeStr = "00.00.00"
 function updateTime () {
   setInterval(function() {
-    moment.locale("en")
-    timeStr = moment().format('LTS');
-    moment.locale("ms-my")
+    // moment.locale("en")
+    // timeStr = moment().format('LTS');
+    // moment.locale("ms-my")
+    timeStr = new Date().toLocaleTimeString()
     m.redraw()
 
   },1000)
@@ -46,14 +35,26 @@ var digitalClock = {
 }
 
 var geolocationStatus = {
+
   view: function(vnode) {
+    var str = ""
+        if (state.allowedAutolocate==false)
+          str = "Tiada geolocation. Klik ikon geolocation di address bar untuk reset."
+        else if (state.doAutolocate)
+          str= "geolocation diaktifkan" 
     return [
     "Lokasi Automatik: ",
       m("label.switch",
         [m("input[type='checkbox']",
-           {onclick: m.withAttr("checked", (s)=>{console.log(s)})}
+           {onclick: m.withAttr("checked",
+             (s)=>{state.setAutolocate(s)}),
+           checked: state.doAutolocate
+         }
           ),m("span.slider")]
+
         ),
+      m("p",str)
+      
 
       // m("input[type=checkbox]", {onclick: m.withAttr("checked", function(s) {console.log(s)})})
 
@@ -85,13 +86,13 @@ export var home = {
     m("div",moment().format(" LL")),
     m(geolocationStatus),
     m(mithrilSelect, {
-      options: colourOptions,
+      options: stateOptions,
       // A CSS class to add to the root element of the select
       // class: 'my-select',
       // Respond to selection changes
       onchange: (val) => {
         colour = val != null
-          ? colourOptions.find(c => c.value === val).content : ""
+          ? stateOptions.find(c => c.value === val).content : ""
         console.log(colour)
       }
     })

@@ -16,6 +16,7 @@ export var state = {
   tokenAndUser: null,
   coords: null,
   doAutolocate: null,
+  allowedAutolocate: null,//()=>{if (navig)},
   zone: null,
 
   dispatch: function(action, args) {
@@ -26,12 +27,52 @@ export var state = {
   },
 
   initialize: function() {
-    state.updateCoordsAuto()
+    // state.updateCoordsAuto()
     Auth.getTokenAndUserWithFBOrTryFingerprint()
     .then( (result) => {
       console.log(result)
       state.updateUserAndToken(result)
+      state.getLastConfig()
     })
+  },
+
+  getLastConfig: function() {
+    api.request ({
+      method: "GET",
+      // url: api.url+"api-token-auth/",
+      url: api.url+"request-last-parsed-times/"
+    })
+    .then(function (result)  {
+      // resolve(result)
+      console.log(result)
+      if (!(Object.keys(result).length === 0 && result.constructor === Object)) {
+        state.doAutolocate = result["zone"]["did_autolocate"]
+        state.zone = result["zone"]["esolat_zone"]["code_name"]
+      }
+      else {
+        console.log("empty!")
+        state.doAutolocate = false
+        state.zone = "SGR02"
+      }
+
+      
+    })
+    .catch( (error) =>  {
+      console.log(error)
+
+      
+    })
+  },
+
+  setAutolocate: function (yes) {
+    if (yes) {
+      if (navigator.geolocation) {
+        state.updateCoordsAuto()
+      }
+    }
+    else
+      state.doAutolocate = false
+
   },
 
   updateCoordsAuto: function () {
@@ -42,9 +83,14 @@ export var state = {
               "lat":pos.coords.latitude.toString(),
               "lng":pos.coords.longitude.toString()
             }
+            state.doAutolocate = true
+            state.allowedAutolocate = true
             console.log(state.coords)
           },
           (err) => {
+            state.doAutolocate = false
+            if (err.code == 1)
+              state.allowedAutolocate = false
             console.warn(err)
 
           })
