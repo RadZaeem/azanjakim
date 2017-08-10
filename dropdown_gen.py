@@ -48,7 +48,7 @@ with open(path) as csvfile:
         #     if (contents_str):
         #         contents_str = contents_str[:-1] # delete trailing comma
             a[current_state].append(
-                {"value": current_code, "content": contents_str[:-2]})
+                {"value": previous_code, "content": contents_str[:-2]})
 
         #     #then reset
         #     # current_code = code
