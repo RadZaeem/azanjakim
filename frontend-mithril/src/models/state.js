@@ -6,95 +6,207 @@ import {Auth} from "./Auth"
 const FBPromise  = require('fb-promise-wrapper')
 var moment = require('moment')
 
+import {stateOptions, zoneOptionsForState, getStateByZone} from "./StateZoneData"
+
+function getKeyByValue(object, value) {
+  return Object.keys(object).find(key => object[key] === value);
+}
+
 // mutable data store with destructive functions
 // TODO use flux-based architecture, e.g. Redux
 export var state = {
   didAuth: null,
   lastLogin: null,
-  todayTimes: null,
-  tomorrowTimes: null,
+  parsedTimes: null,
   tokenAndUser: null,
   coords: null,
-  doAutolocate: null,
+  autolocateZone:null,
+  doAutolocate: null,//localStorage.getItem('17rakaat-auto') || false,
   allowedAutolocate: null,//()=>{if (navig)},
-  zone: null,
+  state: "KUALA LUMPUR",
+  zone: "SGR03",
 
   dispatch: function(action, args) {
     state[action].apply(state, args || [])
     requestAnimationFrame(function() {
-      // localStorage["todos-mithril"] = JSON.stringify(state.todos)
+      // //localStorage["todos-mithril"] = JSON.stringify(state.todos)
     })
   },
 
   initialize: function() {
+    // console.log(getStateByZone("JHR01"))
+    // console.log(getStateByZone("JHR0"))
     // state.updateCoordsAuto()
     Auth.getTokenAndUserWithFBOrTryFingerprint()
     .then( (result) => {
       console.log(result)
       state.updateUserAndToken(result)
-      state.getLastConfig()
+      state.loadLastConfig()
+      .then( (result) => {
+        //update values
+        if (!(Object.keys(result).length === 0 && result.constructor === Object)) {
+          state.doAutolocate = result["zone"]["did_autolocate"]
+          //localStorage.setItem('17rakaat-auto',state.doAutolocate) 
+          var s = result["zone"]["esolat_zone"]["state_name"]
+          var z = result["zone"]["esolat_zone"]["code_name"]
+          state.setStateAndZone(s,z)
+          // state.zone = result["zone"]["esolat_zone"]["code_name"]
+        }
+        else {
+          console.log("empty! -- default to KL, no location")
+          state.doAutolocate = false
+          state.setStateAndZone("KUALA LUMPUR","SGR03")
+        }
+
+        if (state.doAutolocate) {
+          // state.getTimesWithAutolocation()
+          state.setAutolocateThenGetTimes(state.doAutolocate)
+          .then( (result) => {
+            state.parsedTimes = result
+            console.log(state.parsedTimes)
+            
+
+          })
+        }
+        else {
+          console.log(state.zone)
+          state.getTimes(null,state.zone)
+          .then( (result) => {
+            state.parsedTimes = result
+            console.log(state.parsedTimes)
+            
+
+          })
+        }
+      })
+      // state.getTimes().then((result)=> {console.log(result)})
     })
   },
 
-  getLastConfig: function() {
-    api.request ({
-      method: "GET",
+  setStateAndZone: function(s,z) {
+    if (s==null) {
+      state.state = getStateByZone(z)
+      state.zone = z
+    }
+    else if (z==null) {
+      state.state = state
+      state.zone = null
+    }
+    else {
+    state.state = s
+    state.zone = z
+    }
+  },
+
+  loadLastConfig: function() {
+    return new Promise( function (resolve,reject) { 
+
+      api.request ({
+        method: "GET",
       // url: api.url+"api-token-auth/",
       url: api.url+"request-last-parsed-times/"
     })
-    .then(function (result)  {
+      .then(function (result)  {
       // resolve(result)
       console.log(result)
-      if (!(Object.keys(result).length === 0 && result.constructor === Object)) {
-        state.doAutolocate = result["zone"]["did_autolocate"]
-        state.zone = result["zone"]["esolat_zone"]["code_name"]
-      }
-      else {
-        console.log("empty!")
-        state.doAutolocate = false
-        state.zone = "SGR02"
-      }
+      
+      // if (!(Object.keys(result).length === 0 && result.constructor === Object)) {
+      //   state.doAutolocate = result["zone"]["did_autolocate"]
+      //   //localStorage.setItem('17rakaat-auto',state.doAutolocate) 
+
+
+      //   state.zone = result["zone"]["esolat_zone"]["code_name"]
+      // }
+      // else {
+      //   console.log("empty! -- default to KL, no location")
+      //   state.doAutolocate = false
+      //   state.setStateAndZone("KUALA LUMPUR","SGR03")
+      // }
+      resolve(result)
 
       
     })
     .catch( (error) =>  {
       console.log(error)
+      reject(error)
 
       
     })
+  })
   },
 
-  setAutolocate: function (yes) {
+  setAutolocateThenGetTimes: function (yes) {
+    return new Promise( function (resolve,reject) {
+
     if (yes) {
       if (navigator.geolocation) {
-        state.updateCoordsAuto()
+        state.getCoordsAuto()
+        .then( (coords) => {
+          state.coords = coords
+          state.doAutolocate = true
+          state.allowedAutolocate = true
+          //localStorage.setItem('17rakaat-auto',true)
+          state.getTimes(state.coords)
+          .then( (result) => {
+            var s = result["zone"]["esolat_zone"]["state_name"]
+            var z = result["zone"]["esolat_zone"]["code_name"]
+            state.setStateAndZone(s,z)
+            state.autolocateZone = result["zone"]["esolat_zone"]["zone_name"]
+            resolve(result)
+            console.log(state.parsedTimes)
+          })
+        })
+        .catch( (error) =>{
+          state.doAutolocate = false
+            if (error.code == 1) {
+              state.allowedAutolocate = false
+          return state.setAutolocateThenGetTimes(false)
+
+            }
+          reject(error)
+
+        })
+
       }
     }
-    else
-      state.doAutolocate = false
+    else {
 
+      state.doAutolocate = false
+      //localStorage.setItem('17rakaat-auto',false) 
+      state.getTimes(null,state.zone)
+          .then( (result) => {
+            resolve(result)
+            
+            console.log(state.parsedTimes)
+            
+
+          })
+
+    }
+})
   },
 
-  updateCoordsAuto: function () {
+  getCoordsAuto: function () {
+    return new Promise( function (resolve,reject) {
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (pos) => {
-            state.coords = {
+            var coords = {
               "lat":pos.coords.latitude.toString(),
               "lng":pos.coords.longitude.toString()
             }
-            state.doAutolocate = true
-            state.allowedAutolocate = true
+            resolve(coords)
             console.log(state.coords)
           },
           (err) => {
-            state.doAutolocate = false
-            if (err.code == 1)
-              state.allowedAutolocate = false
+            reject(err)
             console.warn(err)
 
           })
     } 
+    })
+
   },
 
   updateCoordsManual: function(lat,lng) {
@@ -118,12 +230,13 @@ export var state = {
     })
   },
 
-  getTimes : function (coords, zone="SGR02", date=null, day_delta = null) {
+  getTimes : function (coords, zone, date, day_delta) {
     var data = {} 
     if (coords) data["coords"]=coords //{"lat":"0.0","lng":"0.0"}
     else if (zone) data["zone"] = zone
     if (date) data["date"] = date
     if (day_delta) data["day-delta"] = day_delta // note hypen and underscore
+    console.log(data)
 
     return new Promise( function (resolve,reject) {
       api.request ({
@@ -132,7 +245,8 @@ export var state = {
       url: api.url+"request-parsed-times/",
       data: data
 
-    })
+    }).then( (result) => {resolve(result)})
+      .catch( (error) => {reject(error)})
 
   })
 },

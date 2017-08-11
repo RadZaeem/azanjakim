@@ -14,7 +14,7 @@ with open(path) as csvfile:
 
     for row in reader:
         if first:
-            current_state = row["State"].lower()
+            current_state = row["State"]#.lower()
             previous_state = current_state
             a[current_state] = []
             current_code = row["Code"]
@@ -25,7 +25,7 @@ with open(path) as csvfile:
 
 
         previous_state =  current_state
-        current_state = row["State"].lower()
+        current_state = row["State"]#.lower()
         # print(state)
         # print(previous_state + current_state + str(previous_state == current_state))
 
@@ -53,7 +53,7 @@ with open(path) as csvfile:
         #     #then reset
         #     # current_code = code
         #     # a[current_state] = []
-            contents_str = current_code + ": "
+            contents_str = previous_code + ": "
         contents_str += row["Zone"] + ", "
 
 import pprint
