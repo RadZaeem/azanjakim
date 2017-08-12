@@ -17,7 +17,11 @@ function getKeyByValue(object, value) {
 export var state = {
   didAuth: null,
   lastLogin: null,
+  lastParse: null,
   parsedTimes: null,
+  parsedTimesTomorrow: null,
+  parsedTimesList: null,
+  deltaDay:0,
   tokenAndUser: null,
   coords: null,
   autolocateZone:null,
@@ -62,7 +66,7 @@ export var state = {
           // state.getTimesWithAutolocation()
           state.setAutolocateThenGetTimes(state.doAutolocate)
           .then( (result) => {
-            state.parsedTimes = result
+            state.updateParsedTimes(result)
             console.log(state.parsedTimes)
             
 
@@ -72,7 +76,7 @@ export var state = {
           console.log(state.zone)
           state.getTimes(null,state.zone)
           .then( (result) => {
-            state.parsedTimes = result
+            state.updateParsedTimes(result)            
             console.log(state.parsedTimes)
             
 
@@ -230,13 +234,26 @@ export var state = {
     })
   },
 
-  getTimes : function (coords, zone, date, day_delta) {
+  loadTomorrowTimes: function() {
+    return new Promise( function (resolve,reject) { 
+
+    getTimes((coords) ? coords:null,(!coords) ? zone : null,1,null)
+    .then( (result) => {
+      state.updateParsedTimes(state.parsedTimes, result)
+      resolve(result)
+     } )
+
+    })
+
+  },
+
+  getTimes : function (coords, zone, day_delta, date) {
     var data = {} 
     if (coords) data["coords"]=coords //{"lat":"0.0","lng":"0.0"}
     else if (zone) data["zone"] = zone
     if (date) data["date"] = date
     if (day_delta) data["day-delta"] = day_delta // note hypen and underscore
-    console.log(data)
+    // console.log(data)
 
     return new Promise( function (resolve,reject) {
       api.request ({
@@ -250,6 +267,13 @@ export var state = {
 
   })
 },
+  updateParsedTimes: function (timesJson,timesJsonTomorrow=null) {
+    // state.lastParse = state.parsedTimes
+    state.parsedTimes = timesJson
+    state.parsedTimesTomorrow = timesJsonTomorrow
+    console.log("updated parsedTimes")
+    console.log(timesJson)
+  },
 
   updateUserAndToken: function (tokenAndUser) {
     state.tokenAndUser = tokenAndUser

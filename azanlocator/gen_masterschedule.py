@@ -70,12 +70,12 @@ def generate_models(path="kodzon.csv"):
             d.zone_times=z
             #t=datetime.date(d.year,d.month,d.day)
             d.today=datetime.date(row[3].year,row[3].month,row[3].day)
-            d.subuh=row[3]
-            d.syuruk=row[4]
-            d.zuhur=row[5]
-            d.asar=row[6]
-            d.maghrib=row[7]
-            d.isha=row[8]
+            d.subuh=row[4]
+            d.syuruk=row[5]
+            d.zuhur=row[6]
+            d.asar=row[7]
+            d.maghrib=row[8]
+            d.isha=row[9]
             d.save()
             print(z,d)
             #z.daily_times.append(d)

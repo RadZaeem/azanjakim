@@ -2,6 +2,8 @@ import "styles/main.scss"
 import m from "mithril"
 
 import { routes, generate } from "routes/routes"
+const FBPromise  = require('fb-promise-wrapper')
+
 
  // This is called with the results from from FB.getLoginStatus().
  function statusChangeCallback(response) {
@@ -40,6 +42,7 @@ import { routes, generate } from "routes/routes"
         uid + ': ' + accessToken
 });
 }
+FBPromise.getFB().then((FB) => {
 
 FB.init({
       appId      : '474493519606356',
@@ -48,10 +51,9 @@ FB.init({
       xfbml      : true,  // parse social plugins on this page
       version    : 'v2.8' // use graph api version 2.8
     });
-
+})
 var routes_values = Object.values(routes);
 var r = {}
-
 for (var i = 0; i < routes_values.length; i++) {
     r[routes_values[i].path] = {render: routes_values[i].render}
 }

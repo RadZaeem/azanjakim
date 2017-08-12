@@ -43,7 +43,7 @@ var geolocationStatus = {
     if (state.allowedAutolocate==false)
       str = "Tiada geolocation. Klik ikon geolocation di address bar untuk reset."
     else if (state.doAutolocate){
-      str= "geolocation diaktifkan" 
+      str= "" 
       if (state.autolocateZone)
         str += "Anda berada di: " + state.autolocateZone
     }
@@ -100,6 +100,8 @@ var stateAndZoneSelect = {
         onchange: m.withAttr('value', (val) => {
             if (val != "null") {
             state.setStateAndZone(state.state, val)
+            state.getTimes(null,val)
+            .then( (result) => {state.updateParsedTimes(result)})
             console.log(val)
           }
              // !== "" ?
@@ -109,55 +111,76 @@ var stateAndZoneSelect = {
         , zoneOptions.map(o => m('option', {value: o.value}, o.content))
       ),
 
-      // m("button", {},"Muat semula")
-
-      // m("select", { 
-      //   onchange: (val) => {
-      //     state.zone = val 
-      //     // != null ? stateOptions.find(s => s.value === val).content : ""
-      //     // console.log(state.state)
-      //     }
-      //  } , zoneOptionsForStates[state.state].map(o => m('option', {value: o.value}, o.content))
-      // ),
-      // m(mithrilSelect, {
-      //   options: stateOptions,
-      //   // A CSS class to add to the root element of the select
-      //   // class: 'my-select',
-      //   // Respond to selection changes
-      //   onchange: (val) => {
-      //     state.state = val 
-      //     // != null
-      //     //   ? stateOptions.find(s => s.value === val).content : ""
-      //     console.log(state.state)
-      //     }
-      // }),
-      // m(mithrilSelect, {
-      //   options: zoneOptions,
-      //   // A CSS class to add to the root element of the select
-      //   // class: 'my-select',
-      //   // Respond to selection changes
-      //   onchange: (val) => {
-      //     state.zone = val           != null
-      //       ? zoneOptions.find(s => s.value === val).value : ""
-      //     console.log(state.zone)
-      //     }
-      // }),
-    // m(mithrilSelect, {
-    //     options: zoneOptionsForState[state.state],
-    //     // A CSS class to add to the root element of the select
-    //     // class: 'my-select',
-    //     // Respond to selection changes
-    //     onchange: (val) => {
-    //       colour = val != null
-    //         ? stateOptions.find(c => c.value === val).content : ""
-    //       console.log(colour)
-    //       }
-    //   })
+   
     ]
 
   }
 }
 
+var parsedTimesTable = {
+  oninit: function () {
+    // currentState = state.state
+    // currentZone = state.zone
+  },
+  view: function (vnode) {
+    return [
+   m("table.tg", 
+  m("tbody",
+    [
+      m("tr",
+        [
+          m("th.tg-yw4l", 
+            "Subuh"
+          ),
+          m("th.tg-yw4l")
+        ]
+      ),
+      m("tr",
+        [
+          m("td.tg-yw4l", 
+            "Syuruk"
+          ),
+          m("td.tg-yw4l")
+        ]
+      ),
+      m("tr",
+        [
+          m("td.tg-yw4l", 
+            "Zuhur"
+          ),
+          m("td.tg-yw4l")
+        ]
+      ),
+      m("tr",
+        [
+          m("td.tg-yw4l", 
+            "Asar"
+          ),
+          m("td.tg-yw4l")
+        ]
+      ),
+      m("tr",
+        [
+          m("td.tg-yw4l", 
+            "Maghrib"
+          ),
+          m("td.tg-yw4l")
+        ]
+      ),
+      m("tr",
+        [
+          m("td.tg-yw4l", 
+            "Isha"
+          ),
+          m("td.tg-yw4l")
+        ]
+      )
+    ]
+  )
+)
+    ]
+  }
+}
 
 
 export var home = {
