@@ -52,7 +52,9 @@ var geolocationStatus = {
       m("label.switch",
         [m("input[type='checkbox']",
            {onclick: m.withAttr("checked",
-             (s)=>{state.setAutolocateThenGetTimes(s)}),
+             (s)=>{state.setAutolocateThenGetTimes(s).then( (result) => {
+              state.updateParsedTimes(result,null)
+             })}),
            checked: state.doAutolocate
          }
           ),m("span.slider")]
@@ -86,7 +88,8 @@ var stateAndZoneSelect = {
       m("select", { 
         value: state.state,
         onchange: m.withAttr('value', (val) => {
-            state.setStateAndZone(val,zoneOptionsForStates[val][0].value)//zoneOptions[0].value)
+          if (val=="null") return
+          state.setStateAndZone(val,zoneOptionsForStates[val][0].value)//zoneOptions[0].value)
              // !== "" ?
              //  stateOptions.find(n => n.value === val)!.val
              //  : ""
@@ -101,7 +104,7 @@ var stateAndZoneSelect = {
             if (val != "null") {
             state.setStateAndZone(state.state, val)
             state.getTimes(null,val)
-            .then( (result) => {state.updateParsedTimes(result)})
+            .then( (result) => {state.updateParsedTimes(result);m.redraw()})
             console.log(val)
           }
              // !== "" ?
@@ -117,22 +120,47 @@ var stateAndZoneSelect = {
   }
 }
 
-var parsedTimesTable = {
+var ParsedTimesTable = {
   oninit: function () {
     // currentState = state.state
     // currentZone = state.zone
   },
   view: function (vnode) {
+    var today = vnode.attrs.today
+    var tomorrow = vnode.attrs.tomorrow
+    if (!today) return null
+
+    var dateToday = moment(today["date_time_parsed"]).format("dddd, D/M")
+
+    var dateTomorrow = null
+    if (tomorrow)
+      dateTomorrow = moment(tomorrow["date_time_parsed"]).format("dddd, D/M")
+
+    
     return [
    m("table.tg", 
   m("tbody",
-    [
+    [m("tr",
+        [
+        
+          m("th.tg-yw4l", 
+            "Waktu\\Tarikh"
+          ),
+          m("th.tg-yw4l", dateToday),
+          (tomorrow) ? 
+          m("th.tg-yw4l", dateTomorrow)
+          : null
+        ]
+      ),
       m("tr",
         [
-          m("th.tg-yw4l", 
+          m("td.tg-yw4l", 
             "Subuh"
           ),
-          m("th.tg-yw4l")
+          m("td.tg-yw4l",today["subuh"].slice(0,-3)),
+          (tomorrow) ? 
+          m("td.tg-yw4l",today["subuh"].slice(0,-3))
+          : null
         ]
       ),
       m("tr",
@@ -140,7 +168,10 @@ var parsedTimesTable = {
           m("td.tg-yw4l", 
             "Syuruk"
           ),
-          m("td.tg-yw4l")
+          m("td.tg-yw4l",today["syuruk"].slice(0,-3)),
+          (tomorrow) ? 
+          m("td.tg-yw4l",today["syuruk"].slice(0,-3))
+          : null
         ]
       ),
       m("tr",
@@ -148,7 +179,10 @@ var parsedTimesTable = {
           m("td.tg-yw4l", 
             "Zuhur"
           ),
-          m("td.tg-yw4l")
+          m("td.tg-yw4l", today["zuhur"].slice(0,-3)),
+          (tomorrow) ? 
+          m("td.tg-yw4l",today["zuhur"].slice(0,-3))
+          : null
         ]
       ),
       m("tr",
@@ -156,7 +190,10 @@ var parsedTimesTable = {
           m("td.tg-yw4l", 
             "Asar"
           ),
-          m("td.tg-yw4l")
+          m("td.tg-yw4l", today["asar"].slice(0,-3)),
+          (tomorrow) ? 
+          m("td.tg-yw4l",today["asar"].slice(0,-3))
+          : null
         ]
       ),
       m("tr",
@@ -164,7 +201,10 @@ var parsedTimesTable = {
           m("td.tg-yw4l", 
             "Maghrib"
           ),
-          m("td.tg-yw4l")
+          m("td.tg-yw4l", today["maghrib"].slice(0,-3)),
+          (tomorrow) ? 
+          m("td.tg-yw4l",today["maghrib"].slice(0,-3))
+          : null
         ]
       ),
       m("tr",
@@ -172,12 +212,30 @@ var parsedTimesTable = {
           m("td.tg-yw4l", 
             "Isha"
           ),
-          m("td.tg-yw4l")
+          m("td.tg-yw4l", today["isha"].slice(0,-3)),
+          (tomorrow) ? 
+          m("td.tg-yw4l",today["isha"].slice(0,-3))
+          : null
         ]
       )
     ]
   )
 )
+    ]
+  }
+}
+
+export var ParsedTimesView = {
+  view: function (vnode) {
+    // console.log(state.parsedTimes)
+    return [
+      state.parsedTimes ?  [
+        m(ParsedTimesTable, {today: state.parsedTimes, tomorrow: state.parsedTimesTomorrow}),
+        !state.parsedTimesTomorrow ? m("button",{onclick: () => {
+          state.loadTomorrowTimes().then( (result) => {} )
+        }},"Load Esok") : null
+      ] : null
+       
     ]
   }
 }
@@ -198,7 +256,8 @@ export var home = {
     m(digitalClock),
     m("div",moment().format(" LL")),
     m(geolocationStatus),
-    m(stateAndZoneSelect)
+    m(stateAndZoneSelect),
+    m(ParsedTimesView)
     // m(mithrilSelect, {
     //   options: stateOptions,
     //   // A CSS class to add to the root element of the select

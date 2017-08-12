@@ -155,6 +155,7 @@ export var state = {
             var s = result["zone"]["esolat_zone"]["state_name"]
             var z = result["zone"]["esolat_zone"]["code_name"]
             state.setStateAndZone(s,z)
+            // m.redraw()
             state.autolocateZone = result["zone"]["esolat_zone"]["zone_name"]
             resolve(result)
             console.log(state.parsedTimes)
@@ -179,6 +180,9 @@ export var state = {
       //localStorage.setItem('17rakaat-auto',false) 
       state.getTimes(null,state.zone)
           .then( (result) => {
+            var s = result["zone"]["esolat_zone"]["state_name"]
+            var z = result["zone"]["esolat_zone"]["code_name"]
+            state.setStateAndZone(s,z)
             resolve(result)
             
             console.log(state.parsedTimes)
@@ -237,7 +241,7 @@ export var state = {
   loadTomorrowTimes: function() {
     return new Promise( function (resolve,reject) { 
 
-    getTimes((coords) ? coords:null,(!coords) ? zone : null,1,null)
+    state.getTimes((state.coords) ? state.coords:null,(!state.coords) ? state.zone : null,1,null)
     .then( (result) => {
       state.updateParsedTimes(state.parsedTimes, result)
       resolve(result)
@@ -268,6 +272,9 @@ export var state = {
   })
 },
   updateParsedTimes: function (timesJson,timesJsonTomorrow=null) {
+    // state.parsedTimes = null
+    // state.parsedTimesTomorrow = null
+    // m.redraw()
     // state.lastParse = state.parsedTimes
     state.parsedTimes = timesJson
     state.parsedTimesTomorrow = timesJsonTomorrow
