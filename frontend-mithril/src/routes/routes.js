@@ -18,7 +18,7 @@ export var routes = {
     'about': {
         path: '/about',
         render: () => {
-            return m(main, m("div", "bar"))
+            return m(main, m("div", "Dibuat oleh Muaz. Waktu solat daripada e-solat.gov.my"))
         }
     }
 }

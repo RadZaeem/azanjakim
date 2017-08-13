@@ -40,6 +40,7 @@ var geolocationStatus = {
 
   view: function(vnode) {
     var str = ""
+    var c = state.doAutolocate ? true : false
     if (state.allowedAutolocate==false)
       str = "Tiada geolocation. Klik ikon geolocation di address bar untuk reset."
     else if (state.doAutolocate){
@@ -48,18 +49,29 @@ var geolocationStatus = {
         str += "Anda berada di: " + state.autolocateZone
     }
     return [
-    "Lokasi Automatik: ",
-      m("label.switch",
-        [m("input[type='checkbox']",
-           {onclick: m.withAttr("checked",
+    // "Lokasi Automatik: ",
+      
+      m("label.mdl-switch.mdl-js-switch[for='switch-1']",
+  [ // call .on() and .off() hack to make MDL work
+    // (c) ?
+    m("input.mdl-switch__input[id='switch-1'][type='checkbox']",
+       {onclick: m.withAttr("checked",
              (s)=>{state.setAutolocateThenGetTimes(s).then( (result) => {
-              state.updateParsedTimes(result,null)
-             })}),
-           checked: state.doAutolocate
-         }
-          ),m("span.slider")]
+              state.updateParsedTimes(result,null); // clear tomorrow times also.
+          //     if (c)
+          //   document.querySelector('.mdl-js-switch').MaterialSwitch.off()
+          // else
+          //   document.querySelector('.mdl-js-switch').MaterialSwitch.on()
 
-        ),
+
+             })}),
+       // checked: state.doAutolocate
+         }
+      )
+    ,
+    m("span.mdl-switch__label","Lokasi Automatik")
+  ]
+),
       m("p",str)
       ]
 
@@ -136,6 +148,25 @@ var ParsedTimesTable = {
     if (tomorrow)
       dateTomorrow = moment(tomorrow["date_time_parsed"]).format("dddd, D/M")
 
+    var keys = ["subuh", "syuruk", "zuhur", "asar", "maghrib", "isha"]
+    var times = [today]
+    if (tomorrow) times.push(tomorrow)
+
+    // for (var k in keys) {
+    //   var h = today[k].
+    //   today[k] = moment(today[k]) 
+    // }
+    // moment.locale("en")
+    times.forEach( (time) => {
+      keys.forEach( (key) => {
+        var h = time[key].slice(0,2)
+        var m = time[key].slice(3,5)
+
+        time[key] = moment({h:h, m:m}).format("hh:mm")
+      })
+    } )
+    // moment.locale("ms-my")
+
     
     return [
    m("table.tg", 
@@ -157,9 +188,9 @@ var ParsedTimesTable = {
           m("td.tg-yw4l", 
             "Subuh"
           ),
-          m("td.tg-yw4l",today["subuh"].slice(0,-3)),
+          m("td.tg-yw4l",today["subuh"]),
           (tomorrow) ? 
-          m("td.tg-yw4l",today["subuh"].slice(0,-3))
+          m("td.tg-yw4l",today["subuh"])
           : null
         ]
       ),
@@ -168,9 +199,9 @@ var ParsedTimesTable = {
           m("td.tg-yw4l", 
             "Syuruk"
           ),
-          m("td.tg-yw4l",today["syuruk"].slice(0,-3)),
+          m("td.tg-yw4l",today["syuruk"]),
           (tomorrow) ? 
-          m("td.tg-yw4l",today["syuruk"].slice(0,-3))
+          m("td.tg-yw4l",today["syuruk"])
           : null
         ]
       ),
@@ -179,9 +210,9 @@ var ParsedTimesTable = {
           m("td.tg-yw4l", 
             "Zuhur"
           ),
-          m("td.tg-yw4l", today["zuhur"].slice(0,-3)),
+          m("td.tg-yw4l", today["zuhur"]),
           (tomorrow) ? 
-          m("td.tg-yw4l",today["zuhur"].slice(0,-3))
+          m("td.tg-yw4l",today["zuhur"])
           : null
         ]
       ),
@@ -190,9 +221,9 @@ var ParsedTimesTable = {
           m("td.tg-yw4l", 
             "Asar"
           ),
-          m("td.tg-yw4l", today["asar"].slice(0,-3)),
+          m("td.tg-yw4l", today["asar"]),
           (tomorrow) ? 
-          m("td.tg-yw4l",today["asar"].slice(0,-3))
+          m("td.tg-yw4l",today["asar"])
           : null
         ]
       ),
@@ -201,9 +232,9 @@ var ParsedTimesTable = {
           m("td.tg-yw4l", 
             "Maghrib"
           ),
-          m("td.tg-yw4l", today["maghrib"].slice(0,-3)),
+          m("td.tg-yw4l", today["maghrib"]),
           (tomorrow) ? 
-          m("td.tg-yw4l",today["maghrib"].slice(0,-3))
+          m("td.tg-yw4l",today["maghrib"])
           : null
         ]
       ),
@@ -212,9 +243,9 @@ var ParsedTimesTable = {
           m("td.tg-yw4l", 
             "Isha"
           ),
-          m("td.tg-yw4l", today["isha"].slice(0,-3)),
+          m("td.tg-yw4l", today["isha"]),
           (tomorrow) ? 
-          m("td.tg-yw4l",today["isha"].slice(0,-3))
+          m("td.tg-yw4l",today["isha"])
           : null
         ]
       )
@@ -231,9 +262,11 @@ export var ParsedTimesView = {
     return [
       state.parsedTimes ?  [
         m(ParsedTimesTable, {today: state.parsedTimes, tomorrow: state.parsedTimesTomorrow}),
-        !state.parsedTimesTomorrow ? m("button",{onclick: () => {
+        !state.parsedTimesTomorrow ? m("button",{
+class:"mdl-button mdl-js-button mdl-button--raised mdl-button--colored",
+          onclick: () => {
           state.loadTomorrowTimes().then( (result) => {} )
-        }},"Load Esok") : null
+        }},"Klik Untuk Esok") : null
       ] : null
        
     ]

@@ -62,26 +62,26 @@ export var state = {
           state.setStateAndZone("KUALA LUMPUR","SGR03")
         }
 
-        if (state.doAutolocate) {
+        // if (state.doAutolocate) {
           // state.getTimesWithAutolocation()
           state.setAutolocateThenGetTimes(state.doAutolocate)
           .then( (result) => {
             state.updateParsedTimes(result)
-            console.log(state.parsedTimes)
+            // console.log(state.parsedTimes)
             
 
           })
-        }
-        else {
-          console.log(state.zone)
-          state.getTimes(null,state.zone)
-          .then( (result) => {
-            state.updateParsedTimes(result)            
-            console.log(state.parsedTimes)
+        // }
+        // else {
+        //   console.log("autolocate disabled, zone: "+state.zone)
+        //   state.getTimes(null,state.zone)
+        //   .then( (result) => {
+        //     state.updateParsedTimes(result)            
+        //     // console.log(state.parsedTimes)
             
 
-          })
-        }
+        //   })
+        // }
       })
       // state.getTimes().then((result)=> {console.log(result)})
     })
@@ -112,6 +112,7 @@ export var state = {
     })
       .then(function (result)  {
       // resolve(result)
+      console.log("last parse found!")
       console.log(result)
       
       // if (!(Object.keys(result).length === 0 && result.constructor === Object)) {
@@ -141,6 +142,8 @@ export var state = {
 
   setAutolocateThenGetTimes: function (yes) {
     return new Promise( function (resolve,reject) {
+      // document.querySelector('.mdl-js-switch').MaterialSwitch.on()
+
 
     if (yes) {
       if (navigator.geolocation) {
@@ -149,6 +152,9 @@ export var state = {
           state.coords = coords
           state.doAutolocate = true
           state.allowedAutolocate = true
+          // if document.querySelector('.mdl-js-switch')
+            document.querySelector('.mdl-js-switch').MaterialSwitch.on()
+
           //localStorage.setItem('17rakaat-auto',true)
           state.getTimes(state.coords)
           .then( (result) => {
@@ -157,8 +163,9 @@ export var state = {
             state.setStateAndZone(s,z)
             // m.redraw()
             state.autolocateZone = result["zone"]["esolat_zone"]["zone_name"]
+            console.log("autolocate enabled")
             resolve(result)
-            console.log(state.parsedTimes)
+            // console.log(state.parsedTimes)
           })
         })
         .catch( (error) =>{
@@ -175,22 +182,29 @@ export var state = {
       }
     }
     else {
+      console.log("autolocate disabled")
 
       state.doAutolocate = false
+      // if document.querySelector('.mdl-js-switch')
+        document.querySelector('.mdl-js-switch').MaterialSwitch.off()
+
       //localStorage.setItem('17rakaat-auto',false) 
       state.getTimes(null,state.zone)
           .then( (result) => {
             var s = result["zone"]["esolat_zone"]["state_name"]
             var z = result["zone"]["esolat_zone"]["code_name"]
             state.setStateAndZone(s,z)
+            // console.log(document.querySelector('.mdl-switch__input').checked)
             resolve(result)
             
-            console.log(state.parsedTimes)
+            // console.log(state.parsedTimes)
             
 
           })
 
     }
+
+    // if (yes)
 })
   },
 
@@ -205,7 +219,6 @@ export var state = {
               "lng":pos.coords.longitude.toString()
             }
             resolve(coords)
-            console.log(state.coords)
           },
           (err) => {
             reject(err)

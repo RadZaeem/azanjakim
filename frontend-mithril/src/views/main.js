@@ -43,10 +43,10 @@ export var main = {
                         m("ul",
                             m("li",{},m(AuthStatus)),
                             m("li", { class: m.route.get() == "/" ? "active" : "" },
-                                m("a", { href: "/", oncreate: m.route.link }, "INDEX")
+                                m("a", { href: "/", oncreate: m.route.link }, "Waktu Solat")
                             ),
                             m("li", { class: m.route.get() == "/about" ? "active" : "" },
-                                m("a", { href: "/about", oncreate: m.route.link }, "ABOUT")
+                                m("a", { href: "/about", oncreate: m.route.link }, "Tentang Kami")
                             ),
                         )
                     )
