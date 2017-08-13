@@ -11,14 +11,17 @@ export var routes = {
         path: '/',
         render: () => {
             // return m(home)
-            return m(main, m(home))
+            return m(main, m(home, {activeTab :"hari-ini"}))
             // return m(main, m("div.temp", "long page"))
         }
     },
     'about': {
         path: '/about',
         render: () => {
-            return m(main, m("div", "Dibuat oleh Muaz. Waktu solat daripada e-solat.gov.my"))
+            // TODO setkan m(main, {setkan active tab mana satu...})
+            return 
+                    m("main.mdl-layout__content.main.mdl-layout__content.mdl-tabs__panel[id='tab3-panel']",
+m("div", "Dibuat oleh Muaz. Waktu solat daripada e-solat.gov.my"))
         }
     }
 }

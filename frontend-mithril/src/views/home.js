@@ -162,7 +162,7 @@ var ParsedTimesTable = {
         var h = time[key].slice(0,2)
         var m = time[key].slice(3,5)
 
-        time[key] = moment({h:h, m:m}).format("hh:mm")
+        time[key] = moment({h:h, m:m}).format("h:mm")
       })
     } )
     // moment.locale("ms-my")
