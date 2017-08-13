@@ -166,7 +166,94 @@ var ParsedTimesTable = {
       })
     } )
     // moment.locale("ms-my")
-
+return [
+   m("table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable mdl-shadow--2dp", 
+  m("tbody",
+    [m("tr",
+        [
+        
+          m("th.mdl-data-table__cell--non-numeric", 
+            "Waktu\\Tarikh"
+          ),
+          m("th.mdl-data-table__cell--non-numeric", dateToday),
+          (tomorrow) ? 
+          m("th.mdl-data-table__cell--non-numeric", dateTomorrow)
+          : null
+        ]
+      )]),
+  m("tbody",
+    [
+    
+      m("tr", 
+        [
+          m("td.mdl-data-table__cell--non-numeric", 
+            "Subuh"
+          ),
+          m("td.mdl-data-table__cell--non-numeric",today["subuh"]),
+          (tomorrow) ? 
+          m("td.mdl-data-table__cell--non-numeric",today["subuh"])
+          : null
+        ]
+      ),
+      m("tr",
+        [
+          m("td.mdl-data-table__cell--non-numeric", 
+            "Syuruk"
+          ),
+          m("td.mdl-data-table__cell--non-numeric",today["syuruk"]),
+          (tomorrow) ? 
+          m("td.mdl-data-table__cell--non-numeric",today["syuruk"])
+          : null
+        ]
+      ),
+      m("tr",
+        [
+          m("td.mdl-data-table__cell--non-numeric", 
+            "Zuhur"
+          ),
+          m("td.mdl-data-table__cell--non-numeric", today["zuhur"]),
+          (tomorrow) ? 
+          m("td.mdl-data-table__cell--non-numeric",today["zuhur"])
+          : null
+        ]
+      ),
+      m("tr",
+        [
+          m("td.mdl-data-table__cell--non-numeric", 
+            "Asar"
+          ),
+          m("td.mdl-data-table__cell--non-numeric", today["asar"]),
+          (tomorrow) ? 
+          m("td.mdl-data-table__cell--non-numeric",today["asar"])
+          : null
+        ]
+      ),
+      m("tr",
+        [
+          m("td.mdl-data-table__cell--non-numeric", 
+            "Maghrib"
+          ),
+          m("td.mdl-data-table__cell--non-numeric", today["maghrib"]),
+          (tomorrow) ? 
+          m("td.mdl-data-table__cell--non-numeric",today["maghrib"])
+          : null
+        ]
+      ),
+      m("tr",
+        [
+          m("td.mdl-data-table__cell--non-numeric", 
+            "Isha"
+          ),
+          m("td.mdl-data-table__cell--non-numeric", today["isha"]),
+          (tomorrow) ? 
+          m("td.mdl-data-table__cell--non-numeric",today["isha"])
+          : null
+        ]
+      )
+    ]
+  )
+)
+    ]
     
     return [
    m("table.tg", 
@@ -174,78 +261,78 @@ var ParsedTimesTable = {
     [m("tr",
         [
         
-          m("th.tg-yw4l", 
+          m("th.mdl-data-table__cell--non-numeric", 
             "Waktu\\Tarikh"
           ),
-          m("th.tg-yw4l", dateToday),
+          m("th.mdl-data-table__cell--non-numeric", dateToday),
           (tomorrow) ? 
-          m("th.tg-yw4l", dateTomorrow)
+          m("th.mdl-data-table__cell--non-numeric", dateTomorrow)
           : null
         ]
       ),
       m("tr",
         [
-          m("td.tg-yw4l", 
+          m("td.mdl-data-table__cell--non-numeric", 
             "Subuh"
           ),
-          m("td.tg-yw4l",today["subuh"]),
+          m("td.mdl-data-table__cell--non-numeric",today["subuh"]),
           (tomorrow) ? 
-          m("td.tg-yw4l",today["subuh"])
+          m("td.mdl-data-table__cell--non-numeric",today["subuh"])
           : null
         ]
       ),
       m("tr",
         [
-          m("td.tg-yw4l", 
+          m("td.mdl-data-table__cell--non-numeric", 
             "Syuruk"
           ),
-          m("td.tg-yw4l",today["syuruk"]),
+          m("td.mdl-data-table__cell--non-numeric",today["syuruk"]),
           (tomorrow) ? 
-          m("td.tg-yw4l",today["syuruk"])
+          m("td.mdl-data-table__cell--non-numeric",today["syuruk"])
           : null
         ]
       ),
       m("tr",
         [
-          m("td.tg-yw4l", 
+          m("td.mdl-data-table__cell--non-numeric", 
             "Zuhur"
           ),
-          m("td.tg-yw4l", today["zuhur"]),
+          m("td.mdl-data-table__cell--non-numeric", today["zuhur"]),
           (tomorrow) ? 
-          m("td.tg-yw4l",today["zuhur"])
+          m("td.mdl-data-table__cell--non-numeric",today["zuhur"])
           : null
         ]
       ),
       m("tr",
         [
-          m("td.tg-yw4l", 
+          m("td.mdl-data-table__cell--non-numeric", 
             "Asar"
           ),
-          m("td.tg-yw4l", today["asar"]),
+          m("td.mdl-data-table__cell--non-numeric", today["asar"]),
           (tomorrow) ? 
-          m("td.tg-yw4l",today["asar"])
+          m("td.mdl-data-table__cell--non-numeric",today["asar"])
           : null
         ]
       ),
       m("tr",
         [
-          m("td.tg-yw4l", 
+          m("td.mdl-data-table__cell--non-numeric", 
             "Maghrib"
           ),
-          m("td.tg-yw4l", today["maghrib"]),
+          m("td.mdl-data-table__cell--non-numeric", today["maghrib"]),
           (tomorrow) ? 
-          m("td.tg-yw4l",today["maghrib"])
+          m("td.mdl-data-table__cell--non-numeric",today["maghrib"])
           : null
         ]
       ),
       m("tr",
         [
-          m("td.tg-yw4l", 
+          m("td.mdl-data-table__cell--non-numeric", 
             "Isha"
           ),
-          m("td.tg-yw4l", today["isha"]),
+          m("td.mdl-data-table__cell--non-numeric", today["isha"]),
           (tomorrow) ? 
-          m("td.tg-yw4l",today["isha"])
+          m("td.mdl-data-table__cell--non-numeric",today["isha"])
           : null
         ]
       )

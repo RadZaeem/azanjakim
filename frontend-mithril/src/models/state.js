@@ -152,7 +152,7 @@ export var state = {
           state.coords = coords
           state.doAutolocate = true
           state.allowedAutolocate = true
-          // if document.querySelector('.mdl-js-switch')
+          if (document.querySelector('.mdl-js-switch'))
             document.querySelector('.mdl-js-switch').MaterialSwitch.on()
 
           //localStorage.setItem('17rakaat-auto',true)
@@ -186,6 +186,8 @@ export var state = {
 
       state.doAutolocate = false
       // if document.querySelector('.mdl-js-switch')
+          if (document.querySelector('.mdl-js-switch'))
+      
         document.querySelector('.mdl-js-switch').MaterialSwitch.off()
 
       //localStorage.setItem('17rakaat-auto',false) 
