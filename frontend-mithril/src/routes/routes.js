@@ -11,7 +11,7 @@ export var routes = {
         path: '/',
         render: () => {
             // return m(home)
-            return m(main, m(home, {activeTab :"hari-ini"}))
+            return m(main, m(home))// {activeTab :"hari-ini"}))
             // return m(main, m("div.temp", "long page"))
         }
     },
@@ -19,9 +19,7 @@ export var routes = {
         path: '/about',
         render: () => {
             // TODO setkan m(main, {setkan active tab mana satu...})
-            return 
-                    m("main.mdl-layout__content.main.mdl-layout__content.mdl-tabs__panel[id='tab3-panel']",
-m("div", "Dibuat oleh Muaz. Waktu solat daripada e-solat.gov.my"))
+            return m(main, "nil")
         }
     }
 }

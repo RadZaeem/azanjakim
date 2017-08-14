@@ -31,12 +31,14 @@ export var main = {
         dataStore.scrolled = false
     },
     view: function(vnode)  {
-        var activeTab = vnode.attrs.activeTab
+        // m.redraw()
+        var activeTab = m.route.get()//vnode.attrs.activeTab
+        // console.log(activeTab)
         var hari_ini="";var minggu_ini=""; var tentang_kami = ""
         switch (activeTab) {
-            case "hari-ini": hari_ini = ".is-active"; break;
-            case "minggu-ini": minggu_ini = ".is-active"; break;
-            case "tentang-kami": tentang_kami = ".is-active"; break;
+            case "/": hari_ini = ".is-active"; break;
+            // case "minggu-ini": minggu_ini = ".is-active"; break;
+            case "/about": tentang_kami = ".is-active"; break;
             default: hari_ini = ".is-active"; break;
 
         }
@@ -56,38 +58,45 @@ m(".mdl-layout.mdl-js-layout.mdl-layout--fixed-header",
                 [
                     m(".mdl-tabs__tab-bar",
                         [
-                            m("a.mdl-tabs__tab"+hari_ini+"[href='#hari-ini']", 
+                            m("a.mdl-tabs__tab"+hari_ini+"[href='/']", 
                                 {oncreate: m.route.link},
-                                "Hari Ini"
+                                "Waktu Solat"
                             
                             ),
-                            m("a.mdl-tabs__tab"+minggu_ini+"[href='#minggu-ini']", 
-                                {oncreate: m.route.link},
-                                "Minggu ini"
+                            // m("a.mdl-tabs__tab"+minggu_ini+"[href='#minggu-ini']", 
+                            //     {oncreate: m.route.link},
+                            //     "Minggu ini"
                             
-                            ),
-                            m("a.mdl-tabs__tab"+tentang_kami+"[href='#tentang-kami']", 
-                                {oncreate: m.route.link},
+                            // ),
+                            m("a.mdl-tabs__tab"+tentang_kami+"[href='/about']", 
+                                {oncreate: m.route.link, },
                                 "Tentang Kami"
                             
                             )
                         ]
                     ),
-                    m(".mdl-tabs__panel"+hari_ini+"[id='hari-ini']", 
-                        m(home)
+                    m("main#main",
+                {
+                    onscroll: this.onscrollEvent,
+                    onremove: this.onRemoveEvent
+                },
+                m(".container", vnode.children)
+            )
+                    // m(".mdl-tabs__panel"+hari_ini+"[id='hari-ini']", 
+                    //     m(home)
                         
-                    ),
-                    m(".mdl-tabs__panel"+minggu_ini+"[id='minggu-ini']",
-                        // m(home))
-                        "akan datang")
+                    // ),
+                    // m(".mdl-tabs__panel"+minggu_ini+"[id='minggu-ini']",
+                    //     // m(home))
+                    //     "akan datang")
                     
                             
-                    ,
-                    m(".mdl-tabs__panel"+tentang_kami+"[id='tentang-kami']", 
-                        m("p", 
-                            "Tab 3 Content"
-                        )
-                    )
+                    // ,
+                    // m(".mdl-tabs__panel"+tentang_kami+"[id='tentang-kami']", 
+                    //     m("p", 
+                    //         "Tab 3 Content"
+                    //     )
+                    // )
                 ]
             )
         )
@@ -100,7 +109,10 @@ m(".mdl-layout.mdl-js-layout.mdl-layout--fixed-header",
             m("header#header", { class: dataStore.scrolled ? "shadow" : "", key: "header" },
                 m(".container",
                     // m(AuthStatus),
-                    m("a.logo", { href: "/", oncreate: m.route.link }, "17rakaat.me"),
+                    m("a.logo", { href: "/", oncreate: m.route.link }, 
+                        "17rakaat.me | Waktu Solat Malaysia"),
+
+                    // m(".authstatus", m(AuthStatus)),
                     // m("a.logo", {} ,m(AuthStatus)),
 
 

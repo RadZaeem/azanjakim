@@ -50,28 +50,34 @@ var geolocationStatus = {
     }
     return [
     // "Lokasi Automatik: ",
+      // m("label.mdl-switch.mdl-js-switch[for='switch-1']",
       
-      m("label.mdl-switch.mdl-js-switch[for='switch-1']",
-  [ // call .on() and .off() hack to make MDL work
+      // m("label.mdl-switch",//.mdl-js-switch[for='switch-1']",
+  // [ // call .on() and .off() hack to make MDL work
     // (c) ?
-    m("input.mdl-switch__input[id='switch-1'][type='checkbox']",
+    m("input.cbx.hidden[id='unchecked'][type='checkbox']", 
+    // m("input.mdl-switch__input[id='switch-1'][type='checkbox']",
        {onclick: m.withAttr("checked",
              (s)=>{state.setAutolocateThenGetTimes(s).then( (result) => {
               state.updateParsedTimes(result,null); // clear tomorrow times also.
           //     if (c)
-          //   document.querySelector('.mdl-js-switch').MaterialSwitch.off()
+          //   document.querySelector("[id='switch-1']").MaterialSwitch.off()
           // else
-          //   document.querySelector('.mdl-js-switch').MaterialSwitch.on()
+          //   document.querySelector("[id='switch-1']").MaterialSwitch.on()
 
 
              })}),
-       // checked: state.doAutolocate
-         }
-      )
-    ,
-    m("span.mdl-switch__label","Lokasi Automatik")
-  ]
-),
+       // onload: () => {   document.querySelector('.mdl-js-switch').MaterialSwitch.on()
+// }
+       checked: state.doAutolocate
+         }),
+  m("label.lbl[for='unchecked']"),
+    // ]
+//       )
+//     ,
+    m("span.","Lokasi Automatik"),
+//   ]
+// // ),
       m("p",str)
       ]
 
@@ -97,6 +103,7 @@ var stateAndZoneSelect = {
     // console.log(zoneOptions)
     return[
       "Tukar Negeri dan Zon: ",
+        m(".input-field.col.s12",
       m("select", { 
         value: state.state,
         onchange: m.withAttr('value', (val) => {
@@ -107,7 +114,7 @@ var stateAndZoneSelect = {
              //  : ""
           })}
         , stateOptions.map(o => m('option', {value: o.value}, o.content))
-      ),
+      )),
       m("p",""),
 
       m("select", { 
