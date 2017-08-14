@@ -4,6 +4,7 @@ import m from "mithril"
 import {Auth}  from "../models/Auth"
 import {FBLoginButton} from "./FBLoginButton"
 import {state} from "../models/state"
+const FBPromise  = require('fb-promise-wrapper')
 
 export var AuthStatus = {
   oninit: function (){
@@ -16,9 +17,10 @@ export var AuthStatus = {
     else if (state.tokenAndUser["user"]["first_name"]=="") 
         return [m(FBLoginButton), ""] // ..or it wont show here
     else if (state.tokenAndUser["user"]["first_name"])
-        return ["Assalamualaikum,  " +state.tokenAndUser["user"]["first_name"],  
+        return ["Assalamualaikum,  " +state.tokenAndUser["user"]["first_name"]+"! ",  
             // m("a", {"onClick":"FB.logout(function(response) {location.reload()}) "}, "[Logout]"))]
         m("a", {"onClick":"FB.logout(function(response) {location.reload()}) "}, "[Logout]")]//     + Auth.usernameDisplay
+        // m("a", {"onClick":"FBPromise.logout().then(function(response) {location.reload()}) "}, "[Logout]")]//     + Auth.usernameDisplay
       
       
     // if (!state.tokenAndUser) {

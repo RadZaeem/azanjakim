@@ -38,28 +38,55 @@ export var main = {
         var a = ".mdc-tab--active"
         switch (activeTab) {
             case "/": hari_ini = a; break;
-            case "/tetapan": tetapan = ".is-active"; break;
-            case "/about": tentang_kami = a; break;
+            case "/tetapan": tetapan = a; break;
+            case "/tentang": tentang_kami = a; break;
             default: hari_ini = a; break;
 
         }
 
         return [
+        m("header.mdc-toolbar", 
+    m(".mdc-toolbar__row", 
+        m("section.mdc-toolbar__section.mdc-toolbar__section--align-start",
+            [
+
+                m("span.mdc-toolbar__title[href='/']",
+                    "17rakaat.me | "
+                
+                ),
+                 m("span.mdc-toolbar__title", 
+                    m(AuthStatus)
+                ),
+                 m("span.mdc-toolbar__title", 
+
+                m.trust(`<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Kongsi</a></div>`)
+)
+
+            ]
+        ),
+        m("section.mdc-toolbar__section",
+            [
+                    // m(AuthStatus)
+
+            ]
+            )
+    )
+),
 m("nav.mdc-tab-bar[id='basic-tab-bar']",
     [
         m("a.mdc-tab"+hari_ini+"[href='/']", {oncreate: m.route.link},
             "Waktu Solat"
         ),
-        m("a.mdc-tab"+tetapan+"[href='/']", {oncreate: m.route.link},
+        m("a.mdc-tab"+tetapan+"[href='/tetapan']", {oncreate: m.route.link},
             "Tetapan"
         ),
-        m("a.mdc-tab"+tentang_kami+"[href='/about']", {oncreate: m.route.link},
+        m("a.mdc-tab"+tentang_kami+"[href='/tentang']", {oncreate: m.route.link},
             "Tentang Kami"
         ),
         m("span.mdc-tab-bar__indicator"),
     ]
 ),
-m("div", vnode.children)
+m(".mdc-typography", vnode.children)
         // m("main#main",
         //         {
         //             onscroll: this.onscrollEvent,

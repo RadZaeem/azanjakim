@@ -55,30 +55,29 @@ var geolocationStatus = {
       // m("label.mdl-switch",//.mdl-js-switch[for='switch-1']",
   // [ // call .on() and .off() hack to make MDL work
     // (c) ?
-    m("input.cbx.hidden[id='unchecked'][type='checkbox']", 
-    // m("input.mdl-switch__input[id='switch-1'][type='checkbox']",
-       {onclick: m.withAttr("checked",
+    [
+  m(".mdc-switch",
+    [
+      m("input.mdc-switch__native-control[id='basic-switch'][type='checkbox']",
+        {onclick: m.withAttr("checked",
              (s)=>{state.setAutolocateThenGetTimes(s).then( (result) => {
               state.updateParsedTimes(result,null); // clear tomorrow times also.
-          //     if (c)
-          //   document.querySelector("[id='switch-1']").MaterialSwitch.off()
-          // else
-          //   document.querySelector("[id='switch-1']").MaterialSwitch.on()
 
 
              })}),
-       // onload: () => {   document.querySelector('.mdl-js-switch').MaterialSwitch.on()
-// }
+ 
        checked: state.doAutolocate
          }),
-  m("label.lbl[for='unchecked']"),
-    // ]
-//       )
-//     ,
-    m("span.","Lokasi Automatik"),
-//   ]
-// // ),
-      m("p",str)
+      m(".mdc-switch__background", 
+        m(".mdc-switch__knob")
+      )
+    ]
+  ), 
+  m("label.mdc-switch-label[for='basic-switch']", 
+    "Lokasi Auto | " + str
+  )
+],
+
       ]
 
 
@@ -104,7 +103,7 @@ var stateAndZoneSelect = {
     return[
       "Tukar Negeri dan Zon: ",
         m(".input-field.col.s12",
-      m("select", { 
+      m("select.mdc-select", { 
         value: state.state,
         onchange: m.withAttr('value', (val) => {
           if (val=="null") return
@@ -117,7 +116,7 @@ var stateAndZoneSelect = {
       )),
       m("p",""),
 
-      m("select", { 
+      m("select.mdc-select", { 
         value: state.zone,
         onchange: m.withAttr('value', (val) => {
             if (val != "null") {
@@ -169,12 +168,16 @@ var ParsedTimesTable = {
         var h = time[key].slice(0,2)
         var m = time[key].slice(3,5)
 
-        time[key] = moment({h:h, m:m}).format("h:mm")
+        time[key] = moment({h:h, m:m}).format("hh:mm")
+        // if (time[key].charAt(0) == "0") 
+          // time[key] = time[key].slice(1,time[key].length)
+        
       })
     } )
     // moment.locale("ms-my")
 return [
-   m("table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable mdl-shadow--2dp", 
+   m("table.tg", 
+   // m("table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable mdl-shadow--2dp", 
   m("tbody",
     [m("tr",
         [
@@ -262,91 +265,7 @@ return [
 )
     ]
     
-    return [
-   m("table.tg", 
-  m("tbody",
-    [m("tr",
-        [
-        
-          m("th.mdl-data-table__cell--non-numeric", 
-            "Waktu\\Tarikh"
-          ),
-          m("th.mdl-data-table__cell--non-numeric", dateToday),
-          (tomorrow) ? 
-          m("th.mdl-data-table__cell--non-numeric", dateTomorrow)
-          : null
-        ]
-      ),
-      m("tr",
-        [
-          m("td.mdl-data-table__cell--non-numeric", 
-            "Subuh"
-          ),
-          m("td.mdl-data-table__cell--non-numeric",today["subuh"]),
-          (tomorrow) ? 
-          m("td.mdl-data-table__cell--non-numeric",today["subuh"])
-          : null
-        ]
-      ),
-      m("tr",
-        [
-          m("td.mdl-data-table__cell--non-numeric", 
-            "Syuruk"
-          ),
-          m("td.mdl-data-table__cell--non-numeric",today["syuruk"]),
-          (tomorrow) ? 
-          m("td.mdl-data-table__cell--non-numeric",today["syuruk"])
-          : null
-        ]
-      ),
-      m("tr",
-        [
-          m("td.mdl-data-table__cell--non-numeric", 
-            "Zuhur"
-          ),
-          m("td.mdl-data-table__cell--non-numeric", today["zuhur"]),
-          (tomorrow) ? 
-          m("td.mdl-data-table__cell--non-numeric",today["zuhur"])
-          : null
-        ]
-      ),
-      m("tr",
-        [
-          m("td.mdl-data-table__cell--non-numeric", 
-            "Asar"
-          ),
-          m("td.mdl-data-table__cell--non-numeric", today["asar"]),
-          (tomorrow) ? 
-          m("td.mdl-data-table__cell--non-numeric",today["asar"])
-          : null
-        ]
-      ),
-      m("tr",
-        [
-          m("td.mdl-data-table__cell--non-numeric", 
-            "Maghrib"
-          ),
-          m("td.mdl-data-table__cell--non-numeric", today["maghrib"]),
-          (tomorrow) ? 
-          m("td.mdl-data-table__cell--non-numeric",today["maghrib"])
-          : null
-        ]
-      ),
-      m("tr",
-        [
-          m("td.mdl-data-table__cell--non-numeric", 
-            "Isha"
-          ),
-          m("td.mdl-data-table__cell--non-numeric", today["isha"]),
-          (tomorrow) ? 
-          m("td.mdl-data-table__cell--non-numeric",today["isha"])
-          : null
-        ]
-      )
-    ]
-  )
-)
-    ]
+    
   }
 }
 
@@ -356,8 +275,8 @@ export var ParsedTimesView = {
     return [
       state.parsedTimes ?  [
         m(ParsedTimesTable, {today: state.parsedTimes, tomorrow: state.parsedTimesTomorrow}),
-        !state.parsedTimesTomorrow ? m("button",{
-class:"mdl-button mdl-js-button mdl-button--raised mdl-button--colored",
+        !state.parsedTimesTomorrow ?m("button.mdc-button.mdc-button--raised.mdc-button--primary.mdc-ripple-surface[data-mdc-auto-init='MDCRipple'][type='submit']", 
+{
           onclick: () => {
           state.loadTomorrowTimes().then( (result) => {} )
         }},"Klik Untuk Esok") : null

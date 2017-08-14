@@ -32,7 +32,7 @@ var digitalClock = {
   oninit: updateTime,
   
   view: function(vnode) {
-    return m("div", timeStr)
+    return m("h1.mdc-typography", timeStr)
   }
 }
 
@@ -103,7 +103,7 @@ var stateAndZoneSelect = {
     return[
       "Tukar Negeri dan Zon: ",
         m(".input-field.col.s12",
-      m("select", { 
+      m("select.mdc-select", { 
         value: state.state,
         onchange: m.withAttr('value', (val) => {
           if (val=="null") return
@@ -116,7 +116,7 @@ var stateAndZoneSelect = {
       )),
       m("p",""),
 
-      m("select", { 
+      m("select.mdc-select", { 
         value: state.zone,
         onchange: m.withAttr('value', (val) => {
             if (val != "null") {
@@ -176,17 +176,18 @@ var ParsedTimesTable = {
     } )
     // moment.locale("ms-my")
 return [
-   m("table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable mdl-shadow--2dp", 
+   m("table.tg", 
+   // m("table.mdl-data-table.mdl-js-data-table.mdl-data-table--selectable mdl-shadow--2dp", 
   m("tbody",
     [m("tr",
         [
         
-          m("th.mdl-data-table__cell--non-numeric", 
+          m("th.tg-yw4l", 
             "Waktu\\Tarikh"
           ),
-          m("th.mdl-data-table__cell--non-numeric", dateToday),
+          m("th.tg-yw4l", dateToday),
           (tomorrow) ? 
-          m("th.mdl-data-table__cell--non-numeric", dateTomorrow)
+          m("th.tg-yw4l", dateTomorrow)
           : null
         ]
       )]),
@@ -195,67 +196,67 @@ return [
     
       m("tr", 
         [
-          m("td.mdl-data-table__cell--non-numeric", 
+          m("td.tg-yw4l", 
             "Subuh"
           ),
-          m("td.mdl-data-table__cell--non-numeric",today["subuh"]),
+          m("td.tg-yw4l",today["subuh"]),
           (tomorrow) ? 
-          m("td.mdl-data-table__cell--non-numeric",today["subuh"])
+          m("td.tg-yw4l",today["subuh"])
           : null
         ]
       ),
       m("tr",
         [
-          m("td.mdl-data-table__cell--non-numeric", 
+          m("td.tg-yw4l", 
             "Syuruk"
           ),
-          m("td.mdl-data-table__cell--non-numeric",today["syuruk"]),
+          m("td.tg-yw4l",today["syuruk"]),
           (tomorrow) ? 
-          m("td.mdl-data-table__cell--non-numeric",today["syuruk"])
+          m("td.tg-yw4l",today["syuruk"])
           : null
         ]
       ),
       m("tr",
         [
-          m("td.mdl-data-table__cell--non-numeric", 
+          m("td.tg-yw4l", 
             "Zuhur"
           ),
-          m("td.mdl-data-table__cell--non-numeric", today["zuhur"]),
+          m("td.tg-yw4l", today["zuhur"]),
           (tomorrow) ? 
-          m("td.mdl-data-table__cell--non-numeric",today["zuhur"])
+          m("td.tg-yw4l",today["zuhur"])
           : null
         ]
       ),
       m("tr",
         [
-          m("td.mdl-data-table__cell--non-numeric", 
+          m("td.tg-yw4l", 
             "Asar"
           ),
-          m("td.mdl-data-table__cell--non-numeric", today["asar"]),
+          m("td.tg-yw4l", today["asar"]),
           (tomorrow) ? 
-          m("td.mdl-data-table__cell--non-numeric",today["asar"])
+          m("td.tg-yw4l",today["asar"])
           : null
         ]
       ),
       m("tr",
         [
-          m("td.mdl-data-table__cell--non-numeric", 
+          m("td.tg-yw4l", 
             "Maghrib"
           ),
-          m("td.mdl-data-table__cell--non-numeric", today["maghrib"]),
+          m("td.tg-yw4l", today["maghrib"]),
           (tomorrow) ? 
-          m("td.mdl-data-table__cell--non-numeric",today["maghrib"])
+          m("td.tg-yw4l",today["maghrib"])
           : null
         ]
       ),
       m("tr",
         [
-          m("td.mdl-data-table__cell--non-numeric", 
+          m("td.tg-yw4l", 
             "Isha"
           ),
-          m("td.mdl-data-table__cell--non-numeric", today["isha"]),
+          m("td.tg-yw4l", today["isha"]),
           (tomorrow) ? 
-          m("td.mdl-data-table__cell--non-numeric",today["isha"])
+          m("td.tg-yw4l",today["isha"])
           : null
         ]
       )
@@ -300,8 +301,11 @@ export var home = {
     return [
     m(digitalClock),
     m("div",moment().format(" LL")),
+    m("p",""),
     m(geolocationStatus),
+    m("p",""),
     m(stateAndZoneSelect),
+    m("p",""),
     m(ParsedTimesView)
     // m(mithrilSelect, {
     //   options: stateOptions,
