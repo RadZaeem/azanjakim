@@ -34,111 +34,42 @@ export var main = {
         // m.redraw()
         var activeTab = m.route.get()//vnode.attrs.activeTab
         // console.log(activeTab)
-        var hari_ini="";var minggu_ini=""; var tentang_kami = ""
+        var hari_ini="";var tetapan=""; var tentang_kami = ""
+        var a = ".mdc-tab--active"
         switch (activeTab) {
-            case "/": hari_ini = ".is-active"; break;
-            // case "minggu-ini": minggu_ini = ".is-active"; break;
-            case "/about": tentang_kami = ".is-active"; break;
-            default: hari_ini = ".is-active"; break;
+            case "/": hari_ini = a; break;
+            case "/tetapan": tetapan = ".is-active"; break;
+            case "/about": tentang_kami = a; break;
+            default: hari_ini = a; break;
 
         }
+
         return [
-m(".mdl-layout.mdl-js-layout.mdl-layout--fixed-header",
+m("nav.mdc-tab-bar[id='basic-tab-bar']",
     [
-        m("header.mdl-layout__header", 
-            m(".mdl-layout__header-row", 
-                m("span.mdl-layout-title", 
-                [    "17rakaat.me | "
-                
-                ,m("mdl-layout-spacer"),m(AuthStatus)])
-            )
+        m("a.mdc-tab"+hari_ini+"[href='/']", {oncreate: m.route.link},
+            "Waktu Solat"
         ),
-        m("main.mdl-layout__content", 
-            m(".mdl-tabs.mdl-js-tabs",
-                [
-                    m(".mdl-tabs__tab-bar",
-                        [
-                            m("a.mdl-tabs__tab"+hari_ini+"[href='/']", 
-                                {oncreate: m.route.link},
-                                "Waktu Solat"
-                            
-                            ),
-                            // m("a.mdl-tabs__tab"+minggu_ini+"[href='#minggu-ini']", 
-                            //     {oncreate: m.route.link},
-                            //     "Minggu ini"
-                            
-                            // ),
-                            m("a.mdl-tabs__tab"+tentang_kami+"[href='/about']", 
-                                {oncreate: m.route.link, },
-                                "Tentang Kami"
-                            
-                            )
-                        ]
-                    ),
-                    m("main#main",
-                {
-                    onscroll: this.onscrollEvent,
-                    onremove: this.onRemoveEvent
-                },
-                m(".container", vnode.children)
-            )
-                    // m(".mdl-tabs__panel"+hari_ini+"[id='hari-ini']", 
-                    //     m(home)
-                        
-                    // ),
-                    // m(".mdl-tabs__panel"+minggu_ini+"[id='minggu-ini']",
-                    //     // m(home))
-                    //     "akan datang")
-                    
-                            
-                    // ,
-                    // m(".mdl-tabs__panel"+tentang_kami+"[id='tentang-kami']", 
-                    //     m("p", 
-                    //         "Tab 3 Content"
-                    //     )
-                    // )
-                ]
-            )
-        )
+        m("a.mdc-tab"+tetapan+"[href='/']", {oncreate: m.route.link},
+            "Tetapan"
+        ),
+        m("a.mdc-tab"+tentang_kami+"[href='/about']", {oncreate: m.route.link},
+            "Tentang Kami"
+        ),
+        m("span.mdc-tab-bar__indicator"),
     ]
-)
+),
+m("div", vnode.children)
+        // m("main#main",
+        //         {
+        //             onscroll: this.onscrollEvent,
+        //             onremove: this.onRemoveEvent
+        //         },
+        //         m(".container", vnode.children)
+        // )
+
         ]
+             
 
-        return [
-        // m(AuthStatus),
-            m("header#header", { class: dataStore.scrolled ? "shadow" : "", key: "header" },
-                m(".container",
-                    // m(AuthStatus),
-                    m("a.logo", { href: "/", oncreate: m.route.link }, 
-                        "17rakaat.me | Waktu Solat Malaysia"),
-
-                    // m(".authstatus", m(AuthStatus)),
-                    // m("a.logo", {} ,m(AuthStatus)),
-
-
-                    m("nav.navlinks",
-                        m("ul",
-                            m("li",{},m(AuthStatus)),
-                            m("li", { class: m.route.get() == "/" ? "active" : "" },
-                                m("a", { href: "/", oncreate: m.route.link }, "Waktu Solat")
-                            ),
-                            m("li", { class: m.route.get() == "/about" ? "active" : "" },
-                                m("a", { href: "/about", oncreate: m.route.link }, "Tentang Kami")
-                            ),
-                        )
-                    )
-
-                )
-            ),
-
-            // router outlet
-            m("main#main",
-                {
-                    onscroll: this.onscrollEvent,
-                    onremove: this.onRemoveEvent
-                },
-                m(".container", vnode.children)
-            )
-        ]
     }
 }
