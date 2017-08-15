@@ -64,15 +64,10 @@ export var main = {
 
             ]
         ),
-        m("section.mdc-toolbar__section",
+        ),
+        m(".mdc-toolbar__row",
             [
-                    // m(AuthStatus)
-
-            ]
-            )
-    )
-),
-m("nav.mdc-tab-bar[id='basic-tab-bar']",
+            m("nav.mdc-tab-bar[id='basic-tab-bar']",
     [
         m("a.mdc-tab"+hari_ini+"[href='/']", {oncreate: m.route.link},
             "Waktu Solat"
@@ -86,6 +81,26 @@ m("nav.mdc-tab-bar[id='basic-tab-bar']",
         m("span.mdc-tab-bar__indicator"),
     ]
 ),
+                    // m(AuthStatus)
+
+            ]
+            
+    )
+),
+// m("nav.mdc-tab-bar[id='basic-tab-bar']",
+//     [
+//         m("a.mdc-tab"+hari_ini+"[href='/']", {oncreate: m.route.link},
+//             "Waktu Solat"
+//         ),
+//         m("a.mdc-tab"+tetapan+"[href='/tetapan']", {oncreate: m.route.link},
+//             "Tetapan"
+//         ),
+//         m("a.mdc-tab"+tentang_kami+"[href='/tentang']", {oncreate: m.route.link},
+//             "Tentang Kami"
+//         ),
+//         m("span.mdc-tab-bar__indicator"),
+//     ]
+// ),
 m(".mdc-typography", vnode.children)
         // m("main#main",
         //         {

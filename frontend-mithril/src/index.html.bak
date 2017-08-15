@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<!-- Compiled and minified CSS -->
+
+<script type="text/javascript">
+
+      (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src="https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+</script>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+  <meta charset="utf-8">
+  <title></title>
+  <base href="/">
+</head>
+
+<body>
+
+<link rel="stylesheet"
+          href="https://unpkg.com/material-components-web@latest/dist/material-components-web.css">
+          <style type="text/css">
+            .mdc-ripple-surface.mdc-ripple-upgraded.mdc-button--primary::before,
+.mdc-ripple-surface.mdc-ripple-upgraded.mdc-button--primary::after {
+  background-color: rgba(255, 255, 0, .2);
+}
+          </style>
+
+
+<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.js"></script>
+    <script>mdc.autoInit()</script>
+
+  <div id="app">Loading... Please wait</div>
+  
+  <% if (process.env.NODE_ENV === 'development') { %>
+  <script type="text/javascript" src="http://localhost:8080/webpack-dev-server.js"></script>
+  <% } %>
+  <!-- built files will be auto injected -->
+</body>
+
+</html>

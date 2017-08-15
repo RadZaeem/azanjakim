@@ -1,3 +1,5 @@
+add sass-loader path to mdc
+https://github.com/material-components/material-components-web/issues/720
 [![David](https://david-dm.org/mikejav/mithril-starter/status.svg)](https://david-dm.org/mikejav/mithril-starter)
 [![David](https://david-dm.org/mikejav/mithril-starter/dev-status.svg)](https://david-dm.org/mikejav/mithril-starter?type=dev)
 

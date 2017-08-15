@@ -9,6 +9,7 @@ module.exports = {
     context: config.build.srcDir,
     entry: {
         default: './main.js',
+        // default: ['./main.js','./src/styles/main.scss'],
     },
     output: {
         path: config.build.assetsRoot,
@@ -66,7 +67,16 @@ module.exports = {
                                 sourceMap: process.env.NODE_ENV === 'development'
                             }
                         }, {
-                            loader: "sass-loader"
+                            loader: "sass-loader",
+                            //https://github.com/material-components/material-components-web/issues/720
+                             options: {
+                            sourceMap: true,
+                            outputStyle: "nested",
+                            includePaths: [
+                                path.resolve(__dirname, '../node_modules')
+                            ]
+                        }
+
                         }
                     ]
                 })
