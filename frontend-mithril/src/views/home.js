@@ -1,8 +1,10 @@
+import HijriDate,{toHijri} from 'hijri-date/lib/safe'
 import "clientjs"
 import {api} from "../api"
 import m from "mithril"
 import {Auth}  from "../models/Auth"
 import {FBLoginButton} from "./FBLoginButton"
+import {AuthStatus} from "./AuthStatus"
 import {state} from "../models/state"
 var moment = require('moment');
 moment.locale("ms-my")
@@ -32,7 +34,7 @@ var digitalClock = {
   oninit: updateTime,
   
   view: function(vnode) {
-    return m("h1.mdc-typography", timeStr)
+    return m("div", timeStr)
   }
 }
 
@@ -188,7 +190,10 @@ return [
           m("th.tg-yw4l", dateToday),
           (tomorrow) ? 
           m("th.tg-yw4l", dateTomorrow)
-          : null
+          : m("button.mdc-button.mdc-button--raised.mdc-button--primary.mdc-ripple-surface[data-mdc-auto-init='MDCRipple'][type='submit']", 
+{
+          onclick: () => {
+          state.loadTomorrowTimes().then( (result) => {} )}},"esok")
         ]
       )]),
   m("tbody",
@@ -252,7 +257,7 @@ return [
       m("tr",
         [
           m("td.tg-yw4l", 
-            "Isha"
+            "Isyak"
           ),
           m("td.tg-yw4l", today["isha"]),
           (tomorrow) ? 
@@ -275,11 +280,14 @@ export var ParsedTimesView = {
     return [
       state.parsedTimes ?  [
         m(ParsedTimesTable, {today: state.parsedTimes, tomorrow: state.parsedTimesTomorrow}),
-        !state.parsedTimesTomorrow ?m("button.mdc-button.mdc-button--raised.mdc-button--primary.mdc-ripple-surface[data-mdc-auto-init='MDCRipple'][type='submit']", 
-{
-          onclick: () => {
-          state.loadTomorrowTimes().then( (result) => {} )
-        }},"Klik Untuk Esok") : null
+        !state.parsedTimesTomorrow ?
+        null
+//         m("button.mdc-button.mdc-button--raised.mdc-button--primary.mdc-ripple-surface[data-mdc-auto-init='MDCRipple'][type='submit']", 
+// {
+//           onclick: () => {
+//           state.loadTomorrowTimes().then( (result) => {} )
+//         }},"Klik Untuk Esok")
+         : null
       ] : null
        
     ]
@@ -298,34 +306,50 @@ export var home = {
 
   view: function (vnode) {
     // return m(Counter)
+        return [
+    
+    
+    // m("p",""),
+    m("table.tg", 
+  m("tbody",
+    [m("tr",
+        [
+        
+          m("th",//.tg-yw4l", 
+    m("div",[m(digitalClock),moment().format("l"),]),
+            ),
+           m("th",//.tg-yw4l", 
+            m("")
+            ),
+          m("td",//.tg-yw4l", 
+            m(AuthStatus)
+            )
+          ]
+        ),
+    ]
+    )
+  ),
+    // m("h3",[m(digitalClock),moment().format(" LL")]),
+    // m("h3",moment().format(" LL")),
+    m("p"),
+    m(ParsedTimesView),
+    m("p",""),
+    m(geolocationStatus),
+    m("p",""),
+    m(stateAndZoneSelect),
+    
+    ]
     return [
     m(digitalClock),
-    m("div",moment().format(" LL")),
+    m("h1",[moment().format(" LL"),toHijri(new Date()).toLocaleTimeString()]),
     m("p",""),
     m(geolocationStatus),
     m("p",""),
     m(stateAndZoneSelect),
     m("p",""),
     m(ParsedTimesView)
-    // m(mithrilSelect, {
-    //   options: stateOptions,
-    //   // A CSS class to add to the root element of the select
-    //   // class: 'my-select',
-    //   // Respond to selection changes
-    //   onchange: (val) => {
-    //     colour = val != null
-    //       ? stateOptions.find(c => c.value === val).content : ""
-    //     console.log(colour)
-    //   }
-    // })
     ]
-  //   m("label.switch",
-  // [
-  //   m("input[type='checkbox']"),
-  //   m("span.slider")
-  // ]
-// )
-    // ]
+
   } 
 }
 
@@ -347,4 +371,3 @@ export var home = {
 //    timeStr= h12 + ":" + mi + ":" + s + " "+ ampm
 //    m.redraw()
 // },500)
-// }

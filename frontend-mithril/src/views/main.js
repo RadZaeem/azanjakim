@@ -51,12 +51,12 @@ export var main = {
             [
 
                 m("span.mdc-toolbar__title[href='/']",
-                    "17rakaat.me | "
+                   ["17rakaat.me ", ]
                 
                 ),
-                 m("span.mdc-toolbar__title", 
-                    m(AuthStatus)
-                ),
+                //  m("span.mdc-toolbar__title", 
+                    // m(AuthStatus),
+                // ),
                  m("span.mdc-toolbar__title", 
 
                 m.trust(`<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Kongsi</a></div>`)

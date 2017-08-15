@@ -17,9 +17,10 @@ export var AuthStatus = {
     else if (state.tokenAndUser["user"]["first_name"]=="") 
         return [m(FBLoginButton), ""] // ..or it wont show here
     else if (state.tokenAndUser["user"]["first_name"])
-        return ["Assalamualaikum,  " +state.tokenAndUser["user"]["first_name"]+"! ",  
+        return ["Assalamualaikum,  " +state.tokenAndUser["user"]["first_name"]+"! ", 
             // m("a", {"onClick":"FB.logout(function(response) {location.reload()}) "}, "[Logout]"))]
-        m("a", {"onClick":"FB.logout(function(response) {location.reload()}) "}, "[Logout]")]//     + Auth.usernameDisplay
+        m("a", {"onClick":"FB.logout(function(response) {location.reload()}) "}, "[Logout]")]
+        //     + Auth.usernameDisplay
         // m("a", {"onClick":"FBPromise.logout().then(function(response) {location.reload()}) "}, "[Logout]")]//     + Auth.usernameDisplay
       
       
