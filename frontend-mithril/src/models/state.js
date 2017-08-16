@@ -294,7 +294,7 @@ export var state = {
     state.parsedTimes = timesJson
     state.parsedTimesTomorrow = timesJsonTomorrow
     console.log("updated parsedTimes")
-    console.log(timesJson)
+    console.log(timesJson, timesJsonTomorrow)
   },
 
   updateUserAndToken: function (tokenAndUser) {

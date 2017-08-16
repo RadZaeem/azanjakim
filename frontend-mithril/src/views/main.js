@@ -45,7 +45,7 @@ export var main = {
         }
 
         return [
-        m("header.mdc-toolbar", 
+        m("header.mdc-toolbar.", 
     m(".mdc-toolbar__row", 
         m("section.mdc-toolbar__section.mdc-toolbar__section--align-start",
             [
@@ -66,6 +66,7 @@ export var main = {
         ),
         ),
         m(".mdc-toolbar__row",
+             m("section.mdc-toolbar__section.mdc-toolbar__section--align-start",
             [
             m("nav.mdc-tab-bar[id='basic-tab-bar']",
     [
@@ -80,11 +81,14 @@ export var main = {
         ),
         m("span.mdc-tab-bar__indicator"),
     ]
-),
+),m("span.mdc-toolbar__title[href='/']",
+                   [" ", ]
+                
+                ),
                     // m(AuthStatus)
 
             ]
-            
+            )
     )
 ),
 // m("nav.mdc-tab-bar[id='basic-tab-bar']",
@@ -101,7 +105,7 @@ export var main = {
 //         m("span.mdc-tab-bar__indicator"),
 //     ]
 // ),
-m(".mdc-typography", vnode.children)
+m(".mdc-typography.", vnode.children)
         // m("main#main",
         //         {
         //             onscroll: this.onscrollEvent,

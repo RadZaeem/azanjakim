@@ -7,6 +7,7 @@ var config = require('../config')
 
 module.exports = {
     context: config.build.srcDir,
+    // https: true,
     entry: {
         default: './main.js',
         // default: ['./main.js','./src/styles/main.scss'],

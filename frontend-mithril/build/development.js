@@ -11,6 +11,7 @@ var webpackConfig = require('./webpack.dev.conf')
 var compiler = webpack(webpackConfig)
 
 var server = new webpackDevServer(compiler, {
+  // https:true,
   clientLogLevel: "none",
   contentBase: config.build.distDir,
   publicPath: "http://localhost:" + config.dev.port + config.dev.assetsPublicPath,
