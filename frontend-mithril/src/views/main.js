@@ -51,7 +51,7 @@ export var main = {
             [
 
                 m("span.mdc-toolbar__title[href='/']",
-                   ["17rakaat.me ", ]
+                   ["17rakaat ", ]
                 
                 ),
                 //  m("span.mdc-toolbar__title", 
@@ -65,33 +65,10 @@ export var main = {
             ]
         ),
         ),
-        m(".mdc-toolbar__row",
-             m("section.mdc-toolbar__section.mdc-toolbar__section--align-start",
-            [
-            m("nav.mdc-tab-bar[id='basic-tab-bar']",
-    [
-        m("a.mdc-tab"+hari_ini+"[href='/']", {oncreate: m.route.link},
-            "Waktu Solat"
-        ),
-        m("a.mdc-tab"+tetapan+"[href='/tetapan']", {oncreate: m.route.link},
-            "Tetapan"
-        ),
-        m("a.mdc-tab"+tentang_kami+"[href='/tentang']", {oncreate: m.route.link},
-            "Tentang Kami"
-        ),
-        m("span.mdc-tab-bar__indicator"),
-    ]
-),m("span.mdc-toolbar__title[href='/']",
-                   [" ", ]
-                
-                ),
-                    // m(AuthStatus)
-
-            ]
-            )
-    )
-),
-// m("nav.mdc-tab-bar[id='basic-tab-bar']",
+//         m(".mdc-toolbar__row",
+//              // m("section.mdc-toolbar__section.mdc-toolbar__section--align-start",
+//             [
+//             m("nav.mdc-tab-bar[id='basic-tab-bar']",
 //     [
 //         m("a.mdc-tab"+hari_ini+"[href='/']", {oncreate: m.route.link},
 //             "Waktu Solat"
@@ -104,7 +81,30 @@ export var main = {
 //         ),
 //         m("span.mdc-tab-bar__indicator"),
 //     ]
-// ),
+// ),m("span.mdc-toolbar__title[href='/']",
+//                    [" ", ]
+                
+//                 ),
+//                     // m(AuthStatus)
+
+//             ]
+//             )
+    // )
+),
+m("nav.mdc-tab-bar[id='basic-tab-bar']",
+    [
+        m("a.mdc-tab"+hari_ini+"[href='/']", {oncreate: m.route.link},
+            "Waktu Solat"
+        ),
+        m("a.mdc-tab"+tetapan+"[href='/tetapan']", {oncreate: m.route.link},
+            "Tetapan"
+        ),
+        m("a.mdc-tab"+tentang_kami+"[href='/tentang']", {oncreate: m.route.link},
+            "Tentang Kami"
+        ),
+        m("span.mdc-tab-bar__indicator"),
+    ]
+),
 m(".mdc-typography.", vnode.children)
         // m("main#main",
         //         {

@@ -116,7 +116,7 @@ var stateAndZoneSelect = {
           })}
         , stateOptions.map(o => m('option', {value: o.value}, o.content))
       )),
-      m("p",""),
+      // m("p",""),
 
       m("select.mdc-select", { 
         value: state.zone,
@@ -331,9 +331,9 @@ export var home = {
   ),
     // m("h3",[m(digitalClock),moment().format(" LL")]),
     // m("h3",moment().format(" LL")),
-    m("p"),
+    // m("p"),
     m(ParsedTimesView),
-    m("p",""),
+    // m("p",""),
     m(geolocationStatus),
     m("p",""),
     m(stateAndZoneSelect),

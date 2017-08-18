@@ -1,3 +1,5 @@
+from django.views.decorators.csrf import ensure_csrf_cookie
+
 from datetime import timedelta # for tomorrow
 
 from django.shortcuts import get_object_or_404, render
@@ -142,9 +144,9 @@ class RequestParsedTimes(APIView):
     
     # def perform_create(self, serializer):
     #     serializer.save(owner=self.request.user)
-
+@ensure_csrf_cookie
 def index(request):
-    template_name = 'azanlocator/index.html'
+    template_name = 'frontend/index.html'
 
     if request.GET.get('lat') and request.GET.get('lon'):
 
@@ -166,6 +168,29 @@ def index(request):
         return render(request, template_name, {'new_parse':new_parse})
     else:
         return render(request, template_name)
+# def index(request):
+#     template_name = 'azanlocator/index.html'
+
+#     if request.GET.get('lat') and request.GET.get('lon'):
+
+#         new_parse = ParsedTimes()
+#         new_parse.owner=User.objects.get(pk=1)
+        
+#         #origin = Point(float(request.GET.get('lon')), float(request.GET.get('lat')))
+#         lat = float(request.GET.get('lat'))
+#         lng = float(request.GET.get('lon'))
+        
+#         print("GET is: " + repr(request.GET))
+#         print ("LatLong is:", lat,lng)
+#         new_parse.update_times_by_orm(lat,lng)
+#         new_parse.update_ip_address(request)
+#         #new_parse.zone.get_client_ip(request)
+#         #new_parse.update_times_by_db(lat,lng)
+#         new_parse.save()
+#         #new_parse.update_times_by_xml(lat,lng) #deprecated
+#         return render(request, template_name, {'new_parse':new_parse})
+#     else:
+#         return render(request, template_name)
 
 '''
 The plan:

@@ -9,8 +9,10 @@ from django.views.generic import TemplateView, RedirectView
 urlpatterns = [
     # ex: /polls/
     # url(r'^$', views.IndexView.as_view(), name='index'),
-    url(r'^index$', views.index, name='index'),
+    url(r'^$', views.index, name='index'),
     url(r'^home$', views.index, name='home'),
+    # url(r'^$', TemplateView.as_view(template_name="frontend/index.html"), name='index'),
+
     url(r'^test$', TemplateView.as_view(template_name="azanlocator/test.html"), name='test'),
     # url(r'^daily-times/$', views.daily_times_list),
     url(r'^daily-times/$', views.DailyTimesList.as_view()),
