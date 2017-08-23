@@ -1,0 +1,1 @@
+web: gunicorn azanlocator-project.wsgi --log-file -
