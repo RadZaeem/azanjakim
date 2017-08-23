@@ -250,7 +250,7 @@ CSRF_USE_SESSIONS = False
 DATABASES['default'].update(db_from_env)
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL')
+        default=os.environ.get('DATABASE_URL')
     )
 }
 
