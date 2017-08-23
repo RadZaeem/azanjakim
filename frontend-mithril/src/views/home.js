@@ -131,7 +131,7 @@ var stateAndZoneSelect = {
              //  stateOptions.find(n => n.value === val)!.val
              //  : ""
           })}
-        , zoneOptions.map(o => m('option', {value: o.value}, o.content))
+        , (zoneOptions) ? zoneOptions.map(o => m('option', {value: o.value}, o.content)):null
       ),
 
    

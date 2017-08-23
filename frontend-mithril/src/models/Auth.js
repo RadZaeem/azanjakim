@@ -45,7 +45,7 @@ export var Auth = {
     console.log("using fingerprint " + fingerprint )
 
 
-    m.request ({
+    api.request ({
       method: "POST",
       // url: api.url+"api-token-auth/",
       url: api.url+"rest-auth/login/",
@@ -64,7 +64,7 @@ export var Auth = {
     .catch( (error) =>  {
       console.log(error)
       console.log("attempt register")
-      m.request({
+      api.request({
         method: "POST",
         url: api.url+"rest-auth/registration/",
         data: 
@@ -90,7 +90,7 @@ export var Auth = {
   getTokenAndUserWithFBToken: function (FBToken){
 return new Promise(function(resolve,reject)   {
     console.log("FBInit using Facebook API token: " + FBToken)
-      m.request( {
+      api.request( {
         method: "POST",
         url: api.url+"rest-auth/facebook/",
         // data: {"access_token": response.authResponse["accessToken"]},
@@ -113,7 +113,7 @@ return new Promise(function(resolve,reject)   {
     return new Promise(function(resolve,reject)   {
       console.log("token exist, trying to refresh")
       
-      m.request( {
+      api.request( {
         method: "POST",
         url: api.url+"api-token-refresh/",
         data: {"token": token},

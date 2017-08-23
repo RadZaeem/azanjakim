@@ -49,7 +49,7 @@ codes=('JHR01', 'JHR02', 'JHR03', 'JHR04',
     'TRG01', 'TRG02', 'TRG03', 'TRG04')
 
 db_path = os.path.join(settings.BASE_DIR,'azanlocator','esolat.db')
-def generate_models(path="kodzon.csv"):
+def gen_master(path="kodzon.csv"):
     con = sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)
     cur = None
 

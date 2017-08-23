@@ -151,7 +151,7 @@ def return_csv():
     f.write(all)
     f.close()
 
-def generate_models(path="kodzon.csv"):
+def gen_esolatzon(path="kodzon.csv"):
     with open(path) as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
