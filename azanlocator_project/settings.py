@@ -248,6 +248,11 @@ JWT_AUTH = {
 }
 CSRF_USE_SESSIONS = False
 DATABASES['default'].update(db_from_env)
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
+}
 
 # SECURE_CONTENT_TYPE_NOSNIFF = True
 # SECURE_SSL_REDIRECT = True
@@ -257,4 +262,4 @@ DATABASES['default'].update(db_from_env)
 # X_FRAME_OPTIONS = 'DENY'
 # CSRF_COOKIE_HTTPONLY = True
 # CSRF_COOKIE_SECURE = True
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
