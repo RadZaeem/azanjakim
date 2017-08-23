@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'rest_auth.registration',
 
-x    'allauth.socialaccount',
+    'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.twitter',
 
