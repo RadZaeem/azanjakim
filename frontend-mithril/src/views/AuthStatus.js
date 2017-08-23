@@ -12,6 +12,8 @@ export var AuthStatus = {
     },
 
   view: function (vnode) {
+        return [m(FBLoginButton)] // must include button here..
+
     if (!state.didAuth)//(!state.tokenAndUser) 
         return [m(FBLoginButton), "..."] // must include button here..
     else if (state.tokenAndUser["user"]["first_name"]=="") 
