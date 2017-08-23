@@ -16,7 +16,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import dj_database_url
 db_from_env = dj_database_url.config()
-DATABASES['default'].update(db_from_env)
+# DATABASES['default'].update(db_from_env)
 # PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # # Static files (CSS, JavaScript, Images)
@@ -42,7 +42,7 @@ SECRET_KEY = 'dl4jpl+@brrm#8-s*jk7$=uv6piq22h+=j^8kmicbp7utb*f49'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost","misza.herokuapp.com"]
 
 INSTALLED_APPS = [
     'psycopg2',
@@ -121,6 +121,7 @@ LOGIN_REDIRECT_URL = 'home'
 
 MIDDLEWARE_CLASSES = [
     # 'django.middleware.csrf.CsrfViewMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -245,3 +246,4 @@ JWT_AUTH = {
 
 }
 CSRF_USE_SESSIONS = False
+DATABASES['default'].update(db_from_env)

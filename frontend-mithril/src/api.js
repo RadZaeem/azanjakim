@@ -11,7 +11,8 @@ request: function(options){
   options.config = function(xhr) {
     xhr.setRequestHeader('Authorization', 'JWT ' + api.token())
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest') 
-    var csrftoken = Cookies.get('csrftoken');
+    // var csrftoken = Cookies.get('csrftoken');
+    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
     // var csrftoken = getCookie('csrftoken');
 
 console.log(csrftoken)
