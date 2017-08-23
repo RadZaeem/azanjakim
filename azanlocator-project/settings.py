@@ -74,7 +74,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 ]
 
-SITE_ID = 5
+SITE_ID = 6
 REST_USE_JWT = True
 
 CORS_ORIGIN_ALLOW_ALL = True   
