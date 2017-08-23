@@ -14,8 +14,8 @@ urlpatterns = [
 
     # static files (*.css, *.js, *.jpg etc.) served on /
     # (assuming Django uses /static/ and /media/ for static/media urls)
-    url(r'^(?!/?static/)(?!/?media/)(?P<path>.*\..*)$',
-        RedirectView.as_view(url='/static/%(path)s', permanent=False)),
+    # url(r'^(?!/?static/)(?!/?media/)(?P<path>.*\..*)$',
+    #     RedirectView.as_view(url='/static/%(path)s', permanent=False)),
 
     url(r'^home$', views.index, name='home'),
     # url(r'^$', TemplateView.as_view(template_name="frontend/index.html"), name='index'),
