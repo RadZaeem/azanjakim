@@ -40,7 +40,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 SECRET_KEY = 'dl4jpl+@brrm#8-s*jk7$=uv6piq22h+=j^8kmicbp7utb*f49'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
 ALLOWED_HOSTS = ["localhost","misza.herokuapp.com",'127.0.0.1']
 
