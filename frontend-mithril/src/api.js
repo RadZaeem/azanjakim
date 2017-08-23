@@ -3,8 +3,8 @@ var Cookies = require('js-cookie')
 
 
 export var api = {
-  url: "http://localhost:8000/", //change in production, put in config file
-  // url: "https://misza.herokuapp.com/", //change in production, put in config file
+  // url: "http://localhost:8000/", //change in production, put in config file
+  url: "https://misza.herokuapp.com/", //change in production, put in config file
 
   // isAnon: true,
   // enableAutolocate: false,
