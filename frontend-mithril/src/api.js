@@ -3,7 +3,7 @@ var Cookies = require('js-cookie')
 
 
 export var api = {
-  url: "https://localhost:8000/", //change in production, put in config file
+  url: "https://localhost:5000/", //change in production, put in config file
   // isAnon: true,
   // enableAutolocate: false,
 
