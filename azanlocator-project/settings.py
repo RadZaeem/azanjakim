@@ -247,12 +247,14 @@ JWT_AUTH = {
 
 }
 CSRF_USE_SESSIONS = False
-DATABASES['default'].update(db_from_env)
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=os.environ.get('DATABASE_URL')
-#     )
-# }
+#postgres://vkzhtfobuovzrv:239d0eb726c1aacd1685e1124d435d3d954d53884eca0efce4c87876c405bc56@ec2-54-221-207-192.compute-1.amazonaws.com:5432/defmk4djss1ja0
+# DATABASES['default'].update(db_from_env)
+DATABASES = {
+    'default': dj_database_url.config(
+        default="postgres://vkzhtfobuovzrv:239d0eb726c1aacd1685e1124d435d3d954d53884eca0efce4c87876c405bc56@ec2-54-221-207-192.compute-1.amazonaws.com:5432/defmk4djss1ja0"
+        # default=os.environ.get('DATABASE_URL')
+    )
+}
 
 # SECURE_CONTENT_TYPE_NOSNIFF = True
 # SECURE_SSL_REDIRECT = True
