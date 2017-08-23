@@ -42,7 +42,7 @@ SECRET_KEY = 'dl4jpl+@brrm#8-s*jk7$=uv6piq22h+=j^8kmicbp7utb*f49'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost","misza.herokuapp.com"]
+ALLOWED_HOSTS = ["localhost","misza.herokuapp.com",'127.0.0.1']
 
 INSTALLED_APPS = [
     'psycopg2',
@@ -120,7 +120,7 @@ LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'home'
 
 MIDDLEWARE_CLASSES = [
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -247,3 +247,12 @@ JWT_AUTH = {
 }
 CSRF_USE_SESSIONS = False
 DATABASES['default'].update(db_from_env)
+
+# SECURE_CONTENT_TYPE_NOSNIFF = True
+# SECURE_SSL_REDIRECT = True
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# SECURE_BROWSER_XSS_FILTER = True
+# SESSION_COOKIE_SECURE = True
+# X_FRAME_OPTIONS = 'DENY'
+# CSRF_COOKIE_HTTPONLY = True
+# CSRF_COOKIE_SECURE = True
