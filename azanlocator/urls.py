@@ -12,6 +12,7 @@ urlpatterns = [
     # url(r'^$', views.index, name='index'),
     url(r'^$', serve, kwargs={'path': 'index.html'}),
 
+
     # static files (*.css, *.js, *.jpg etc.) served on /
     # (assuming Django uses /static/ and /media/ for static/media urls)
     url(r'^(?!/?static/)(?!/?media/)(?P<path>.*\..*)$',
