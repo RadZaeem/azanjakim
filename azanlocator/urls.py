@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^(?!/?static/)(?!/?media/)(?P<path>.*\..*)$',
         RedirectView.as_view(url='/static/%(path)s', permanent=False)),
 
-    url(r'^home$', views.index, name='home'),
+    # url(r'^home$', views.index, name='home'),
     # url(r'^$', TemplateView.as_view(template_name="frontend/index.html"), name='index'),
 
     url(r'^test$', TemplateView.as_view(template_name="azanlocator/test.html"), name='test'),
