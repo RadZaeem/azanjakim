@@ -1,4 +1,4 @@
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 from datetime import timedelta # for tomorrow
 
@@ -144,7 +144,7 @@ class RequestParsedTimes(APIView):
     
     # def perform_create(self, serializer):
     #     serializer.save(owner=self.request.user)
-@csrf_protect
+@ensure_csrf_cookie
 def index(request):
     template_name = 'frontend/index.html'
 
