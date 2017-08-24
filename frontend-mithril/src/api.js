@@ -11,13 +11,15 @@ export var api = {
 
 request: function(options){
   options.config = function(xhr) {
+    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+    xhr.setRequestHeader('X-CSRFToken', csrftoken ) 
+
+    console.log("api csrf: "+csrftoken)
     if (!api.token()) return
     xhr.setRequestHeader('Authorization', 'JWT ' + api.token())
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest') 
     // var csrftoken = Cookies.get('csrftoken');
-    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-
-    console.log("api csrf: "+csrftoken)
+    
     // xhr.setRequestHeader('X-CSRFToken', csrftoken ) 
 // X-CSRFToken
     // headers: {'X-CSRF-TOKEN': 'whatever'}
