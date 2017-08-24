@@ -119,7 +119,7 @@ SOCIAL_AUTH_FACEBOOK_SECRET = '5d99c8b908244ef454b0099311004b52'
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = '/'
 
 MIDDLEWARE_CLASSES = [
     # 'django.middleware.csrf.CsrfViewMiddleware',
