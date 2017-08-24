@@ -81,7 +81,7 @@ export var Auth = {
         console.log("successfully registered, token: " + result["token"])
         resolve(result)
       })
-      .catch( (error) => { reject({"error":"Failed to register fingerprint"})})
+      .catch( (error) => { reject(error)})
 
     })
   })
