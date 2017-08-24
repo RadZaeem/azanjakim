@@ -3,7 +3,7 @@ var Cookies = require('js-cookie')
 
 
 export var api = {
-  // url: "http://localhost:8000/", //change in production, put in config file
+  // url: "https://localhost:8000/", //change in production, put in config file
   url: "https://misza.herokuapp.com/", //change in production, put in config file
 
   // isAnon: true,
@@ -11,14 +11,14 @@ export var api = {
 
 request: function(options){
   options.config = function(xhr) {
+    if (!api.token()) return
     xhr.setRequestHeader('Authorization', 'JWT ' + api.token())
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest') 
-    // var csrftoken = Cookies.get('csrftoken');
-    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-    // var csrftoken = getCookie('csrftoken');
+    var csrftoken = Cookies.get('csrftoken');
+    // var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
-console.log(csrftoken)
-    xhr.setRequestHeader('X-CSRFToken', csrftoken ) 
+    console.log("api csrf: "+csrftoken)
+    // xhr.setRequestHeader('X-CSRFToken', csrftoken ) 
 // X-CSRFToken
     // headers: {'X-CSRF-TOKEN': 'whatever'}
     // xhr.setRequestHeader('Access-Control-Allow-Headers', 'Authorization')
