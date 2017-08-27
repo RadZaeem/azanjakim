@@ -3,21 +3,25 @@ var Cookies = require('js-cookie')
 
 
 export var api = {
-  // url: "https://localhost:8000/", //change in production, put in config file
-  url: "https://misza.herokuapp.com/", //change in production, put in config file
-
+  // url: "http://localhost:8001/", //change in production, put in config file
+  // url: "https://misza.herokuapp.com/", //change in production, put in config file
+  url: "https://17rakaat.dynu.net/",
   // isAnon: true,
   // enableAutolocate: false,
 
 request: function(options){
   options.config = function(xhr) {
+    //If csrf and/or JWT token undefined, act like normal m.request
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-    xhr.setRequestHeader('X-CSRFToken', csrftoken ) 
+    if (csrftoken) {
+      xhr.setRequestHeader('X-CSRFToken', csrftoken ) 
+    }
 
     console.log("api csrf: "+csrftoken)
-    if (!api.token()) return
-    xhr.setRequestHeader('Authorization', 'JWT ' + api.token())
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest') 
+    if (api.token()) {
+      xhr.setRequestHeader('Authorization', 'JWT ' + api.token())
+      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest') 
+    }
     // var csrftoken = Cookies.get('csrftoken');
     
     // xhr.setRequestHeader('X-CSRFToken', csrftoken ) 
